@@ -14,7 +14,7 @@ Projeto desenvolvido como trabalho de pesquisa e inovação em grupo.
 </h2>
 
 <h3>Documentação do projeto</h3>
-https://bandteccom-my.sharepoint.com/:w:/r/personal/fernando_msantos_sptech_school/Documents/Document.docx?d=w7a4f47f0679a401d99a78e59df2c8de1&csf=1&web=1&e=QNFcX9
+https://bandteccom-my.sharepoint.com/:w:/r/personal/fernando_msantos_sptech_school/Documents/Document.docx?d=w7a4f47f0679a401d99a78e59df2c8de1&csf=1&web=1&e=QNFcX9](https://bandteccom-my.sharepoint.com/:w:/g/personal/igor_pereira_sptech_school/IQAiI6YqdXi3R4AaogLWd1OTAeeFEhB-RMRCif4xhhaNq_0?e=D8L4jn)
 
 <h3>URL do Trello para a organização do projeto</h3>
 https://trello.com/b/NNZWHx9u/pesquisa-e-inovacao-pi
