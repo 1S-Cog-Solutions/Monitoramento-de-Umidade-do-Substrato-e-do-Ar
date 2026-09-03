@@ -5,25 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calculadora Financeira</title>
   </head>
-  <body>
+  <body style="background-color: beige; color: black; display: flex; flex-direction: column; 
+      align-items: center; text-align: center; min-height: 100vh; margin: 0;">
     <div id="div_titulo">
-      <h1>Sistema de Monitoramento de Champignon Paris</h1>
+      <h1 style="color: red;">Sistema de Monitoramento de Champignon Paris 🍄</h1>
       <p>
         Controlde de umidade para uma produção mais eficiente de
         <b>Champignon Paris</b>
       </p>
     </div>
-    <div id="div_conteudo">
+    <div id="div_conteudo" style="color: black;">
       <h2>Calculadora Financeira</h2>
       <p>Descubra quanto sua empresa pode <b>economizar!</b></p>
-      <span>Produção mensal de champignon (KG):</span>
-      <input type="text" id="input_producao" /><br />
-      <span>Preço de venda por KG (R$):</span>
-      <input type="text" id="input_preco" /> <br />
-      <span>Percentual de perda atual (%)</span>
-      <input type="text" id="input_perda" /> <br />
-      <span>Investimento no Sistema (R$):</span>
-      <input type="text" id="input_invest" /> <br />
+      <input type="text" id="input_producao" />
+      <label for="input_producao">⚖️ - Produção mensal de champignon (KG)</label><br>
+      <input type="text" id="input_preco" />
+      <label for="input_preco">💵 - Preço de venda por KG (R$)                 </label><br>
+      <input type="text" id="input_perda" />
+      <label for="input_perda">📉- Percentual de perda atual (%)                </label><br>
+      <input type="text" id="input_invest"/>
+      <label for="input_invest">💰 - Investimento no Sistema (R$)              </label><br><br>
       <button onclick="calcular()">CALCULAR RETORNO</button>
     </div>
     <div id="div_exibir"></div>
@@ -43,7 +44,7 @@
     let retorno = (investimento / economia).toFixed(2);
     let ecoPercentual = (economia / faturamento) * 100;
 
-    div_exibir.innerHTML = `<b>Resultado da simulação</b> <br> Produção mensal: ${producao} KG <br> Faturamento mensal R$ ${faturamento} <br> Valor perdido atualmente: R$ ${loss} <br> Economia estimada por mês: <b>R$ ${economia}</b> <br> Economia estimada por ano:<b> ${ecoAno}</b> <br> Redução estimada de desperdício: ${ecoPercentual}% <br> Tempo estimado para recuperar o investimento: <b>${retorno} meses</b> <br><br>
+    div_exibir.innerHTML = `<h2><b>Resultado da simulação</b></h2> <br> Produção mensal: ${producao} KG <br> Faturamento mensal R$ ${faturamento} <br> Valor perdido atualmente: R$ ${loss} <br> Economia estimada por mês: <b>R$ ${economia}</b> <br> Economia estimada por ano:<b> ${ecoAno}</b> <br> Redução estimada de desperdício: ${ecoPercentual}% <br> Tempo estimado para recuperar o investimento: <b>${retorno} meses</b> <br><br>
     `;
     if (retorno <= 12) {
       div_exibir.innerHTML += ` <b>O investimento apresenta um retorno rápido!</b> <br> O sistema pode contribuir para reduzir perdas e melhorar o controle da produção. `;
