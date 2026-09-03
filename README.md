@@ -1,7 +1,7 @@
 # Monitoramento-de-Umidade-do-Substrato-e-do-Ar
 Projeto de pesquisa e inovação com Arduino de sensores de umidade.
 
-Estufa Inteligente para Cultivo de Champignon
+Sensor Inteligente para Ambientes de cultivo de Champignon Paris
 
 Monitoramento ambiental para estufas de cultivo de champignon de Paris (Agaricus bisporus), utilizando sensores de umidade do solo/substrato e umidade do ar conectados a um Arduino, com registro contínuo dos dados em banco de dados.
 
