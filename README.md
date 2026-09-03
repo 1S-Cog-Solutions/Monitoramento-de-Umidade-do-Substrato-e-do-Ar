@@ -1,9 +1,12 @@
 # Monitoramento-de-Umidade-do-Substrato-e-do-Ar
-Projeto de pesquisa e inovação com Arduino de sensores de umidade.
+
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&pause=1000&color=2E9EF7&center=true&vCenter=true&width=440&lines=Projeto+de+pesquisa+e+inovação;Arduino+de+sensores+de+umidade+%F0%9F%9A%80" alt="Typing SVG" />
+</p>
 
 Sensor Inteligente para Ambientes de cultivo de Champignon Paris
 
-Monitoramento ambiental para ambientes de cultivo de champignon de Paris (Agaricus bisporus), utilizando sensores de umidade do solo/substrato e umidade do ar conectados a um Arduino, com registro contínuo dos dados em banco de dados.
+Monitoramento ambiental para ambientes de cultivo de champignon de Paris (Agaricus bisporus), utilizando sensores de umidade do substrato e umidade do ar conectados a um Arduino, com registro contínuo dos dados em banco de dados.
 
 O objetivo é cruzar os dois tipos de umidade para identificar desvios em relação às faixas ideais de cultivo (ventilação ou irrigação inadequadas) e gerar alertas preventivos, reduzindo perdas por contaminação ou falha ambiental, problema comum entre pequenos produtores de cogumelos no Brasil, que hoje dependem majoritariamente de acompanhamento manual.
 
