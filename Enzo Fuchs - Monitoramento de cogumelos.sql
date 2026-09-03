@@ -43,7 +43,7 @@ INSERT INTO cliente (nomeEmpresa, nomeResponsavel, email, telefone, cnpj) VALUES
 ('Fungicultura Paris Brasil', 'Mariana Oliveira', 'atendimento@parisbrasil.com.br', '(11) 97123-8899', '98765432000110');
 
 -- Inserindo Estufas / Câmaras de Cultivo
-INSERT INTO estufa (nomeCamara, faseCultivo, capacidadeSacos) VALUES
+INSERT INTO ambienteCultivo (nomeCamara, faseCultivo, capacidadeSacos) VALUES
 ('Câmara 01', 'Incubação/Colonização', 1000),
 ('Câmara 02', 'Frutificação (Sala de Cultivo)', 800),
 ('Estufa A - Mogi', 'Frutificação (Sala de Cultivo)', 950);
