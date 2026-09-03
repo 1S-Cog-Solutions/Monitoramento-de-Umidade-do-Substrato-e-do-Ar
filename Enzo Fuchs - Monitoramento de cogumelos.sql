@@ -1,6 +1,6 @@
-CREATE DATABASE bd_champtech;
+CREATE DATABASE cog_solutions;
 
-USE bd_champtech;
+USE cog_solutions;
 
 -- Tabela 1: cliente
 CREATE TABLE cliente (
@@ -14,9 +14,9 @@ CREATE TABLE cliente (
 );
 
 -- Tabela 2: estufa
-CREATE TABLE estufa (
-    idEstufa INT AUTO_INCREMENT PRIMARY KEY,
-    nomeCamara VARCHAR(50) NOT NULL, -- Ex: 'Câmara 01 - Incubação'
+CREATE TABLE ambienteCultivo (
+    idAmbienteCultivo INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL, -- Ex: 'Câmara 01 - Incubação'
     faseCultivo VARCHAR(40) NOT NULL, -- Ex: 'Incubação', 'Frutificação', 'Camada de Cobertura'
     capacidadeSacos INT DEFAULT 800  -- Capacidade padrão (800 a 1000 sacos)
 );
@@ -26,14 +26,13 @@ CREATE TABLE sensor (
     idSensor INT AUTO_INCREMENT PRIMARY KEY,
     codigoIdentificador VARCHAR(30) NOT NULL UNIQUE, -- Ex: 'SENS-DHT11-01'
     tipoSensor VARCHAR(40) NOT NULL,                -- Ex: 'DHT11 - Umidade Ar / Temp', 'Capacitivo - Substrato'
-    posicaoEstufa VARCHAR(50),                       -- Ex: 'Setor Norte - Prateleira 2'
+    posicaoAmbienteCultivo VARCHAR(50),                       -- Ex: 'Setor Norte - Prateleira 2'
     statusSensor VARCHAR(20) DEFAULT 'Ativo'        -- 'Ativo', 'Inativo', 'Manutenção'
 );
 
 -- Tabela 4: leitura (Histórico do Sensoriamento)
 CREATE TABLE leitura (
     idLeitura INT AUTO_INCREMENT PRIMARY KEY,
-    temperatura DECIMAL(4,1) NULL,         -- Temperatura em Celsius
     umidadeAr DECIMAL(4,1) NULL,          -- Umidade Relativa do Ar em %
     umidadeSolo DECIMAL(4,1) NULL,   -- Umidade do Substrato em %
     dtHora DATETIME DEFAULT CURRENT_TIMESTAMP
