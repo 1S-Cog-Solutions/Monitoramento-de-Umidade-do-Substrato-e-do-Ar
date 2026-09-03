@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIMULADOR</title>
+  </head>
+  <body>
+    <span>Quantas Prateleiras vc tem no seu cultivo?</span>
+    <input type="text" id="ipt_prateleira" />
+
+    <span>Qual o valor da sua conta de agua?</span>
+    <input type="text" id="ipt_conta" />
+
+    <button onclick="CustoAgua()">Analisar</button>
+
+    <div id="div_exibir"></div>
+  </body>
+</html>
+
+<script>
+  function CustoAgua() {
+    let prateleira = Number(ipt_prateleira.value);
+    let contaAgua = Number(ipt_conta.value);
+    let substrato = prateleira * 108;
+    let custoAgua = substrato * 162;
+    let custoCliente = contaAgua * 0.0012;
+
+    div_exibir.innerHTML = `Seu cultivo gasta ${custoCliente}L de água por cultivo<br>`;
+
+    if (custoAgua == custoCliente) {
+      div_exibir.innerHTML += `ESTA PERFEITOO`;
+    } else if(custoAgua > custoCliente){
+       div_exibir.innerHTML += `ESTA RESSECANDOO`;
+    }else{
+      div_exibir.innerHTML += `GASTANDO MUITO AGUAAA`;
+    }
+  }
+</script>
