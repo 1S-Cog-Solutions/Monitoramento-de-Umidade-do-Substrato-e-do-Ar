@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora Financeira</title>
+  </head>
+  <body>
+    <div id="div_titulo">
+      <h1>Sistema de Monitoramento de Champignon Paris</h1>
+      <p>
+        Controlde de umidade para uma produção mais eficiente de
+        <b>Champignon Paris</b>
+      </p>
+    </div>
+    <div id="div_conteudo">
+      <h2>Calculadora Financeira</h2>
+      <p>Descubra quanto sua empresa pode <b>economizar!</b></p>
+      <span>Produção mensal de champignon (KG):</span>
+      <input type="text" id="input_producao" /><br />
+      <span>Preço de venda por KG (R$):</span>
+      <input type="text" id="input_preco" /> <br />
+      <span>Percentual de perda atual (%)</span>
+      <input type="text" id="input_perda" /> <br />
+      <span>Investimento no Sistema (R$):</span>
+      <input type="text" id="input_invest" /> <br />
+      <button onclick="calcular()">CALCULAR RETORNO</button>
+    </div>
+    <div id="div_exibir"></div>
+  </body>
+</html>
+<script>
+  let reducao = Number(50);
+  function calcular() {
+    let producao = Number(input_producao.value);
+    let preco = Number(input_preco.value);
+    let perda = Number(input_perda.value);
+    let investimento = Number(input_invest.value);
+    let faturamento = producao * preco;
+    let loss = faturamento * (perda / 100);
+    let economia = loss * (reducao / 100);
+    let ecoAno = economia * 12;
+    let retorno = (investimento / economia).toFixed(2);
+    let ecoPercentual = (economia / faturamento) * 100;
+
+    div_exibir.innerHTML = `<b>Resultado da simulação</b> <br> Produção mensal: ${producao} KG <br> Faturamento mensal R$ ${faturamento} <br> Valor perdido atualmente: R$ ${loss} <br> Economia estimada por mês: <b>R$ ${economia}</b> <br> Economia estimada por ano:<b> ${ecoAno}</b> <br> Redução estimada de desperdício: ${ecoPercentual}% <br> Tempo estimado para recuperar o investimento: <b>${retorno} meses</b> <br><br>
+    `;
+    if (retorno <= 12) {
+      div_exibir.innerHTML += ` <b>O investimento apresenta um retorno rápido!</b> <br> O sistema pode contribuir para reduzir perdas e melhorar o controle da produção. `;
+    } else {
+      div_exibir.innerHTML += ` <b>O retorno do investimento é superior a 12 meses.</b> <br> Avalie os valores de produção e as perdas da sua estufa para verificar o potencial de economia. `;
+    }
+  }
+</script>
