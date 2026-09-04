@@ -1,7 +1,7 @@
 # Monitoramento-de-Umidade-do-Substrato-e-do-Ar
 
 <div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&pause=1000&color=2E9EF7&center=true&vCenter=true&width=500&lines=Projeto+de+pesquisa+e+inova%C3%A7%C3%A3o;Arduino+de+sensores+de+umidade+%F0%9F%9A%80" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&pause=1000&color=2E9EF7&center=true&vCenter=true&width=500&lines=Projeto+de+pesquisa+e+inova%C3%A7%C3%A3o;Arduino+e+sensores+de+umidade+%F0%9F%9A%80" alt="Typing SVG" />
 </div>
 
 Sensor Inteligente para Ambientes de cultivo de Champignon Paris
