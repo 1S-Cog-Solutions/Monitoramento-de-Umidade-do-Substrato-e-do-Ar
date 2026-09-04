@@ -17,13 +17,14 @@ Projeto desenvolvido como trabalho de pesquisa e inovação em grupo.
 </h2>
 
 <h3>Documentação do projeto</h3>
-https://bandteccom-my.sharepoint.com/:w:/g/personal/igor_pereira_sptech_school/IQAiI6YqdXi3R4AaogLWd1OTAeeFEhB-RMRCif4xhhaNq_0?e=D8L4jn
+<a href="https://bandteccom-my.sharepoint.com/:w:/g/personal/igor_pereira_sptech_school/IQAiI6YqdXi3R4AaogLWd1OTAeeFEhB-RMRCif4xhhaNq_0?e=D8L4jn">Documento em Docs</a>
 
 <h3>URL do Trello para a organização do projeto</h3>
-https://trello.com/b/NNZWHx9u/pesquisa-e-inovacao-pi
+<a href="https://trello.com/b/NNZWHx9u/pesquisa-e-inovacao-pi">Trello</a>
 
-<h3>URL do Figma para a prototipagem do site institucional</h3>
-https://www.figma.com/design/Muug5GwjhY6ZFs4bkSLCzJ/Prot%C3%B3tipo-do-site---CogSolutions?node-id=4007-123&t=g4g0GEwPve56nLrz-0
+
+<h3>URL do Figma para a prototipagem do site institucional:</h3>
+<a href="https://www.figma.com/design/Muug5GwjhY6ZFs4bkSLCzJ/Prot%C3%B3tipo-do-site---CogSolutions?node-id=4007-123&t=g4g0GEwPve56nLrz-0">Figma</a>
 
 <h4>Contribuidores do projeto:</h4>
   <ul>
