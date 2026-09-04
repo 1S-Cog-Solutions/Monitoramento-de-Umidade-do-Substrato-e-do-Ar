@@ -205,9 +205,8 @@
       function CustoAgua() {
         let prateleira = Number(input_prateleira.value);
         let contaAgua = Number(input_conta.value);
-        let substrato = prateleira * 108;
-        let custoAgua = substrato * 162;
-        let custoCliente = (contaAgua * 0.0012).toFixed(2);
+        let custoAgua = prateleira * 162;/*162L = 108 de substrato*/
+        let custoCliente = (contaAgua * 0.0012).toFixed(2);/* 1L = RS 0.0012*/
 
         div_exibir.innerHTML = `Seu cultivo gasta ${custoCliente}L de água por mês<br>`;
 
