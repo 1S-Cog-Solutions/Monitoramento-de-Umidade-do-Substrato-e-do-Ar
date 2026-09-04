@@ -22,6 +22,9 @@ https://bandteccom-my.sharepoint.com/:w:/g/personal/igor_pereira_sptech_school/I
 <h3>URL do Trello para a organização do projeto</h3>
 https://trello.com/b/NNZWHx9u/pesquisa-e-inovacao-pi
 
+<h3>URL do Figma para a prototipagem do site institucional</h3>
+https://www.figma.com/design/Muug5GwjhY6ZFs4bkSLCzJ/Prot%C3%B3tipo-do-site---CogSolutions?node-id=4007-123&t=g4g0GEwPve56nLrz-0
+
 <h4>Contribuidores do projeto:</h4>
   <ul>
     <li>Enzo Fuchs</li>
