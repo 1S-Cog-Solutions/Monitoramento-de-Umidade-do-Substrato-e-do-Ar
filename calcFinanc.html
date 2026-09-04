@@ -45,16 +45,16 @@
       </select>
 
       <div id="grupo_input" style="display: none; margin-top: 10px">
-        <label for="input_prateleira"> Número de prateleiras: </label>
+        <label for="input_prateleira"></label><br>
+        <span>Quantas Prateleiras vc tem no seu cultivo?</span><br>
+        <input type="text" id="input_prateleira" /><br>
 
-        <input type="text" id="input_prateleira" name="input_prateleira" />
+        <span>Qual o valor da sua conta de agua?</span><br>
+        <input type="text" id="input_conta" /><br>
 
-        <br />
+        <button onclick="CustoAgua()">Analisar</button>
 
-        <label for="input_agua"> Gasto mensal com água: </label>
-
-        <input type="text" id="input_agua" name="input_agua" />
-        <button onclick="agua()">Calcular gasto ideal</button>
+        <div id="div_exibir2"></div>
       </div>
     </div>
 
@@ -202,11 +202,22 @@
           `;
         }
       }
-      function agua() {
-        let shelf = Number(input_prateleira.value);
-        let water = Number(input_agua.value);
-        let substrato = shelf * 108;
-        let gastoIdeal = shelf * 162
+      function CustoAgua() {
+        let prateleira = Number(input_prateleira.value);
+        let contaAgua = Number(input_conta.value);
+        let substrato = prateleira * 108;
+        let custoAgua = substrato * 162;
+        let custoCliente = (contaAgua * 0.0012).toFixed(2);
+
+        div_exibir.innerHTML = `Seu cultivo gasta ${custoCliente}L de água por mês<br>`;
+
+        if (custoAgua == custoCliente) {
+          div_exibir.innerHTML += `ESTA PERFEITO`;
+        } else if (custoAgua > custoCliente) {
+          div_exibir.innerHTML += `ESTA RESSECANDO. Deveria estar gastando ~${custoAgua}L.`;
+        } else {
+          div_exibir.innerHTML += `GASTANDO MUITO AGUAA. Deveria estar gastando ~${custoAgua}L.`;
+        }
       }
 
       function mostrarInput() {
