@@ -19,7 +19,9 @@
       </p>
     </div>
 
-    <div id="div_controle_umidade">
+    <div id="div_controle_umidade"> 
+      <!--Essa div tem um select com 2 opções: [SIM/NÃO], se a resposta da pergunta for SIM aparece 2 inputs adicionais, 
+      se a resposta for NÃO os inputs desaparecem, pois não são necessários -->
       <label for="tem_controle"> Já tem umidade automatizada: </label>
       <br />
 
@@ -45,8 +47,8 @@
 
     <br />
 
-    <div id="div_conteudo" style="color: black">
-      <h2>Calculadora Financeira</h2>
+    <div id="div_conteudo" style="color: black"> <!-- Div contendo: inputs e o botão de calcular retorno-->
+      <h2>Calculadora Financeira</h2> 
 
       <p>Descubra quanto sua empresa pode <b>economizar!</b></p>
 
@@ -70,7 +72,7 @@
       let reducao = 50;
 
 
-      function calcular() { // ESSA FUNÇÃO 
+      function calcular() { // ESSA FUNÇÃO TEM COMO OBJETIVO CALCULAR O FATURAMENTO DO PRODUTOR, PREJUÍZO, E O QUANTO DESSE PREJUÍZO NOSSA SOLUÇÃO É CAPAZ DE MITIGAR
         let producao = Number(input_producao.value);
         let preco = Number(input_preco.value);
         let perda = Number(input_perda.value);
@@ -90,16 +92,6 @@
 
         let ecoPercentual = (economia / faturamento) * 100;
 
-        if (producao <= 0 || preco <= 0 || perda < 0 || investimento <= 0) {
-          div_exibir.innerHTML = `
-            <p style="color: red;">
-              <b>Preencha todos os campos com valores válidos.</b>
-            </p>
-          `;
-
-          return;
-        }
-
         if (economia <= 0) {
           div_exibir.innerHTML = `
             <h2>Resultado da simulação</h2>
@@ -116,8 +108,6 @@
               pois a economia estimada é igual a zero.
             </b>
           `;
-
-          return;
         }
 
         div_exibir.innerHTML = `
