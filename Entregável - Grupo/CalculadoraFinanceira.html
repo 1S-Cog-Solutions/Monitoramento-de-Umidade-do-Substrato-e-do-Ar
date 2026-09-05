@@ -173,11 +173,11 @@
           `;
         }
       }
-      function CustoAgua() {
+      function CustoAgua() {// ESSA FUNÇÃO TEM COMO OBJETIVO SABER SE O CLIENTE ESTA USANDO A QUANTIDADE IDEAL DE AGUA NO SEU CULTIVO
         let prateleira = Number(input_prateleira.value);
         let contaAgua = Number(input_conta.value);
-        let custoAgua = prateleira * 162;/*162L = 108 de substrato*/
-        let custoCliente = (contaAgua * 0.0012).toFixed(2);/* 1L = RS 0.0012*/
+        let custoAgua = prateleira * 100;/*100L durante o ciclo = 140 de substrato(por prateleira)*/
+        let custoCliente = (contaAgua * 0.5).toFixed(2);/* 1L = RS 0.5*/
 
         div_exibir.innerHTML = `Seu cultivo gasta ${custoCliente}L de água por mês<br>`;
 
