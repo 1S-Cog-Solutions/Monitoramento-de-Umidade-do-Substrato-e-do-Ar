@@ -7,17 +7,7 @@
   </head>
 
   <body
-    style="
-      background-color: beige;
-      color: black;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      min-height: 100vh;
-      margin: 0;
-    "
-  >
+    style="background-color: beige; color: black;">
     <div id="div_titulo">
       <h1 style="color: red">
         Sistema de Monitoramento de Champignon Paris 🍄
@@ -33,18 +23,13 @@
       <label for="tem_controle"> Já tem umidade automatizada: </label>
       <br />
 
-      <select
-        name="controle_umidade"
-        id="tem_controle"
-        onchange="mostrarInput()"
-      >
+      <select name="controle_umidade" id="tem_controle" onchange="mostrarInput()">
         <option value="" disabled selected>Selecione uma opção</option>
-
         <option value="sim">SIM</option>
         <option value="nao">NÃO</option>
       </select>
 
-      <div id="grupo_input" style="display: none; margin-top: 10px">
+      <div id="grupo_input">
         <label for="input_prateleira"></label><br>
         <span>Quantas Prateleiras vc tem no seu cultivo?</span><br>
         <input type="text" id="input_prateleira" /><br>
@@ -66,22 +51,15 @@
       <p>Descubra quanto sua empresa pode <b>economizar!</b></p>
 
       <input type="text" id="input_producao" />
-      <label for="input_producao">
-        ⚖️ - Produção mensal de champignon (KG)
-      </label>
-      <br />
+      <label for="input_producao">⚖️ - Produção mensal de champignon (KG)</label><br>
 
       <input type="text" id="input_preco" />
-      <label for="input_preco"> 💵 - Preço de venda por KG (R$) </label>
-      <br />
+      <label for="input_preco"> 💵 - Preço de venda por KG (R$) </label><br>
 
       <input type="text" id="input_perda" />
-      <label for="input_perda"> 📉 - Percentual de perda atual (%) </label>
-      <br />
-
+      <label for="input_perda"> 📉 - Percentual de perda por problemas no controle de umidade (%) </label><br>
       <input type="text" id="input_invest" />
-      <label for="input_invest"> 💰 - Investimento no Sistema (R$) </label>
-      <br /><br />
+      <label for="input_invest"> 💰 - Investimento no Sistema (R$) </label><br>
 
       <button onclick="calcular()">CALCULAR RETORNO</button>
     </div>
@@ -91,13 +69,16 @@
     <script>
       let reducao = 50;
 
-      function calcular() {
+
+      function calcular() { // ESSA FUNÇÃO 
         let producao = Number(input_producao.value);
         let preco = Number(input_preco.value);
         let perda = Number(input_perda.value);
         let investimento = Number(input_invest.value);
 
         let faturamento = producao * preco;
+        let prejuizo = faturamento * (perda / 100);
+        let faturamentoComPerdas = faturamento - prejuizo;
 
         let loss = faturamento * (perda / 100);
 
@@ -124,7 +105,7 @@
             <h2>Resultado da simulação</h2>
 
             Produção mensal: ${producao} KG <br>
-            Faturamento mensal: R$ ${faturamento.toFixed(2)} <br>
+            Faturamento mensal: R$ ${faturamentoComPerdas.toFixed(2)} <br>
             Valor perdido atualmente: R$ ${loss.toFixed(2)} <br>
             Economia estimada por mês:
             <b>R$ 0,00</b>
@@ -149,7 +130,7 @@
           <br>
 
           Faturamento mensal:
-          R$ ${faturamento.toFixed(2)}
+          R$ ${faturamentoComPerdas.toFixed(2)}
           <br>
 
           Valor perdido atualmente:
@@ -224,11 +205,9 @@
 
         if (resultSelect === "sim") {
           grupo_input.style.display = "block";
+
         } else {
           grupo_input.style.display = "none";
-
-          input_prateleira.value = "";
-          input_agua.value = "";
         }
       }
     </script>
