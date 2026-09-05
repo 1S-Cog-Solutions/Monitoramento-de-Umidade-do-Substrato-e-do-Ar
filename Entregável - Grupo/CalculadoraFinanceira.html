@@ -2,7 +2,7 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   estata name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Calculadora Financeira</title>
   </head>
 
@@ -20,23 +20,16 @@
     </div>
 
     <div id="div_controle_umidade"> 
-      <!--Essa div tem um select com 2 opções: [SIM/NÃO], se a resposta da pergunta for SIM aparece 2 inputs adicionais, 
-      se a resposta for NÃO os inputs desaparecem, pois não são necessários -->
-      <label for="tem_controle"> Já tem umidade automatizada: </label>
+      <!--Essa div tem dois inputs necessários para calcular se o uso de água no cultivo está ideal ou não.-->
+      <label for="tem_controle"> Veja se está gastando mais ou menos água do que o necessário no seu cultivo! </label>
       <br />
 
-      <select name="controle_umidade" id="tem_controle" onchange="mostrarInput()">
-        <option value="" disabled selected>Selecione uma opção</option>
-        <option value="sim">SIM</option>
-        <option value="nao">NÃO</option>
-      </select>
 
-      <div id="grupo_input">
-        <label for="input_prateleira"></label><br>
-        <span>Quantas Prateleiras vc tem no seu cultivo?</span><br>
-        <input type="text" id="input_prateleira" /><br>
+      <div id="grupo_input"><br>
+        <label for="input_prateleira">Quantas Prateleiras vc tem no seu cultivo? 👨‍🌾</label><br>
+        <input type="text" id="input_prateleira"/><br>
 
-        <span>Qual o valor da sua conta de agua?</span><br>
+        <label for="input_conta">Qual o valor da sua conta de agua? 💧</label><br>
         <input type="text" id="input_conta" /><br>
 
         <button onclick="CustoAgua()">Analisar</button>
@@ -190,16 +183,5 @@
         }
       }
 
-      function mostrarInput() {
-        let resultSelect = tem_controle.value;
-
-        if (resultSelect === "sim") {
-          grupo_input.style.display = "block";
-
-        } else {
-          grupo_input.style.display = "none";
-        }
-      }
     </script>
-  </body>
-</html>
+  
