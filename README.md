@@ -4,7 +4,7 @@
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&pause=1000&color=2E9EF7&center=true&vCenter=true&width=500&lines=Projeto+de+pesquisa+e+inova%C3%A7%C3%A3o;Arduino+e+sensores+de+umidade+%F0%9F%9A%80" alt="Typing SVG" />
 </div>
 
-Sensor Inteligente para Ambientes de cultivo de Champignon Paris
+Monitoramento de Umidade do Substrato e do Ar para Ambientes de cultivo de Champignon Paris
 
 Monitoramento ambiental para ambientes de cultivo de champignon de Paris (Agaricus bisporus), utilizando sensores de umidade do substrato e umidade do ar conectados a um Arduino, com registro contínuo dos dados em banco de dados.
 
@@ -12,9 +12,8 @@ O objetivo é cruzar os dois tipos de umidade para identificar desvios em relaç
 
 Projeto desenvolvido como trabalho de pesquisa e inovação em grupo.
 
-<h2>
-  Links do nosso projeto:
-</h2>
+<br>
+<h2>Links do nosso projeto:</h2>
 
 <h3>Documentação do projeto</h3>
 <a href="https://bandteccom-my.sharepoint.com/:w:/g/personal/igor_pereira_sptech_school/IQAiI6YqdXi3R4AaogLWd1OTAeeFEhB-RMRCif4xhhaNq_0?e=D8L4jn">Documento em Docs</a>
