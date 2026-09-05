@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Simulador financeiro</h1>
+    <h3>Essa calculadora tem como objetivo calcular o prejuízo financeiro causado pela falha de controle de umidade do solo/ar em ambientes de cultivo de champignon Paris.</h3>
+    <label for="input_kgPorLote">Quantos kg de champignon são produzidos por lote? </label>
+    <input type="text" id="input_kgPorLote"><br>
+    <label for="input_pctPerdaPorLote">Qual a porcentagem de perda desse lote por falha de controle de umidade? </label>
+    <input type="text" id="input_pctPerdaPorLote"><br>
+    <label for="input_lotesPorAno">Quantos lotes são produzidos por ano? </label>
+    <input type="text" id="input_lotesPorAno"><br>
+    <label for="input_precoPorKg">Preço por kg vendido: </label>
+    <input type="text" id="input_precoPorKg"><br>
+    <button onclick="calcularPrejuizo()">Calcular prejuízo</button>
+    <div id="div_exibir"></div>
+</body>
+</html>
+<script>
+    function calcularPrejuizo() {
+        let quilosPorLote = Number(input_kgPorLote.value);
+        let pctPerdaPorLote = Number(input_pctPerdaPorLote.value);
+        let lotesPorAno = Number(input_lotesPorAno.value);
+        let precoPorQuilo = Number(input_precoPorKg.value);
+        let quilosPerdidosPorLote = quilosPorLote * (pctPerdaPorLote / 100);
+        let prejuizoPorLote = quilosPerdidosPorLote * precoPorQuilo;
+        let prejuizoPorAno = prejuizoPorLote * lotesPorAno;
+
+        div_exibir.innerHTML = `<br>De acordo com os cálculos, você teve: <br>
+        <b style = "color: red">PERDA</b> anual de ${quilosPerdidosPorLote * lotesPorAno}kg de champignon<br>
+        <b style = "color: red">PREJUÍZO</b> anual de R$${prejuizoPorAno.toFixed(2)}`
+        
+
+    }
+</script>
