@@ -26,7 +26,7 @@
 
 
       <div id="grupo_input"><br>
-        <label for="input_prateleira">Quantas Prateleiras vc tem no seu cultivo? 👨‍🌾</label><br>
+        <label for="input_prateleira">Quantas Prateleiras voce tem no seu cultivo? 👨‍🌾</label><br>
         <input type="text" id="input_prateleira"/><br>
 
         <label for="input_conta">Qual o valor da sua conta de agua? 💧</label><br>
@@ -85,7 +85,14 @@
 
         let ecoPercentual = (economia / faturamento) * 100;
 
-        if (economia <= 0) {
+        if (producao <= 0 || preco <= 0 || perda < 0 || investimento <= 0) {
+          div_exibir.innerHTML = `
+            <p style="color: red;">
+              <b>Preencha todos os campos com valores válidos.</b>
+            </p>
+          `;
+        } else {
+          if (economia <= 0) {
           div_exibir.innerHTML = `
             <h2>Resultado da simulação</h2>
 
@@ -165,6 +172,9 @@
             sua estufa para verificar o potencial de economia.
           `;
         }
+        }
+
+        
       }
       function CustoAgua() {// ESSA FUNÇÃO TEM COMO OBJETIVO SABER SE O CLIENTE ESTA USANDO A QUANTIDADE IDEAL DE AGUA NO SEU CULTIVO
         let prateleira = Number(input_prateleira.value);
@@ -174,13 +184,23 @@
 
         div_exibir.innerHTML = `Seu cultivo gasta ${custoCliente}L de água por mês<br>`;
 
-        if (custoAgua == custoCliente) {
+        if (prateleira <= 0 || contaAgua <= 0) {
+          div_exibir.innerHTML = `
+            <p style="color: red;">
+              <b>Preencha todos os campos com valores válidos.</b>
+            </p>
+          `;
+        } else {
+          if (custoAgua == custoCliente) {
           div_exibir.innerHTML += `ESTA PERFEITO`;
         } else if (custoAgua > custoCliente) {
           div_exibir.innerHTML += `ESTA RESSECANDO. Deveria estar gastando ~${custoAgua}L.`;
         } else {
           div_exibir.innerHTML += `GASTANDO MUITO AGUAA. Deveria estar gastando ~${custoAgua}L.`;
         }
+        }
+
+        
       }
 
     </script>
