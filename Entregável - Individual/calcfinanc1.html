@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora Financeira</title>
+  </head>
+  <body style="background-color: beige">
+    <div>
+      <h1>Sistema de Monitoramento de Champignon Paris</h1>
+      <p>
+        Controle de umidade para uma produção mais eficiente de
+        <b>Champignon Paris</b>
+      </p>
+    </div>
+
+    <div>
+      <h2>Calculadora Financeira</h2>
+      <p>Descubra quanto sua empresa está deixando de <b>ganhar!</b></p>
+
+      <span>Produção potencial mensal de champignon (KG):</span><br />
+      <input type="number" id="input_producao" /><br />
+
+      <span>Preço de venda por KG (R$):</span><br />
+      <input type="number" id="input_preco" /> <br />
+
+      <span>Percentual de perda na produção/mês (%):</span><br />
+      <input type="number" id="input_perda" />
+      <br />
+
+      <span>Percentual das perdas causadas por umidade (%):</span><br />
+      <input type="number" id="input_perda_umidade" />
+      <br />
+
+      <span>Investimento no Sistema (R$):</span><br />
+      <input type="number" id="input_invest" /> <br /><br />
+
+      <button onclick="calcular()">CALCULAR RETORNO</button>
+    </div>
+
+    <div id="div_exibir"></div>
+  </body>
+</html>
+<script>
+  function calcular() {
+    let producao = Number(input_producao.value);
+    let preco = Number(input_preco.value);
+    let perda = Number(input_perda.value);
+    let perdaUmidade = Number(input_perda_umidade.value);
+    let investimento = Number(input_invest.value);
+
+    if (producao <= 0) {
+      div_exibir.innerHTML = `<b>Preencha todos os campos corretamente.</b>`;
+    } else if (preco <= 0) {
+      div_exibir.innerHTML = `<b>Preencha todos os campos corretamente.</b>`;
+    } else if (perda < 0) {
+      div_exibir.innerHTML = `<b>Preencha todos os campos corretamente.</b>`;
+    } else if (perda > 100) {
+      div_exibir.innerHTML = `<b>Preencha todos os campos corretamente.</b>`;
+    } else if (perdaUmidade < 0) {
+      div_exibir.innerHTML = `<b>Preencha todos os campos corretamente.</b>`;
+    } else if (perdaUmidade > 100) {
+      div_exibir.innerHTML = `<b>Preencha todos os campos corretamente.</b>`;
+    } else if (investimento <= 0) {
+      div_exibir.innerHTML = `<b>Preencha todos os campos corretamente.</b>`;
+    } else {
+      let faturamento = producao * preco;
+      let perdaKg = producao * (perda / 100);
+      let perdaUmidadeKg = perdaKg * (perdaUmidade / 100);
+      let valorPerdido = perdaUmidadeKg * preco;
+      let economiaConservador = valorPerdido * 0.2;
+      let economiaEsperado = valorPerdido * 0.3;
+      let economiaOtimista = valorPerdido * 0.4;
+      let retornoConservador = investimento / economiaConservador;
+      let retornoEsperado = investimento / economiaEsperado;
+      let retornoOtimista = investimento / economiaOtimista;
+      let AnoConservador = economiaConservador * 12;
+      let AnoEsperado = economiaEsperado * 12;
+      let AnoOtimista = economiaOtimista * 12;
+
+      div_exibir.innerHTML = `<b>Resultado da simulação</b> <br>
+    Produção potencial mensal: ${producao.toFixed(2)} KG <br>
+    Faturamento potencial mensal: R$ ${faturamento.toFixed(2)} <br>
+    Perda estimada por umidade: ${perdaUmidadeKg.toFixed(2)} KG/mês <br>
+    Valor estimado perdido por umidade: R$ ${valorPerdido.toFixed(2)} <br><br>
+    <b>Cenário Conservador</b> <br>
+    Valor recuperado mensalmente: <b>R$ ${economiaConservador.toFixed(2)}</b> <br>
+    Valor recuperado anualmente: <b>R$ ${AnoConservador.toFixed(2)}</b> <br>
+    Tempo estimado para recuperar o investimento: <b>${retornoConservador.toFixed(2)} meses</b> <br><br>
+    <b>Cenário Esperado</b> <br>
+    Valor recuperado mensalmente: <b>R$ ${economiaEsperado.toFixed(2)}</b> <br>
+    Valor recuperado anualmente: <b>R$ ${AnoEsperado.toFixed(2)}</b> <br>
+    Tempo estimado para recuperar o investimento: <b>${retornoEsperado.toFixed(2)} meses</b> <br><br>
+    <b>Cenário Otimista</b> <br>
+    Valor recuperado mensalmente: <b>R$ ${economiaOtimista.toFixed(2)}</b> <br>
+    Valor recuperado anualmente: <b>R$ ${AnoOtimista.toFixed(2)}</b> <br>
+    Tempo estimado para recuperar o investimento: <b>${retornoOtimista.toFixed(2)} meses</b> <br><br>`;
+
+      if (retornoEsperado < 12) {
+        div_exibir.innerHTML += `<b>O cenário esperado apresenta retorno antes de 12 meses.</b> <br>
+      O sistema apresenta potencial para recuperar o investimento em um período inferior a um ano.`;
+      } else if (retornoEsperado <= 24) {
+        div_exibir.innerHTML += `<b>O cenário esperado apresenta retorno entre 12 e 24 meses.</b> <br>
+      O sistema apresenta potencial de retorno em médio prazo.`;
+      } else {
+        div_exibir.innerHTML += `<b>O cenário esperado apresenta retorno superior a 24 meses.</b> <br>
+      Avalie o potencial de redução das perdas e as condições atuais da produção.`;
+      }
+    }
+  }
+</script>
