@@ -19,25 +19,6 @@
       </p>
     </div>
 
-    <div id="div_controle_umidade"> 
-      <!--Essa div tem dois inputs necessários para calcular se o uso de água no cultivo está ideal ou não.-->
-      <label for="tem_controle"> Veja se está gastando mais ou menos água do que o necessário no seu cultivo! </label>
-      <br />
-
-
-      <div id="grupo_input"><br>
-        <label for="input_prateleira">Quantas Prateleiras voce tem no seu cultivo? 👨‍🌾</label><br>
-        <input type="text" id="input_prateleira"/><br>
-
-        <label for="input_conta">Qual o valor da sua conta de agua? 💧</label><br>
-        <input type="text" id="input_conta" /><br>
-
-        <button onclick="CustoAgua()">Analisar</button>
-
-        <div id="div_exibir2"></div>
-      </div>
-    </div>
-
     <br />
 
     <div id="div_conteudo" style="color: black"> <!-- Div contendo: inputs e o botão de calcular retorno-->
@@ -174,34 +155,6 @@
         }
         }
 
-        
       }
-      function CustoAgua() {// ESSA FUNÇÃO TEM COMO OBJETIVO SABER SE O CLIENTE ESTA USANDO A QUANTIDADE IDEAL DE AGUA NO SEU CULTIVO
-        let prateleira = Number(input_prateleira.value);
-        let contaAgua = Number(input_conta.value);
-        let custoAgua = prateleira * 100;/*100L durante o ciclo = 140 de substrato(por prateleira)*/
-        let custoCliente = (contaAgua * 0.5).toFixed(2);/* 1L = RS 0.5*/
-
-        div_exibir.innerHTML = `Seu cultivo gasta ${custoCliente}L de água por mês<br>`;
-
-        if (prateleira <= 0 || contaAgua <= 0) {
-          div_exibir.innerHTML = `
-            <p style="color: red;">
-              <b>Preencha todos os campos com valores válidos.</b>
-            </p>
-          `;
-        } else {
-          if (custoAgua == custoCliente) {
-          div_exibir.innerHTML += `ESTA PERFEITO`;
-        } else if (custoAgua > custoCliente) {
-          div_exibir.innerHTML += `ESTA RESSECANDO. Deveria estar gastando ~${custoAgua}L.`;
-        } else {
-          div_exibir.innerHTML += `GASTANDO MUITO AGUAA. Deveria estar gastando ~${custoAgua}L.`;
-        }
-        }
-
-        
-      }
-
     </script>
   
