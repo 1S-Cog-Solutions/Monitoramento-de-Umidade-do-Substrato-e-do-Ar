@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ptBR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulador Financeiro</title>
+  </head>
+  <body style="background-color: beige">
+    <h1><b style="color: red">SIMULADOR FINANCEIRO 🍄</b></h1>
+    <div style="font-size: x-large">
+      Automação no cultivo de cogumelos chanpignon
+    </div>
+    <br />
+
+    <span>Conta de agua mensal no cultivo:</span>
+    <input type="text" id="ipt_ConsumoAgua" />
+
+    <img
+      src="https://cdn-icons-png.flaticon.com/512/3105/3105761.png"
+      alt="agua"
+      width="25"
+      height="25"
+    />
+    <br />
+
+    <span>Conta de energia mensal no cultivo:</span>
+    <input type="text" id="ipt_ConsumoEnergia" />
+
+    <img
+      src="https://cdn-icons-png.flaticon.com/512/4037/4037560.png"
+      alt="energia"
+      width="25"
+      height="25"
+    />
+    <br />
+
+    <span>Mão de obras mensal no cultivo:</span>
+    <input type="text" id="ipt_ConsumoObra" />
+
+    <img
+      src="https://cdn-icons-png.flaticon.com/256/66/66607.png"
+      alt="MaoDeObra"
+      width="25"
+      height="25"
+    />
+
+    <br />
+
+    <span>Faturamento por ciclo no cultivo:</span>
+    <input type="text" id="ipt_faturamento" />
+
+    <img
+      src="https://cdn-icons-png.flaticon.com/512/126/126157.png"
+      alt="agua"
+      width="25"
+      height="25"
+    />
+
+    <br />
+    <br />
+
+    <button
+      onclick="resultado()"
+      style="background-color: red; font-size: large; color: white;"
+    >
+      Mostra economia
+    </button>
+
+    <br />
+    <br />
+
+    <div id="div_resultado"></div>
+
+    <span style="font-size: x-large;"></span>
+  </body>
+</html>
+
+<script>
+  function resultado() {
+    let agua = Number(ipt_ConsumoAgua.value);
+    let energia = Number(ipt_ConsumoEnergia.value);
+    let maoDeObra = Number(ipt_ConsumoObra.value);
+    let faturamento = Number(ipt_faturamento.value);
+
+    let FatAgua = agua + agua * 0.1;
+    let FatEnergia = energia + energia * 0.08;
+    let FatObra = maoDeObra + maoDeObra * 0.3;
+    let lucro = faturamento + FatAgua + FatEnergia + FatObra;
+
+    let PorcAgua = FatAgua * 100 / lucro;
+    let PorcEnergia = FatEnergia * 100 / lucro;
+    let porcObra = FatObra * 100 / lucro;
+    let LucroIso = lucro - faturamento
+    let lucro5 = LucroIso * 5
+    
+    
+
+
+    div_resultado.innerHTML = ` FATURAMENTO SEM AUTOMAÇÃO <span style="color: red; font-size: x-large;">${faturamento} </span> <br> 
+     FATURAMENTO COM AUTOMAÇÃO <span style="font-size: xx-large; color: darkgreen;">${lucro} </span><br> _________________________________________________________________________________
+     <br><br>
+    
+      <img
+      src="https://cdn-icons-png.flaticon.com/512/3105/3105761.png"
+      alt="agua"
+      width="35"
+      height="35"
+    />    <span style="font-size: x-large;">${PorcAgua.toFixed(2)}% de economomia que equivale a R$${LucroIso  - FatAgua.toFixed(2)}</span>
+    <br />
+ <img
+      src="https://cdn-icons-png.flaticon.com/512/4037/4037560.png"
+      alt="energia"
+      width="35"
+      height="35"
+    />    <span style="font-size: x-large;">${PorcEnergia.toFixed(2)}% de economomia que equivale a R$${LucroIso - FatEnergia.toFixed(2)}</span>
+    <br />
+   <img
+      src="https://cdn-icons-png.flaticon.com/256/66/66607.png"
+      alt="MaoDeObra"
+      width="35"
+      height="35"
+    />    <span style="font-size: x-large;">${porcObra.toFixed(2)}% de economomia que equivale a R$${LucroIso  - FatObra.toFixed(2)}</span>
+
+    <br /> 
+    <img
+      src="https://cdn-icons-png.flaticon.com/512/126/126157.png"
+      alt="agua"
+      width="35"
+      height="35"
+    /> <span style="font-size: x-large;"> A economia total por ciclo equivale a R$${ LucroIso.toFixed(2)}</span>
+
+    <br /> 
+    <img
+      src="https://cdn-icons-png.flaticon.com/512/858/858151.png"
+      alt="agua"
+      width="30"
+      height="30"
+    /> <span style="font-size: x-large;"> 5 ciclos equivale a R$${ lucro5.toFixed(2) * 5}</span>
+
+
+    <br> _________________________________________________________________________________
+     `
+
+ ;
+  }
+</script>
