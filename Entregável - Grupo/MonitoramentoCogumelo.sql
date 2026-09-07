@@ -41,6 +41,7 @@ CREATE TABLE leitura (
 
 INSERT INTO cliente (nomeEmpresa, nomeResponsavel, email, telefone, cnpj) VALUES
 ('Cogumelos Cogumaster SP', 'Carlos Eduardo Silva', 'contato@cogumaster.com.br', '(11) 98765-4321', '12345678000195'),
+('Estufas e Cogumelos Brasil', 'Jorge Alvares', 'contato@estufascogumelos.com.br', '(11) 99452-7172', '38710932000175'),
 ('Fungicultura Paris Brasil', 'Mariana Oliveira', 'atendimento@parisbrasil.com.br', '(11) 97123-8899', '98765432000110');
 
 -- Inserindo Estufas / Câmaras de Cultivo
