@@ -7,7 +7,8 @@ CREATE TABLE cliente (
     idCliente INT AUTO_INCREMENT PRIMARY KEY,
     nomeEmpresa VARCHAR(100) NOT NULL, 
     nomeResponsavel VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL, -- ============================ ADICIONAR CHECK
+    email VARCHAR(100) UNIQUE NOT NULL,
+    CONSTRAINT chkEmail CHECK (email LIKE '%@%'),
     telefone VARCHAR(20),
     cnpj CHAR(14) UNIQUE,
     dtCadastro DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -24,11 +25,13 @@ CREATE TABLE ambienteCultivo (
 
 -- Tabela 3: sensor
 CREATE TABLE sensor (
-    idSensor INT AUTO_INCREMENT PRIMARY KEY, -- ================================ CHECAR SE O CÓDIGO IDENTIFICADOR PODE SER O ID
-    codigoIdentificador VARCHAR(30) NOT NULL UNIQUE, -- Ex: 'SENS-DHT11-01' ======================== VER SE EXISTE PADRONIZAÇÃO PARA O NOME DE SENSORES
-    tipoSensor VARCHAR(40) NOT NULL,                -- Ex: 'DHT11 - Umidade Ar / Temp', 'Capacitivo - Substrato' ADICIONAT CHECK
+    idSensor INT AUTO_INCREMENT PRIMARY KEY,
+    tipo VARCHAR(40) NOT NULL,  -- Ex: 'DHT11', 'Capacitivo - Substrato'
+    CONSTRAINT chkTipo CHECK(tipo IN ('DHT11', 'Capacitivo - Substrato')),
     posicaoAmbienteCultivo VARCHAR(50),                       -- Ex: 'Setor Norte - Prateleira 2'
-    statusSensor VARCHAR(20) DEFAULT 'Ativo'        -- 'Ativo', 'Inativo' ================================== ADICIONAR O CHECK E TINYYINT
+    statuss VARCHAR(20) DEFAULT 'Ativo', -- 'Ativo', 'Inativo'
+    CONSTRAINT chkStatuss CHECK(statuss IN ('Ativo', 'Inativo')),
+    descricao VARCHAR(80)
 );
 
 -- Tabela 4: leitura (Histórico do Sensoriamento)
@@ -40,6 +43,8 @@ CREATE TABLE leitura (
 );
 
 -- ================================== MUDAR O INSERT E ADICIONAR ALTER TABLES
+ALTER TABLE sensor MODIFY COLUMN tipo VARCHAR(30);
+DESC sensor;
 
 INSERT INTO cliente (nomeEmpresa, nomeResponsavel, email, telefone, cnpj) VALUES
 ('Cogumelos Cogumaster SP', 'Carlos Eduardo Silva', 'contato@cogumaster.com.br', '(11) 98765-4321', '12345678000195'),
@@ -53,12 +58,13 @@ INSERT INTO ambienteCultivo (nome, faseCultivo, capacidadeSacos) VALUES
 ('Estufa A - Mogi', 'Frutificação', 950);
 
 -- Inserindo Sensores (DHT11 e Umidade de Solo/Substrato)
-INSERT INTO sensor (codigoIdentificador, tipoSensor, posicaoAmbienteCultivo, statusSensor) VALUES
-('SENS-AR-01', 'DHT11 - Ar', 'Setor Central - Altura 1.8m', 'Ativo'),
-('SENS-SUB-01', 'Capacitivo - Substrato', 'Prateleira A - Saco 12', 'Ativo'),
-('SENS-AR-02', 'DHT11 - Ar', 'Setor Sul - Prateleira B', 'Ativo'),
-('SENS-SUB-02', 'Capacitivo - Substrato', 'Prateleira B - Saco 45', 'Ativo'),
-('SENS-AR-03', 'DHT11 - Ar', 'Setor Norte - Prateleira C', 'Inativo');
+INSERT INTO sensor (tipo, posicaoAmbienteCultivo, statuss, descricao) VALUES
+('DHT11', 'Setor Central - Altura 1.8m', 'Ativo', 'Medição da umidade do ar'),
+('Capacitivo - Substrato', 'Setor Central - Altura 1.8m', 'Ativo', 'Medição da umidade do substrato'),
+('Capacitivo - Substrato', 'Prateleira A - Saco 12', 'Ativo', 'Medição da umidade do substrato'),
+('DHT11', 'Setor Sul - Prateleira B', 'Ativo', 'Medição da umidade do ar'),
+('Capacitivo - Substrato', 'Prateleira B - Saco 45', 'Ativo', 'Medição da umidade do substrato'),
+('DHT11', 'Setor Norte - Prateleira C', 'Inativo', 'Medição da umidade do ar');
 
 -- Inserindo Histórico de Leituras (Simulando leituras a cada 5 minutos)
 -- Fase Incubação: Esperado Temp ~20°C, UR Ar ~90-95%, Substrato ~70-75%
