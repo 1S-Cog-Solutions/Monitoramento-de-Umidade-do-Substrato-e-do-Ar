@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora Financeira - Champignon Paris</title>
+  </head>
+  <body>
+    <h1>Calculadora Financeira - Cog Solutions 🍄</h1>
+    <h3>
+      Monitoramento de Umidade do Solo e do Ar do Cogumelo Champignon Paris
+    </h3>
+    <br />
+    <span>Insira seu faturamento anual (R$): </span>
+    <input id="ipt_faturamento" type="text" />
+
+    <br />
+    <br />
+    <b>
+      Clique em algum dos problemas encontrados no seu ambiente de cultivo:
+    </b>
+    <br />
+    <div>
+      <button onclick="doencas()">Doenças</button>
+      <button onclick="perdaDeQualidade()">Perda de qualidade</button>
+      <button onclick="paralisacaoDeCrescimento()">
+        Paralisação de Crescimento
+      </button>
+      <button onclick="deformidades()">Deformidades</button>
+    </div>
+    <br />
+    <br />
+    <div id="div_exibir"></div>
+  </body>
+</html>
+<script>
+  function doencas() {
+    let faturamentoInserido = Number(ipt_faturamento.value);
+
+    if (faturamentoInserido <= 0) {
+      alert("Insira valores acima de 0!");
+    } else {
+      let valorPerda = 12.5; // 12.5% soma bacterial blotch + outras doenças secundárias (mancha-gengibre, contaminações pontuais)
+      let faturamentoSolucao =
+        faturamentoInserido + faturamentoInserido * (valorPerda / 100);
+      div_exibir.innerHTML = `
+        <div>
+          <b>Métricas do mercado:</b>
+          <br>
+          <span>- Faturamento atual: ${faturamentoInserido.toFixed(2)}</span>
+          <br>
+          <span>- Faturamento com o monitoramento: ${faturamentoSolucao.toFixed(2)}</span>
+          <br>
+          <b>- Valor perdido: ${(faturamentoSolucao - faturamentoInserido).toFixed(2)}</b>
+          <br>
+          <p>As plantações que sofrem com doenças <b>perdem uma média de ${valorPerda.toFixed(2)}%</b> dos cogumelos, no entanto, com a solução da Cog Solutions <b>você não sofrerá com isso.</b></p>
+        </div>`;
+    }
+  }
+  function perdaDeQualidade() {
+    let faturamentoInserido = Number(ipt_faturamento.value);
+
+    if (faturamentoInserido <= 0) {
+      alert("Insira valores acima de 0!");
+    } else {
+      let valorPerda = 22.5; // 22.5% Reflete parte proporcional da redução de shelf-life (60-85%) convertida em rejeição/desconto de lote, não em perda total
+      let faturamentoSolucao =
+        faturamentoInserido + faturamentoInserido * (valorPerda / 100);
+      div_exibir.innerHTML = `
+        <div>
+          <b>Métricas do mercado:</b>
+          <br>
+          <span>- Faturamento atual: ${faturamentoInserido.toFixed(2)}</span>
+          <br>
+          <span>- Faturamento com o monitoramento: ${faturamentoSolucao.toFixed(2)}</span>
+          <br>
+          <b>- Valor perdido: ${(faturamentoSolucao - faturamentoInserido).toFixed(2)}</b>
+          <br>
+          <p>As plantações que sofrem com perda de qualidade <b>perdem uma média de ${valorPerda.toFixed(2)}%</b> dos cogumelos, no entanto, com a solução da Cog Solutions <b>você não sofrerá com isso.</b></p>
+        </div>`;
+    }
+  }
+  function paralisacaoDeCrescimento() {
+    let faturamentoInserido = Number(ipt_faturamento.value);
+
+    if (faturamentoInserido <= 0) {
+      alert("Insira valores acima de 0!");
+    } else {
+      let valorPerda = 17.5; // 17.5% Extrapolação alinhada à faixa geral de perda por falha ambiental
+      let faturamentoSolucao =
+        faturamentoInserido + faturamentoInserido * (valorPerda / 100);
+      div_exibir.innerHTML = `
+        <div>
+          <b>Métricas do mercado:</b>
+          <br>
+          <span>- Faturamento atual: ${faturamentoInserido.toFixed(2)}</span>
+          <br>
+          <span>- Faturamento com o monitoramento: ${faturamentoSolucao.toFixed(2)}</span>
+          <br>
+          <b>- Valor perdido: ${(faturamentoSolucao - faturamentoInserido).toFixed(2)}</b>
+          <br>
+          <p>As plantações que sofrem com paralisação de crescimento <b>perdem uma média de ${valorPerda.toFixed(2)}%</b> dos cogumelos, no entanto, com a solução da Cog Solutions <b>você não sofrerá com isso.</b></p>
+        </div>`;
+    }
+  }
+  function deformidades() {
+    let faturamentoInserido = Number(ipt_faturamento.value);
+
+    if (faturamentoInserido <= 0) {
+      alert("Insira valores acima de 0!");
+    } else {
+      let valorPerda = 12.5; // 12.5% Extrapolação conservadora dentro da faixa geral
+      let faturamentoSolucao =
+        faturamentoInserido + faturamentoInserido * (valorPerda / 100);
+      div_exibir.innerHTML = `
+        <div>
+          <b>Métricas do mercado:</b>
+          <br>
+          <span>- Faturamento atual: ${faturamentoInserido.toFixed(2)}</span>
+          <br>
+          <span>- Faturamento com o monitoramento: ${faturamentoSolucao.toFixed(2)}</span>
+          <br>
+          <b>- Valor perdido: ${(faturamentoSolucao - faturamentoInserido).toFixed(2)}</b>
+          <br>
+          <p>As plantações que sofrem com deformidades <b>perdem uma média de ${valorPerda.toFixed(2)}%</b> dos cogumelos, no entanto, com a solução da Cog Solutions <b>você não sofrerá com isso.</b></p>
+        </div>`;
+    }
+  }
+  /*
+    ========= Doenças ==========
+    Cenário	% perda	Base
+    Leve	5-8%	Faixa direta da fonte (controle razoável)
+    Moderado	10-15%	Soma bacterial blotch + outras doenças secundárias (mancha-gengibre, contaminações pontuais)
+    Severo	20-30%	Extrapolação com base em surtos fúngicos documentados (ex.: mofo verde, que chega a 63-65% em casos extremos — aqui reduzido para refletir um cenário "severo mas não catastrófico")
+
+    ========= Perda de qualidade =========
+    Cenário	% perda comercial estimada	Base
+    Leve	10-15%	Pequena redução de shelf-life, produto ainda vendável com desconto
+    Moderado	20-25%	Reflete parte proporcional da redução de shelf-life
+    Severo	30-40%	Quando a maior parte do lote passa da janela ideal de venda antes do escoamento
+
+    ========= Paralisação do crescimento =========
+    Cenário	% perda estimada	Base
+    Leve	8-12%	Atraso pontual na frutificação, poucos primórdios afetados
+    Moderado	15-20%	Extrapolação alinhada à faixa geral de perda por falha ambiental (15-30%)
+    Severo	25-35%	Falha prolongada na indução, comprometendo múltiplas "flushes" (ciclos de colheita)
+
+    ======== Deformidades ========
+    Leve	5-8%	Poucos cogumelos com chapéu/formato irregular, ainda comercializáveis como "segunda linha"
+    Moderado	10-15%	Extrapolação conservadora dentro da faixa geral
+    Severo	15-25%	Deformidade generalizada que compromete a venda in natura
+    */
+</script>
