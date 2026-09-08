@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Financeiro</title>
+</head>
+<body>
+    <h1>Simulador Financeiro</h1>
+    <h4>projeta o ganho estimado ao adotar monitoramento de umidade.</h4><br>
+    <span>Quantos kilos a sala produz por lote?</span>
+    <input type="text" id="ipt_kgPorLotes"><br>
+    <span>Quantos lotes a sala produz por ano?</span>
+    <input type="text" id="ipt_lotesPorAno"><br>
+    <span>Quantos m² tem a sala de cultivo?</span>
+    <input type="text" id="ipt_areaM2"><br>
+    <span>Por quanto a empresa vende o kg do cogumelo?</span>
+    <input type="text" id="ipt_precoKg"><br>
+    <button onclick="calcularComMonitoramentoDeUmidade()"> Cenário com Monitoramento </button>
+    <div id="div_exibir"></div>
+</body>
+</html>
+<script>
+    
+    //porcentagem da perda estimada por kg 
+   let PorcLeve = Number(.15);
+   let PorcModerada = Number(0.225);
+   let PorcSevera = Number(0.30);
+
+   
+    //CENÁRIO COM MONITORAMENTO DE UMIDADE
+    function calcularComMonitoramentoDeUmidade(){
+        let kgPorLotes = Number(ipt_kgPorLotes.value);
+        let LotesPorAno = Number(ipt_lotesPorAno.value);
+        let AreaM2 = Number(ipt_areaM2.value);
+        let PrecoKg = Number(ipt_precoKg.value); 
+        //possíveis ganhos com o monitoramento
+        let PossivelGanhoLeve = Number(kgPorLotes+(kgPorLotes*PorcLeve));
+        let PossivelGanhoModerado = Number(kgPorLotes+(kgPorLotes*PorcModerada));
+        let PossivelGanhoSevera = Number(kgPorLotes+(kgPorLotes*PorcSevera));
+        //valor ganho por kilo
+        let ReaisGanhosPorKgLeve = Number(PossivelGanhoLeve*PrecoKg);
+        let ReaisGanhosPorKgModerado = Number(PossivelGanhoModerado*PrecoKg);
+        let ReaisGanhosPorKgSevera = Number(PossivelGanhoSevera*PrecoKg);
+        //projeção de ganhos anuais
+        let ProjecaoGanhosAnuaisLeves = Number(ReaisGanhosPorKgLeve*LotesPorAno);
+        let ProjecaoGanhosAnuaisModerados = Number(ReaisGanhosPorKgModerado*LotesPorAno);
+        let ProjecaoGanhosAnuaisSevera = Number(ReaisGanhosPorKgSevera*LotesPorAno);
+        // kilos poupados por ano 
+        let KgPoupadosPorAnoLeve = Number(PossivelGanhoLeve*LotesPorAno);
+        let KgPoupadosPorAnoModerado = Number(PossivelGanhoModerado*LotesPorAno);
+        let KgPoupadosPorAnoSevera = Number(PossivelGanhoSevera*LotesPorAno);
+        //Ganho por metro quadrado
+        let GanhoPorMleve = Number(PossivelGanhoLeve/AreaM2*PrecoKg);
+        let GanhoPorMModerado = Number(PossivelGanhoModerado/AreaM2*PrecoKg);
+        let GanhoPorMSevera = Number(PossivelGanhoSevera/AreaM2*PrecoKg);
+        //faturamento atual (sem monitoramento)
+        let FaturamentoAtual = Number(kgPorLotes*LotesPorAno*PrecoKg);
+
+        // % de aumento em R$ sobre o faturamento atual
+        let ReaisSobreFaturamentoLeve = Number(FaturamentoAtual*PorcLeve);
+        let ReaisSobreFaturamentoModerado = Number(FaturamentoAtual*PorcModerada);
+        let ReaisSobreFaturamentoSevera = Number(FaturamentoAtual*PorcSevera);
+
+        //Exibe o cenário com monitoramento de umidade
+         div_exibir.innerHTML += `Com monitoramento seu ganho estimado por lote em um cenário leve é de R$${ReaisGanhosPorKgLeve.toFixed(2)} (${PossivelGanhoLeve.toFixed(2)}kg)  e a projeção anual é de R$${ProjecaoGanhosAnuaisLeves.toFixed(2)} (${KgPoupadosPorAnoLeve.toFixed(2)}kg)<br>
+                                Com monitoramento seu ganho estimado por lote em um cenário moderado é R$${ReaisGanhosPorKgModerado.toFixed(2)} (${PossivelGanhoModerado.toFixed(2)}kg) e a projeção anual é de R$${ProjecaoGanhosAnuaisModerados.toFixed(2)} (${KgPoupadosPorAnoModerado.toFixed(2)}kg)<br>
+                                Com monitoramento seu ganho estimado por lote em um cenário severo é R$${ReaisGanhosPorKgSevera.toFixed(2)} (${PossivelGanhoSevera.toFixed(2)}kg)  e a projeção anual é R$${ProjecaoGanhosAnuaisSevera.toFixed(2)} (${KgPoupadosPorAnoSevera.toFixed(2)}kg)<br>`
+        //Exibe o cenário de ganho por metro quadrado
+        div_exibir.innerHTML += `______________________________________________________________________________________________________________<br>
+                                O ganho estimado por metro quadrado com monitoramento de umidade é de R$${GanhoPorMleve.toFixed(2)} por m²<br>
+                                O ganho estimado por metro quadrado com monitoramento de umidade é de R$${GanhoPorMModerado.toFixed(2)} por m²<br>
+                                O ganho estimado por metro quadrado com monitoramento de umidade é de R$${GanhoPorMSevera.toFixed(2)} por m²<br>`
+        // % de cada cenário e ganho em R$ sobre o faturamento Anual
+        div_exibir.innerHTML += `______________________________________________________________________________________________________________<br>
+                                No cenário leve, você pode faturar ${(PorcLeve*100).toFixed(1)}% a mais, o que representa R$${ReaisSobreFaturamentoLeve.toFixed(2)} a mais sobre seu faturamento anual atual <br>
+                                No cenário moderado, você pode faturar ${(PorcModerada*100).toFixed(1)}% a mais, o que representa R$${ReaisSobreFaturamentoModerado.toFixed(2)} a mais sobre seu anual faturamento <br>
+                                No cenário severo, você pode faturar ${(PorcSevera*100).toFixed(1)}% a mais, o que representa R$${ReaisSobreFaturamentoSevera.toFixed(2)} a mais sobre seu faturamento anual atual `
+    }
+</script>
