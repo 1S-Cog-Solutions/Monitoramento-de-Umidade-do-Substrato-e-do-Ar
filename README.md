@@ -17,12 +17,17 @@ O objetivo é cruzar os dois tipos de umidade para identificar desvios em relaç
 <h3>Documentação do projeto</h3>
 <a href="https://bandteccom-my.sharepoint.com/:w:/g/personal/igor_pereira_sptech_school/IQAiI6YqdXi3R4AaogLWd1OTAeeFEhB-RMRCif4xhhaNq_0?e=D8L4jn">Documento em Docs</a>
 
+<h3>Slide de apresentação</h3>
+<a href="https://canva.link/a5abx7dgls5z4y0">Canva</a>
+
 <h3>URL do Trello para a organização do projeto</h3>
 <a href="https://trello.com/b/NNZWHx9u/pesquisa-e-inovacao-pi">Trello</a>
 
+<h3>URL do TINKERCARD para a montagem do Arduino</h3>
+<a href="https://www.tinkercad.com/things/l5auWBOuWrV/editel?returnTo=%2Fdashboard&sharecode=yHCSTdkNJi3PoDbMhmVLzr81HFQQGqiRWNctGYehJwU">TINKERCARD</a>
 
 <h3>URL do Figma para a prototipagem do site institucional:</h3>
-<a href="https://www.figma.com/design/Muug5GwjhY6ZFs4bkSLCzJ/Prot%C3%B3tipo-do-site---CogSolutions?node-id=4007-123&t=g4g0GEwPve56nLrz-0">Figma</a>
+<a href="https://www.figma.com/design/lOQJ3ouqiGeTjRjebh4Cyk/Untitled?node-id=0-1&t=8Z2B4NwLQM1jTaju-1">Figma</a>
 
 <h3>URL do backlog</h3>
 <a href="https://bandteccom-my.sharepoint.com/:x:/g/personal/enzo_bento_sptech_school/IQDjvXNZblUtQaP1piUuVKDFAaRQvaNkgXDdNlEpYn8B8D8?e=9osGnq">Backlog Excel</a>
