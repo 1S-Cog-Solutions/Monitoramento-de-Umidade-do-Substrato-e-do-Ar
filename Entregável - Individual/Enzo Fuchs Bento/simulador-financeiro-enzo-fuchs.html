@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Financeiro - Champignon</title>
+</head>
+<body>
+    <h1>Simulador Financeiro - Cultivo de Champignon</h1>
+
+    <label for="ipt_produ">Produção por ciclo (kg):</label>
+    <input type="text" id="ipt_produ">
+    <br>
+    <label for="ipt_preco">Preço de venda (R$/kg):</label>
+    <input type="text" id="ipt_preco">
+    <br>
+    <label for="ipt_perda">Perda média por ciclo, sem sensores (%):</label>
+    <input type="text" id="ipt_perda">
+    <br>
+    <label for="ipt_qntdSensor">Quantidade de sensores no sistema:</label>
+    <input type="text" id="ipt_qntdSensor">
+    <br>
+    <label for="ipt_ciclos">Quantidade de ciclos a analisar:</label>
+    <input type="text" id="ipt_ciclos">
+    <br><br>
+    <button onclick="calcular()">Calcular</button>
+
+    <div id="div_resultado"></div>
+
+    <script>
+        // Custo fixo que a gente supôs para cada sensor do nosso produto
+        let custoPorSensor = 200
+
+        // Suposição: com os sensores instalados, a perda por umidade cai 60%
+        // (ex: se a perda era 30%, com sensor vira 30% x (1 - 0.60) = 12%)
+        // Isso é só uma estimativa nossa pro projeto, não é um dado medido de verdade
+        let reducaoPerdaComSensor = 0.60
+
+        function calcular() {
+            // pega o que foi digitado em cada input e transforma em número
+            let produ = Number(ipt_produ.value)
+            let preco = Number(ipt_preco.value)
+            let perda = Number(ipt_perda.value) / 100 // transforma % em fração (30 vira 0.30)
+            let qntdSensor = Number(ipt_qntdSensor.value)
+            let ciclos = Number(ipt_ciclos.value)
+
+            // quanto a perda cai depois de instalar os sensores
+            let perdaComSensor = perda * (1 - reducaoPerdaComSensor)
+
+            // quanto você faturaria se não perdesse nada
+            let receitaBruta = produ * preco
+
+            // quanto se perde em dinheiro em cada cenário
+            let perdaSemSensor = produ * perda * preco
+            let perdaComSensorReais = produ * perdaComSensor * preco
+
+            // quanto os sensores economizam (diferença entre as duas perdas) em 1 ciclo
+            let economiaPorCiclo = perdaSemSensor - perdaComSensorReais
+
+            // multiplica pela quantidade de ciclos que o cliente quer analisar
+            let economiaTotal = economiaPorCiclo * ciclos
+
+            // quanto custa o sistema todo de sensores (isso é pago só uma vez, não repete por ciclo)
+            let investimento = qntdSensor * custoPorSensor
+
+            // se a economia acumulada nos ciclos cobre o investimento ou não
+            let lucro = economiaTotal - investimento
+
+            let mensagem = `Receita bruta por ciclo (sem perda): R$${receitaBruta.toFixed(2)}. Sem sensores, a perda por umidade custaria R$${perdaSemSensor.toFixed(2)} por ciclo. Com os ${qntdSensor} sensores instalados, a perda cai pra R$${perdaComSensorReais.toFixed(2)} por ciclo, gerando uma economia de R$${economiaPorCiclo.toFixed(2)} por ciclo. Em ${ciclos} ciclo(s), a economia total é R$${economiaTotal.toFixed(2)}. O investimento total nos sensores é R$${investimento.toFixed(2)}.`
+
+            let aviso
+            if (lucro >= 0) {
+                aviso = `O investimento compensa: sobra um lucro de R$${lucro.toFixed(2)} ao longo dos ${ciclos} ciclo(s) analisados.`
+            } else {
+                aviso = `O investimento ainda não se paga nos ${ciclos} ciclo(s) analisados: falta R$${(investimento - economiaTotal).toFixed(2)} pra cobrir o valor gasto nos sensores.`
+            }
+
+            div_resultado.innerHTML = mensagem + '<br><br>' + aviso
+        }
+    </script>
+</body>
+</html>
