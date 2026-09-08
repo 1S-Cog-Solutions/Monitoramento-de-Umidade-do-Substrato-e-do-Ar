@@ -18,7 +18,6 @@ CREATE TABLE ambienteCultivo (
     idAmbienteCultivo INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(50) NOT NULL, -- Ex: 'Câmara 01 - Incubação'
     faseCultivo VARCHAR(40) NOT NULL, -- Ex: 'Incubação', 'Frutificação', 'Camada de Cobertura'
-    CONSTRAINT chkFaseCultivo CHECK(faseCultivo IN ('Compostagem', 'Incubação/Colonização', 'Frutificação', 'Pasteurização')),
     capacidadeSacos INT DEFAULT 800  -- Capacidade padrão (800 a 1000 sacos)
 );
 
@@ -47,18 +46,18 @@ INSERT INTO cliente (nomeEmpresa, nomeResponsavel, email, telefone, cnpj) VALUES
 -- Inserindo Estufas / Câmaras de Cultivo
 INSERT INTO ambienteCultivo (nome, faseCultivo, capacidadeSacos) VALUES
 ('Câmara 01', 'Incubação/Colonização', 1000),
-('Câmara 02', 'Frutificação', 800),
-('Estufa A - Mogi', 'Frutificação', 950);
+('Câmara 02', 'Frutificação (Sala de Cultivo)', 800),
+('Estufa A - Mogi', 'Frutificação (Sala de Cultivo)', 950);
 
 -- Inserindo Sensores (DHT11 e Umidade de Solo/Substrato)
 INSERT INTO sensor (codigoIdentificador, tipoSensor, posicaoAmbienteCultivo, statusSensor) VALUES
-('SENS-AR-01', 'DHT11 - Ar/Temp', 'Setor Central - Altura 1.8m', 'Ativo'),
+('SENS-AR-01', 'DHT11 - Ar', 'Setor Central - Altura 1.8m', 'Ativo'),
 ('SENS-SUB-01', 'Capacitivo - Substrato', 'Prateleira A - Saco 12', 'Ativo'),
-('SENS-AR-02', 'DHT11 - Ar/Temp', 'Setor Sul - Prateleira B', 'Ativo'),
+('SENS-AR-02', 'DHT11 - Ar', 'Setor Sul - Prateleira B', 'Ativo'),
 ('SENS-SUB-02', 'Capacitivo - Substrato', 'Prateleira B - Saco 45', 'Ativo'),
-('SENS-AR-03', 'DHT11 - Ar/Temp', 'Setor Norte - Prateleira C', 'Manutenção');
+('SENS-AR-03', 'DHT11 - Ar', 'Setor Norte - Prateleira C', 'Manutenção');
 
--- Inserindo Histórico de Leituras
+-- Inserindo Histórico de Leituras (Simulando leituras a cada 5 minutos)
 -- Fase Incubação: Esperado Temp ~20°C, UR Ar ~90-95%, Substrato ~70-75%
 -- Fase Frutificação: Esperado Temp 16-22°C, UR Ar ~80-90%
 INSERT INTO leitura (umidadeAr, umidadeSolo, dtHora) VALUES
