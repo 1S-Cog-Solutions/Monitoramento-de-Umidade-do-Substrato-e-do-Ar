@@ -23,6 +23,9 @@ O objetivo é cruzar os dois tipos de umidade para identificar desvios em relaç
 
 <h3>URL do Figma para a prototipagem do site institucional:</h3>
 <a href="https://www.figma.com/design/Muug5GwjhY6ZFs4bkSLCzJ/Prot%C3%B3tipo-do-site---CogSolutions?node-id=4007-123&t=g4g0GEwPve56nLrz-0">Figma</a>
+
+<h3>URL do backlog</h3>
+<a href="https://bandteccom-my.sharepoint.com/:x:/g/personal/enzo_bento_sptech_school/IQDjvXNZblUtQaP1piUuVKDFAaRQvaNkgXDdNlEpYn8B8D8?e=9osGnq">Backlog Excel</a>
 <br>
 <br>
 <h2>Contribuidores do projeto (Sprint 1):</h2>
