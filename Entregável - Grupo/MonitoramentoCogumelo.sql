@@ -48,7 +48,7 @@ INSERT INTO cliente (nomeEmpresa, nomeResponsavel, email, telefone, cnpj) VALUES
 
 -- Inserindo Estufas / Câmaras de Cultivo
 INSERT INTO ambienteCultivo (nome, faseCultivo, capacidadeSacos) VALUES
-('Câmara 01', 'Incubação/Colonização', 1000),
+('Câmara 01', 'Incubação', 1000),
 ('Câmara 02', 'Frutificação', 800),
 ('Estufa A - Mogi', 'Frutificação', 950);
 
