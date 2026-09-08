@@ -5,9 +5,9 @@ USE cog_solutions;
 -- Tabela 1: cliente
 CREATE TABLE cliente (
     idCliente INT AUTO_INCREMENT PRIMARY KEY,
-    nomeEmpresa VARCHAR(100) NOT NULL,
+    nomeEmpresa VARCHAR(100) NOT NULL, 
     nomeResponsavel VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL, -- ============================ ADICIONAR CHECK
     telefone VARCHAR(20),
     cnpj CHAR(14) UNIQUE,
     dtCadastro DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -17,18 +17,18 @@ CREATE TABLE cliente (
 CREATE TABLE ambienteCultivo (
     idAmbienteCultivo INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(50) NOT NULL, -- Ex: 'Câmara 01 - Incubação'
-    faseCultivo VARCHAR(40) NOT NULL, -- Ex: 'Incubação', 'Frutificação', 'Camada de Cobertura'
-    CONSTRAINT chkFaseCultivo CHECK(faseCultivo IN ('Compostagem', 'Incubação/Colonização', 'Frutificação', 'Pasteurização')),
+    faseCultivo VARCHAR(40) NOT NULL,
+    CONSTRAINT chkFaseCultivo CHECK(faseCultivo IN ('Compostagem', 'Incubação', 'Frutificação', 'Pasteurização')),
     capacidadeSacos INT DEFAULT 800  -- Capacidade padrão (800 a 1000 sacos)
 );
 
 -- Tabela 3: sensor
 CREATE TABLE sensor (
-    idSensor INT AUTO_INCREMENT PRIMARY KEY,
-    codigoIdentificador VARCHAR(30) NOT NULL UNIQUE, -- Ex: 'SENS-DHT11-01'
-    tipoSensor VARCHAR(40) NOT NULL,                -- Ex: 'DHT11 - Umidade Ar / Temp', 'Capacitivo - Substrato'
+    idSensor INT AUTO_INCREMENT PRIMARY KEY, -- ================================ CHECAR SE O CÓDIGO IDENTIFICADOR PODE SER O ID
+    codigoIdentificador VARCHAR(30) NOT NULL UNIQUE, -- Ex: 'SENS-DHT11-01' ======================== VER SE EXISTE PADRONIZAÇÃO PARA O NOME DE SENSORES
+    tipoSensor VARCHAR(40) NOT NULL,                -- Ex: 'DHT11 - Umidade Ar / Temp', 'Capacitivo - Substrato' ADICIONAT CHECK
     posicaoAmbienteCultivo VARCHAR(50),                       -- Ex: 'Setor Norte - Prateleira 2'
-    statusSensor VARCHAR(20) DEFAULT 'Ativo'        -- 'Ativo', 'Inativo', 'Manutenção'
+    statusSensor VARCHAR(20) DEFAULT 'Ativo'        -- 'Ativo', 'Inativo' ================================== ADICIONAR O CHECK E TINYYINT
 );
 
 -- Tabela 4: leitura (Histórico do Sensoriamento)
@@ -38,6 +38,8 @@ CREATE TABLE leitura (
     umidadeSolo DECIMAL(4,1) NULL,   -- Umidade do Substrato em %
     dtHora DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+-- ================================== MUDAR O INSERT E ADICIONAR ALTER TABLES
 
 INSERT INTO cliente (nomeEmpresa, nomeResponsavel, email, telefone, cnpj) VALUES
 ('Cogumelos Cogumaster SP', 'Carlos Eduardo Silva', 'contato@cogumaster.com.br', '(11) 98765-4321', '12345678000195'),
@@ -56,7 +58,7 @@ INSERT INTO sensor (codigoIdentificador, tipoSensor, posicaoAmbienteCultivo, sta
 ('SENS-SUB-01', 'Capacitivo - Substrato', 'Prateleira A - Saco 12', 'Ativo'),
 ('SENS-AR-02', 'DHT11 - Ar', 'Setor Sul - Prateleira B', 'Ativo'),
 ('SENS-SUB-02', 'Capacitivo - Substrato', 'Prateleira B - Saco 45', 'Ativo'),
-('SENS-AR-03', 'DHT11 - Ar', 'Setor Norte - Prateleira C', 'Manutenção');
+('SENS-AR-03', 'DHT11 - Ar', 'Setor Norte - Prateleira C', 'Inativo');
 
 -- Inserindo Histórico de Leituras (Simulando leituras a cada 5 minutos)
 -- Fase Incubação: Esperado Temp ~20°C, UR Ar ~90-95%, Substrato ~70-75%
