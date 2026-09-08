@@ -64,10 +64,10 @@ INSERT INTO sensor (codigoIdentificador, tipoSensor, posicaoAmbienteCultivo, sta
 -- Fase Incubação: Esperado Temp ~20°C, UR Ar ~90-95%, Substrato ~70-75%
 -- Fase Frutificação: Esperado Temp 16-22°C, UR Ar ~80-90%
 INSERT INTO leitura (umidadeAr, umidadeSolo, dtHora) VALUES
--- Leituras Câmara 01 (Incubação - Sensor Ar)
-(93.0, NULL, '2026-03-03 10:00:00'),
-(92.5, NULL, '2026-03-03 10:05:00'),
-(88.0, NULL, '2026-03-03 10:10:00'), -- Queda na UR do Ar (Alerta potencial)
+-- Leituras Câmara 01 (Incubação - Sensor Ar/Substrato)
+(93.0, 73.9, '2026-03-03 10:00:00'),
+(92.5, 69.1, '2026-03-03 10:05:00'),
+(88.0, 80.0, '2026-03-03 10:10:00'), -- Queda na UR do Ar (Alerta potencial)
 
 -- Leituras Câmara 01 (Incubação - Sensor Substrato)
 (NULL, 74.5, '2026-03-03 10:00:00'),
