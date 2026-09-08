@@ -18,6 +18,7 @@ CREATE TABLE ambienteCultivo (
     idAmbienteCultivo INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(50) NOT NULL, -- Ex: 'Câmara 01 - Incubação'
     faseCultivo VARCHAR(40) NOT NULL, -- Ex: 'Incubação', 'Frutificação', 'Camada de Cobertura'
+    CONSTRAINT chkFaseCultivo CHECK(faseCultivo IN ('Compostagem', 'Incubação/Colonização', 'Frutificação', 'Pasteurização')),
     capacidadeSacos INT DEFAULT 800  -- Capacidade padrão (800 a 1000 sacos)
 );
 
@@ -46,8 +47,8 @@ INSERT INTO cliente (nomeEmpresa, nomeResponsavel, email, telefone, cnpj) VALUES
 -- Inserindo Estufas / Câmaras de Cultivo
 INSERT INTO ambienteCultivo (nome, faseCultivo, capacidadeSacos) VALUES
 ('Câmara 01', 'Incubação/Colonização', 1000),
-('Câmara 02', 'Frutificação (Sala de Cultivo)', 800),
-('Estufa A - Mogi', 'Frutificação (Sala de Cultivo)', 950);
+('Câmara 02', 'Frutificação', 800),
+('Estufa A - Mogi', 'Frutificação', 950);
 
 -- Inserindo Sensores (DHT11 e Umidade de Solo/Substrato)
 INSERT INTO sensor (codigoIdentificador, tipoSensor, posicaoAmbienteCultivo, statusSensor) VALUES
