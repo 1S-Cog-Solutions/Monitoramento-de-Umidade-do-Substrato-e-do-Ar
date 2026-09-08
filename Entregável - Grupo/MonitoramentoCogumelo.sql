@@ -1,3 +1,12 @@
+-- Integrantes:
+-- Igor Fuchs Pereira
+-- Enzo Fuchs Bento
+-- Arthur Lima dos Santos
+-- Luis Otávio Jesus Alvez
+-- Bruno Volpe Costa 
+-- Fabrício Cavalcanti Lima
+-- Fernando Mateus
+
 CREATE DATABASE cog_solutions;
 
 USE cog_solutions;
@@ -42,10 +51,7 @@ CREATE TABLE leitura (
     dtHora DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- ================================== MUDAR O INSERT E ADICIONAR ALTER TABLES
-ALTER TABLE sensor MODIFY COLUMN tipo VARCHAR(30);
-DESC sensor;
-
+-- Insert into
 INSERT INTO cliente (nomeEmpresa, nomeResponsavel, email, telefone, cnpj) VALUES
 ('Cogumelos Cogumaster SP', 'Carlos Eduardo Silva', 'contato@cogumaster.com.br', '(11) 98765-4321', '12345678000195'),
 ('Estufas e Cogumelos Brasil', 'Jorge Alvares', 'contato@estufascogumelos.com.br', '(11) 99452-7172', '38710932000175'),
