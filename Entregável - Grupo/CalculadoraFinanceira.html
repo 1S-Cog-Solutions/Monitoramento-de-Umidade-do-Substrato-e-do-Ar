@@ -56,12 +56,14 @@
         let sensoresPorMetrosQuadrados = metrosQuadrados / 15
         if (sensoresPorMetrosQuadrados % 1 > 0) {
           sensoresPorMetrosQuadrados++;
-          sensoresPorMetrosQuadrados = sensoresPorMetrosQuadrados.toFixed(0)
+          let resto = sensoresPorMetrosQuadrados % 1;
+          sensoresPorMetrosQuadrados = sensoresPorMetrosQuadrados - resto;
         }
 
         let custoArduino = 500;
         let custoDoServico = 100;
         let investimento = (custoArduino * 3) + (sensoresPorMetrosQuadrados * custoDoServico);
+
         let faturamento = producao * preco;
         let prejuizo = faturamento * (perda / 100);
         let faturamentoComPerdas = faturamento - prejuizo;
