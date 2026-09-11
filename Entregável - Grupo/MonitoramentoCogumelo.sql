@@ -99,3 +99,27 @@ SELECT * FROM cliente;
 SELECT * FROM ambienteCultivo;
 SELECT * FROM leitura;
 SELECT * FROM sensor;
+describe cliente;
+
+select * from leitura where umidadeAr and umidadeSolo is not null; 
+
+select nomeResponsavel,nomeEmpresa,cnpj from cliente where cnpj like '%1%'; 
+
+select * from ambienteCultivo where faseCultivo in ('Frutificação');
+
+insert into ambienteCultivo values
+(default,'camara 03','Compostagem',1200);
+
+select concat('sua estufa está na fase de ',faseCultivo)as fases from ambienteCultivo;
+
+update cliente set nomeEmpresa = 'LAFFIBECogumelos' where idCliente = 1;
+
+select umidadeAr from leitura where idLeitura = 1;
+
+select umidadeSolo from leitura where idleitura >=3;
+
+select umidadeSolo,umidadeAr from leitura where idLeitura >= 5 and idLeitura <= 10;
+
+select * from cliente where nomeResponsavel like 'C%';
+
+
