@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculadora Financeira - COG Solution</title>
+</head>
+<body>
+
+    <h2>Simulador Financeiro - Cultivo de Champignon</h2>
+
+    <p>Produção mensal de champignon (kg):</p>
+    <input type="number" id="input_producao">
+
+    <p>Preço de venda por kg (R$):</p>
+    <input type="number" id="input_preco">
+
+    <p>Porcentagem de perda por falta de controle (%):</p>
+    <input type="number" id="input_perda">
+
+    <p>Investimento no Sistema (R$):</p>
+    <input type="number" id="input_investimento">
+
+    <br><br>
+    <button onclick="calcularRetorno()">CALCULAR RETORNO</button>
+
+    <br><br>
+    <div id="div_exibir"></div>
+
+    <script>
+        function calcularRetorno() {
+            // Pegando os valores digitados nos inputs
+            let producao = Number(input_producao.value);
+            let preco = Number(input_preco.value);
+            let porcentagemPerda = Number(input_perda.value);
+            let investimento = Number(input_investimento.value);
+
+            // Cálculos financeiros
+            let faturamentoBruto = producao * preco;
+            let prejuizoMensal = faturamentoBruto * (porcentagemPerda / 100);
+            let prejuizoAnual = prejuizoMensal * 12;
+            let faturamentoComSistema = faturamentoBruto - prejuizoMensal;
+
+            // Exibindo os resultados na tela usando innerHTML
+            div_exibir.innerHTML = `
+                <h3>Resultados da Simulação:</h3>
+                <b>Faturamento Bruto Mensal:</b> R$ ${faturamentoBruto.toFixed(2)} <br>
+                <b>Prejuízo Mensal (sem o sistema):</b> R$ ${prejuizoMensal.toFixed(2)} <br>
+                <b>Prejuízo Anual Estimado:</b> R$ ${prejuizoAnual.toFixed(2)} <br><br>
+                <b>Economia/Faturamento Real com o Sistema:</b> R$ ${faturamentoComSistema.toFixed(2)} /mês <br>
+                <b>Custo do Investimento:</b> R$ ${investimento.toFixed(2)}
+            `;
+        }
+    </script>
+
+</body>
+</html>
