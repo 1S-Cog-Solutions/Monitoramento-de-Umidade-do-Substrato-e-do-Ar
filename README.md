@@ -33,7 +33,7 @@ O objetivo é cruzar os dois tipos de umidade para identificar desvios em relaç
 <a href="https://bandteccom-my.sharepoint.com/:x:/g/personal/enzo_bento_sptech_school/IQDjvXNZblUtQaP1piUuVKDFAaRQvaNkgXDdNlEpYn8B8D8?e=9osGnq">Backlog Excel</a>
 <br>
 <br>
-<h2>Contribuidores do projeto (Sprint 1):</h2>
+<h2>Contribuidores do projeto (Sprint 2):</h2>
   <ul>
     <li>Enzo Fuchs</li>
     <li>Paulo Henrique</li>
