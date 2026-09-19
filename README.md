@@ -1,5 +1,8 @@
 # Monitoramento-de-Umidade-do-Substrato-e-do-Ar
 
+<img width="1836" height="470" alt="logo-cog-solutions" src="https://github.com/user-attachments/assets/e8247644-74bb-43cc-b863-c06f8d084d40" />
+
+
 <div align="center">
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&pause=1000&color=2E9EF7&center=true&vCenter=true&width=500&lines=Projeto+de+pesquisa+e+inova%C3%A7%C3%A3o;Arduino+e+sensores+de+umidade+%F0%9F%9A%80" alt="Typing SVG" />
 </div>
