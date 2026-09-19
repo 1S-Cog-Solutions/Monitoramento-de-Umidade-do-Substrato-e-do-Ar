@@ -18,7 +18,7 @@ O objetivo é cruzar os dois tipos de umidade para identificar desvios em relaç
 <a href="https://bandteccom-my.sharepoint.com/:w:/g/personal/igor_pereira_sptech_school/IQAiI6YqdXi3R4AaogLWd1OTAeeFEhB-RMRCif4xhhaNq_0?e=D8L4jn">Documento em Docs</a>
 
 <h3>Slide de apresentação</h3>
-<a href="https://canva.link/a5abx7dgls5z4y0">Canva</a>
+<a href="https://canva.link/lzc4q4bkl9rcixh">Canva</a>
 
 <h3>URL do Trello para a organização do projeto</h3>
 <a href="https://trello.com/b/NNZWHx9u/pesquisa-e-inovacao-pi">Trello</a>
@@ -36,10 +36,9 @@ O objetivo é cruzar os dois tipos de umidade para identificar desvios em relaç
 <h2>Contribuidores do projeto (Sprint 1):</h2>
   <ul>
     <li>Enzo Fuchs</li>
-    <li>Igor Fuchs</li>
-    <li>Fernando Mateus</li>
-    <li>Fabrício Lima</li>
-    <li>Bruno Volpe</li>
-    <li>Luis Otavio</li>
-    <li>Arthur Lima</li>
+    <li>Paulo Henrique</li>
+    <li>Christian Correia</li>
+    <li>Vitor Osuna</li>
+    <li>Victor Dos Passos</li>
+    <li>Mariana De Oliveira</li>
   </ul>
