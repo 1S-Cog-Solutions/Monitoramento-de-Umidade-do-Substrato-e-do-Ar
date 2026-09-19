@@ -15,7 +15,7 @@ O objetivo é cruzar os dois tipos de umidade para identificar desvios em relaç
 <h2>Links do nosso projeto:</h2>
 
 <h3>Documentação do projeto</h3>
-<a href="https://bandteccom-my.sharepoint.com/:w:/g/personal/igor_pereira_sptech_school/IQAiI6YqdXi3R4AaogLWd1OTAeeFEhB-RMRCif4xhhaNq_0?e=D8L4jn">Documento em Docs</a>
+<a href="https://bandteccom-my.sharepoint.com/:w:/g/personal/enzo_bento_sptech_school/IQAN4ZuB5iQDT5Slp7y-Jzm6AeEP08f_hE3fA4Waf_6eVE8?e=tI92Vh">Documento em Docs</a>
 
 <h3>Slide de apresentação</h3>
 <a href="https://canva.link/lzc4q4bkl9rcixh">Canva</a>
