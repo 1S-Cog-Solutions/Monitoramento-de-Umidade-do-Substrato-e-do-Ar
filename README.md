@@ -33,7 +33,7 @@ O objetivo é cruzar os dois tipos de umidade para identificar desvios em relaç
 <a href="https://www.figma.com/design/lOQJ3ouqiGeTjRjebh4Cyk/Untitled?node-id=0-1&t=8Z2B4NwLQM1jTaju-1">Figma</a>
 
 <h3>URL do backlog</h3>
-<a href="[https://bandteccom-my.sharepoint.com/:x:/g/personal/enzo_bento_sptech_school/IQDjvXNZblUtQaP1piUuVKDFAaRQvaNkgXDdNlEpYn8B8D8?e=9osGnq](https://bandteccom-my.sharepoint.com/:x:/g/personal/enzo_bento_sptech_school/IQDjvXNZblUtQaP1piUuVKDFATaHyE8DDdHf_Cz7kLwmhhM?e=JizszH)">Backlog Excel</a>
+<a href="https://bandteccom-my.sharepoint.com/:x:/g/personal/enzo_bento_sptech_school/IQDjvXNZblUtQaP1piUuVKDFATaHyE8DDdHf_Cz7kLwmhhM?e=BUfgIx">Backlog Excel</a>
 <br>
 <br>
 <h2>Contribuidores do projeto (Sprint 2):</h2>
