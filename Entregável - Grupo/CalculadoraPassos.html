@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora Financeira</title>
+  </head>
+
+  <body style="background-color: bisque; color: black">
+    <div id="div_titulo">
+      <h1 style="color: red">
+        Sistema de Monitoramento de Champignon Paris 🍄
+      </h1>
+
+      <p>
+        Controle de umidade para uma produção mais eficiente de
+        <b>Champignon Paris</b>
+      </p>
+    </div>
+
+    <br />
+
+    <div id="div_conteudo" style="color: black">
+      <h2>Calculadora Financeira</h2>
+
+      <p>
+        Calcule o retorno do investimento com base em
+        <b>dados concretos de cultivo</b>
+      </p>
+
+      <input type="text" id="input_producao" />
+      <label for="input_producao">⚖️ - Produção por lote (KG)</label><br />
+
+      <input type="text" id="input_preco" />
+      <label for="input_preco"> 💵 - Preço de venda por KG (R$)</label><br />
+
+      <input type="text" id="input_cenario" />
+      <label for="input_cenario">
+        📉 - Nível de Perda Histórica (1 - Leve: 15% | 2 - Moderado: 22,5% | 3 -
+        Severo: 30%)</label
+      ><br />
+
+      <input type="text" id="input_metrosQuadrados" />
+      <label for="input_metrosQuadrados"
+        >🍄‍🟫- Quantos metros de cultivo (m²)</label
+      ><br />
+
+      <button onclick="calcular()">CALCULAR RETORNO</button>
+    </div>
+
+    <div id="div_exibir"></div>
+
+    <script>
+      let custoArduino = 500;
+      let custoDoServico = 100;
+      let reducaoDesperdicio = 0.5; // A solução mitiga 50% das perdas ocorridas
+      let lotesPorAno = 4.7; // Frequência média de lotes por ano segundo o documento
+
+      function calcular() {
+        let producao = Number(input_producao.value);
+        let preco = Number(input_preco.value);
+        let cenario = Number(input_cenario.value);
+        let metrosQuadrados = Number(input_metrosQuadrados.value);
+
+        if (
+          producao <= 0 ||
+          preco <= 0 ||
+          metrosQuadrados <= 0 ||
+          cenario < 1 ||
+          cenario > 3
+        ) {
+          div_exibir.innerHTML = `
+            <p style="color: red;">
+              <b>Preencha todos os campos corretamente. O cenário deve ser 1, 2 ou 3.</b>
+            </p>
+          `;
+        } else {
+          // Atribuição exata do percentual de perda com base no parâmetro do documento
+          let percentualPerda = 0;
+
+          if (cenario == 1) {
+            percentualPerda = 0.15; // 15% - Cenário Leve
+          }
+          if (cenario == 2) {
+            percentualPerda = 0.225; // 22,5% - Cenário Moderado
+          }
+          if (cenario == 3) {
+            percentualPerda = 0.3; // 30% - Cenário Severo
+          }
+
+          // Cálculos Financeiros Concretos por Lote e por Ano
+          let faturamentoBrutoLote = producao * preco;
+          let prejuizoConcretoLote = faturamentoBrutoLote * percentualPerda;
+          let prejuizoConcretoAno = prejuizoConcretoLote * lotesPorAno;
+
+          let economiaPorLote = prejuizoConcretoLote * reducaoDesperdicio;
+          let economiaPorAno = prejuizoConcretoAno * reducaoDesperdicio;
+
+          // Infraestrutura de Hardware (1 sensor por m²)
+          let quantidadeSensores = metrosQuadrados;
+          let investimento =
+            custoArduino * 3 + quantidadeSensores * custoDoServico;
+
+          let lotesParaPayback = investimento / economiaPorLote;
+          let faturamentoLiquidoAno =
+            faturamentoBrutoLote * lotesPorAno -
+            prejuizoConcretoAno +
+            economiaPorAno;
+
+          div_exibir.innerHTML = `
+            <h2><b>Resultado Financeiro Real</b></h2>
+
+            Faturamento bruto por lote (capacidade total): R$ ${faturamentoBrutoLote.toFixed(2)}<br>
+            Perda financeira concreta por lote: <b>R$ ${prejuizoConcretoLote.toFixed(2)}</b><br>
+            Perda acumulada ao ano (${lotesPorAno} lotes): <b>R$ ${prejuizoConcretoAno.toFixed(2)}</b><br><br>
+
+            <b>Economia direta gerada pelo sistema:</b><br>
+            Economia por lote de produção: <b>R$ ${economiaPorLote.toFixed(2)}</b><br>
+            Economia anual garantida na produção: <b>R$ ${economiaPorAno.toFixed(2)}</b><br><br>
+
+            Investimento total na infraestrutura: <b style="color: green">R$ ${investimento.toFixed(2)}</b><br>
+            Retorno do investimento (Payback): <b>Aproximadamente ${lotesParaPayback.toFixed(1)} lotes de produção</b><br><br>
+          `;
+
+          if (lotesParaPayback <= lotesPorAno) {
+            div_exibir.innerHTML += `
+              <b style="color: green;">
+                O retorno sobre o investimento ocorre no mesmo ano (menos de ${lotesPorAno} lotes)!
+              </b>
+            `;
+          } else {
+            div_exibir.innerHTML += `
+              <b>
+                O retorno do investimento exige mais de 1 ano de produção para se pagar.
+              </b>
+            `;
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
