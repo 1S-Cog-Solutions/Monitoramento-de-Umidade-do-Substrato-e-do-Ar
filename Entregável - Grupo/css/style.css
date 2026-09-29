@@ -24,6 +24,7 @@ body {
     flex-direction: column;
     gap: 30px;
 
+
     height: 100%;
     width: 60%;
 }
@@ -45,6 +46,29 @@ input::placeholder {
 }
 
 .account-text {
+    width: 80%;
     color: white;
-    background-color: red;
+}
+
+.account-text a {
+    color: #006EFF;
+    font-weight: 400;
+}
+
+#btn-submit {
+    font-size: 1.2em;
+    width: 80%;
+    height: 70px;
+    background: none;
+    border: 2px solid white;
+    border-radius: 10px;
+    color: white;
+    transition: 0.3s;
+}
+
+#btn-submit:hover {
+    background-color: white;
+    color: black;
+    transition: 0.3s;
+    cursor: pointer;
 }
