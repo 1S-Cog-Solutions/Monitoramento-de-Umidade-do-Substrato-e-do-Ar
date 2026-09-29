@@ -24,7 +24,7 @@ O objetivo é cruzar os dois tipos de umidade para identificar desvios em relaç
 <a href="https://canva.link/lzc4q4bkl9rcixh">Canva</a>
 
 <h3>URL do Trello para a organização do projeto</h3>
-<a href="https://trello.com/b/NNZWHx9u/pesquisa-e-inovacao-pi">Trello</a>
+<a href="https://trello.com/b/cUBY6c0U/cog-solutions">Trello</a>
 
 <h3>URL do TINKERCARD para a montagem do Arduino</h3>
 <a href="https://www.tinkercad.com/things/l5auWBOuWrV/editel?returnTo=%2Fdashboard&sharecode=yHCSTdkNJi3PoDbMhmVLzr81HFQQGqiRWNctGYehJwU">TINKERCARD</a>
