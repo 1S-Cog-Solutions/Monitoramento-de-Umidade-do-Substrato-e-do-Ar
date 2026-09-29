@@ -72,3 +72,24 @@ input::placeholder {
     transition: 0.3s;
     cursor: pointer;
 }
+
+.btn-login-google {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    border-radius: 5px;
+    padding: 0 10px;
+    background-color: white;
+    cursor: pointer;
+}
+
+
+.google-logo{
+    width: 50px;
+}
+
+h1 {
+    width: 80%;
+    color: white;
+}
