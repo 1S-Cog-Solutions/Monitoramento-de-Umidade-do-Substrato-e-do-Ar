@@ -4,17 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <img src="assets/img/cog-solutions-logo.png" alt="">
+    <img src="../assets/img/cog-solutions-logo.png" alt="">
     <div id="div_formulario">
         <h1>Seja bem vindo de volta!</h1>
-        <input type="email" placeholder="E-mail">
-        <input type="password" placeholder="Senha">
+
+        <div class="input-container">
+            <input type="email" id="ipt_email" placeholder="E-mail">
+            <label for="ipt_email"><img src="../assets/icon/email-icon.png" alt="" class="icon"></label>
+        </div>
+
+        <div class="input-container">
+            <input type="password" id="ipt_senha" placeholder="Senha">
+            <label for="ipt_senha"><img src="../assets/icon/senha-icon.png" alt="" class="icon"></label>
+        </div>
+
         <p class="account-text">Não tenho uma conta. <a href="">Crie Aqui</a></p>
         <div class="btn-login-google">
-            <img src="assets/img/google-logo.webp" alt="" class="google-logo">
+            <img src="../assets/img/google-logo.webp" alt="" class="google-logo">
             Continuar com Google
         </div>
         <button id="btn-submit">Entrar</button>
