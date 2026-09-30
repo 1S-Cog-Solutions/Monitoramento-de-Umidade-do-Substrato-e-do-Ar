@@ -1,0 +1,9 @@
+    valoresSensorAnalogico,ar
+    valoresSensorDigital, - solo
+    valoresSensorTemperatura -  temperatura
+
+
+
+Todos os que estavam Digital e Analógico em *maisculo* eu coloquei Umidade 'U' maiúsculo
+
+todos os que estavam digital e analógico em *minúsculo* eu deixei o umidade com 'u' minusculo
