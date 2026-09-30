@@ -1,11 +1,10 @@
 -- Integrantes:
--- Igor Fuchs Pereira
+-- Mariana O. Soares
 -- Enzo Fuchs Bento
--- Arthur Lima dos Santos
--- Luis Otávio Jesus Alvez
--- Bruno Volpe Costa 
--- Fabrício Cavalcanti Lima
--- Fernando Mateus
+-- Christian Miranda
+-- Vitor Alexandre
+-- Victor Dos Passos 
+-- Paulo Henrique
 
 CREATE DATABASE cog_solutions;
 
