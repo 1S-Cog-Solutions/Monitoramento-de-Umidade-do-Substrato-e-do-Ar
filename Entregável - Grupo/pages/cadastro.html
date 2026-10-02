@@ -24,7 +24,7 @@
         <div class="container">
             <div class="input">
                 <label for="ipt_senha">SENHA</label>
-                <input type="password" name="" id="ipt_senha">
+                <input type="password" name="" id="ipt_senha" oninput="validarSenha()">
             </div>
             
             <div class="input">
@@ -32,7 +32,14 @@
                 <input type="password" name="" id="ipt_confirmar_senha">
             </div>
         </div>
-        
+
+        <div class="regras-senhas" id="regras-senhas">
+            <!-- <p>Pelo menos uma letra maiúscula (A-Z).</p>
+            <p>Pelo menos uma letra minúscula (a-z).</p>
+            <p>Pelo menos um número (0-9).</p>
+            <p>Pelo menos um caractere especial.</p> -->
+        </div>
+
         <div class="container">
             <div class="input">
                 <label for="ipt_empresa">NOME DA EMPRESA</label>
@@ -45,15 +52,12 @@
             </div>
         </div>
         
-            <div class="input">
-                <label for="ipt_tel">TELEFONE</label>
-                <input type="tel" name="" id="ipt_tel">
-            </div>
         <button id="btn-submit">Criar Conta</button>
-
-
-
-
     </div>
+    <div class="lado-logo">
+            <img src="../assets/img/cog-solutions-logo.png" alt="" id="logo-login">
+    </div>
+
+    <script src="../js/validacaoSenha.js"></script>
 </body>
 </html>
