@@ -18,7 +18,21 @@ idUsuario INT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(100) UNIQUE NOT NULL,
     CONSTRAINT chkEmail CHECK (email LIKE '%@%'),
 	dtCadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
-    fk_Empresa INT
+    fk_Empresa INT,
+    fk_Rensponsavel INT
+);
+
+CREATE TABLE Empresa (
+
+idEmpresa INT AUTO_INCREMENT PRIMARY KEY,
+    Empresa_nome VARCHAR(100) NOT NULL, 
+    email VARCHAR(100) UNIQUE NOT NULL,
+    CONSTRAINT chkEmail CHECK (email LIKE '%@%'),
+    telefone char(20),
+    cnpj char(14),
+	dtCadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
+    fk_Empresa INT,
+    fk_Rensponsavel INT
 );
 
 -- Tabela 2: estufa
@@ -46,11 +60,13 @@ CREATE TABLE leitura (
     idLeitura INT AUTO_INCREMENT PRIMARY KEY,
     umidadeAr DECIMAL(4,1) NULL,          -- Umidade Relativa do Ar em %
     umidadeSolo DECIMAL(4,1) NULL,   -- Umidade do Substrato em %
-    dtHora DATETIME DEFAULT CURRENT_TIMESTAMP
+    temperatura DECIMAL(4,1) NULL,   
+    dtHora DATETIME DEFAULT CURRENT_TIMESTAMP,
+    fk_sensor INT , FOREIGN KEY (fk_sensor) REFERENCES sensor(idSensor)
 );
 
 -- Insert into
-INSERT INTO cliente (nomeEmpresa, nomeResponsavel, email, telefone, cnpj) VALUES
+INSERT INTO Empresa (nomeEmpresa, nomeResponsavel, email, telefone, cnpj) VALUES
 ('Cogumelos Cogumaster SP', 'Carlos Eduardo Silva', 'contato@cogumaster.com.br', '(11) 98765-4321', '12345678000195'),
 ('Estufas e Cogumelos Brasil', 'Jorge Alvares', 'contato@estufascogumelos.com.br', '(11) 99452-7172', '38710932000175'),
 ('Fungicultura Paris Brasil', 'Mariana Oliveira', 'atendimento@parisbrasil.com.br', '(11) 97123-8899', '98765432000110');
@@ -73,53 +89,28 @@ INSERT INTO sensor (tipo, posicaoAmbienteCultivo, statuss, descricao) VALUES
 -- Inserindo Histórico de Leituras (Simulando leituras a cada 5 minutos)
 -- Fase Incubação: Esperado Temp ~20°C, UR Ar ~90-95%, Substrato ~70-75%
 -- Fase Frutificação: Esperado Temp 16-22°C, UR Ar ~80-90%
-INSERT INTO leitura (umidadeAr, umidadeSolo, dtHora) VALUES
+INSERT INTO leitura (umidadeAr, umidadeSolo, temperatura, fk_sensor) VALUES
 -- Leituras Câmara 01 (Incubação - Sensor Ar/Substrato)
-(93.0, 73.9, '2026-03-03 10:00:00'),
-(92.5, 69.1, '2026-03-03 10:05:00'),
-(88.0, 80.0, '2026-03-03 10:10:00'), -- Queda na UR do Ar (Alerta potencial)
+(93.0, 73.9, 23.4,1),
+(92.5, 69.1, 23.4,1),
+(null,88.0 , 45.5,2);-- Queda na UR do Ar (Alerta potencial)
 
--- Leituras Câmara 01 (Incubação - Sensor Substrato)
-(NULL, 74.5, '2026-03-03 10:00:00'),
-(NULL, 73.0, '2026-03-03 10:05:00'),
-(NULL, 68.5, '2026-03-03 10:10:00'), -- Substrato ressecando (Alerta)
+SELECT * FROM leitura;-- Queda na UR do Ar (Alerta potencial)
 
--- Leituras Câmara 02 (Frutificação - Sensor Ar)
-(85.0, NULL, '2026-03-03 10:00:00'),
-(84.5, NULL, '2026-03-03 10:05:00'),
-(75.0, NULL, '2026-03-03 10:10:00'), -- Umidade abaixo de 80% em Frutificação (Risco de Bacterial Blotch)
 
--- Leituras Câmara 02 (Frutificação - Sensor Substrato)
-(NULL, 71.0, '2026-03-03 10:00:00'),
-(NULL, 70.8, '2026-03-03 10:05:00');
-
-SELECT * FROM cliente;
+SELECT * FROM Empresa;
 SELECT * FROM ambienteCultivo;
 SELECT * FROM leitura;
 SELECT * FROM sensor;
-describe cliente;
+describe Empresa;
 
 select * from leitura where umidadeAr and umidadeSolo is not null; 
 
-select nomeResponsavel,nomeEmpresa,cnpj from cliente where cnpj like '%1%'; 
 
 select * from ambienteCultivo where faseCultivo in ('Frutificação');
 
 insert into ambienteCultivo values
 (default,'camara 03','Compostagem',1200);
 
-select concat('sua estufa está na fase de ',faseCultivo)as fases from ambienteCultivo;
-
-update cliente set nomeEmpresa = 'LAFFIBECogumelos' where idCliente = 1;
-
-select umidadeAr from leitura where idLeitura = 1;
-
-select umidadeSolo from leitura where idleitura >=3;
-
-select umidadeSolo,umidadeAr from leitura where idLeitura >= 5 and idLeitura <= 10;
-
-select * from cliente where nomeResponsavel like 'C%';
-
-describe Empresa;
 describe Empresa;
 
