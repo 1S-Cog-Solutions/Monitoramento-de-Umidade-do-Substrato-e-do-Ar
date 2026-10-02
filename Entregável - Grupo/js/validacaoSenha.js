@@ -1,6 +1,6 @@
 function validarSenha() {
     let senha = ipt_senha.value;
-    let divRegrasSenhas = document.querySelector('#regras-senhas');
+    let divRegrasSenhas = document.querySelector('#regras');
 
     let estiloMaiuscula = "";
     let estiloMinuscula = "";
@@ -52,4 +52,30 @@ function validarSenha() {
         <p style="${estiloNumero}">Pelo menos um número (0-9).</p>
         <p style="${estiloCaractereEspecial}">Pelo menos um caractere especial.</p>
     `;
+
+    if (senha = '') {
+        divRegrasSenhas.innerHTML = ``;
+    }
+}
+
+function verificarSenhas() {
+    let senha = ipt_senha.value;
+    let confirmarSenha = ipt_confirmar_senha.value;
+
+    let divRegrasSenhas = document.querySelector('#validar');
+
+    if (senha === confirmarSenha) {
+        divRegrasSenhas.innerHTML = `
+        <p style="color: #22b122">As senhas são iguais!</p>`
+    } 
+    
+    if (senha !== confirmarSenha) {
+        divRegrasSenhas.innerHTML = `
+        <p style="color: #e01111">As senhas precisam ser iguais!</p>`
+    }
+
+    // if (confirmarSenha = '') {
+    //     divRegrasSenhas.innerHTML = ``;
+    // }
+    
 }
