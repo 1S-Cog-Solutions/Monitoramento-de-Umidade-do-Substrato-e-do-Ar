@@ -10,16 +10,15 @@ CREATE DATABASE cog_solutions;
 
 USE cog_solutions;
 
--- Tabela 1: cliente
-CREATE TABLE cliente (
-    idCliente INT AUTO_INCREMENT PRIMARY KEY,
-    nomeEmpresa VARCHAR(100) NOT NULL, 
-    nomeResponsavel VARCHAR(100) NOT NULL,
+-- Tabela 1: Usuario
+CREATE TABLE Usuario (
+
+idUsuario INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL, 
     email VARCHAR(100) UNIQUE NOT NULL,
     CONSTRAINT chkEmail CHECK (email LIKE '%@%'),
-    telefone VARCHAR(20),
-    cnpj CHAR(14) UNIQUE,
-    dtCadastro DATETIME DEFAULT CURRENT_TIMESTAMP
+	dtCadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
+    fk_Empresa INT
 );
 
 -- Tabela 2: estufa
@@ -121,4 +120,6 @@ select umidadeSolo,umidadeAr from leitura where idLeitura >= 5 and idLeitura <= 
 
 select * from cliente where nomeResponsavel like 'C%';
 
+describe Empresa;
+describe Empresa;
 
