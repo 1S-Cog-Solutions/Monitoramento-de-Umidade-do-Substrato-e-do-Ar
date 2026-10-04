@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora Financeira</title>
+    <link rel="shortcut icon" type="image/png" href="file:///C:/Users/Paulo/Documents/Aulas/P.I/Sprint2GP5/Monitoramento-de-Umidade-do-Substrato-e-do-Ar/Entreg%C3%A1vel%20-%20Grupo/assets/icon/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  </head>
+
+<body style="margin: 0; padding: 40px 16px; font-family: 'Nunito', Arial, sans-serif; background-color: #0b0f12; background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('file:///C:/Users/Paulo/Documents/Aulas/P.I/Sprint2GP5/Monitoramento-de-Umidade-do-Substrato-e-do-Ar/Entreg%C3%A1vel%20-%20Grupo/assets/img/champignon-fundo.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; color: white"></body>
+    <div id="div_card" style="max-width: 900px; margin: 0 auto; padding: 40px 32px 32px 32px; box-sizing: border-box; background-color: #0e0e10; border: 1px solid #2a2a2d; border-radius: 20px">
+
+      <div id="div_titulo" style="text-align: center; margin-bottom: 32px">
+        <h1 style="color: white; font-family: 'Fredoka', Arial, sans-serif; font-size: 36px; font-weight: 600; letter-spacing: 0.5px; margin: 0 0 8px 0"> <img src="file:///C:/Users/Paulo/Documents/Aulas/P.I/Sprint2GP5/Monitoramento-de-Umidade-do-Substrato-e-do-Ar/Entreg%C3%A1vel%20-%20Grupo/assets/icon/favicon.png" alt="Logo" style="display: block; width: 80px; height: auto; margin: 0 auto 14px auto">
+          Simulador financeiro
+        </h1>
+
+        <p style="margin: 0; font-size: 14px; color: #c4c4c9">
+          Cultivo de
+          <b>Champignon Paris</b>
+        </p>
+      </div>
+
+      <div id="div_conteudo" style="color: white">
+
+        <label for="input_producao" style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: bold">
+          Produção por lote (KG)
+        </label>
+        <input placeholder="0" type="text" id="input_producao" style="width: 100%; height: 52px; padding: 0 16px; box-sizing: border-box; margin-bottom: 22px; font-family: inherit; font-size: 16px; color: white; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 8px" />
+
+        <label for="input_preco" style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: bold">
+          Preço de venda por KG (R$)
+        </label>
+        <input placeholder="0.00" type="text" id="input_preco" style="width: 100%; height: 52px; padding: 0 16px; box-sizing: border-box; margin-bottom: 22px; font-family: inherit; font-size: 16px; color: white; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 8px" />
+
+        <label for="input_lotes" style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: bold">
+          Quantos lotes você produz por ano?
+        </label>
+        <input placeholder="0" type="text" id="input_lotes" style="width: 100%; height: 52px; padding: 0 16px; box-sizing: border-box; margin-bottom: 22px; font-family: inherit; font-size: 16px; color: white; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 8px" />
+
+        <button onclick="calcular()" style="width: 100%; height: 52px; font-family: inherit; font-size: 16px; font-weight: bold; color: #1a0f0b; background-color: #ee6340; border: 0; border-radius: 8px; cursor: pointer">SIMULAR</button>
+
+      </div>
+
+      <div id="div_exibir" style="margin-top: 24px"></div>
+
+      <p style="margin: 28px 0 0 0; text-align: center; font-size: 12px; color: #8f8f96">
+        *Valores estimados pela Cog Solutions™
+      </p>
+
+    </div>
+
+    <script>
+
+      function calcular() {
+        let producao = Number(input_producao.value); // Recebe a produção de um lote em KG.
+        let preco = Number(input_preco.value); // Recebe o preço de venda de cada KG.
+        let lotes = Number(input_lotes.value); // Recebe a quantidade de lotes produzidos por ano.
+
+        if ( // Inicia a validação dos dados informados.
+          producao <= 0 || // Verifica se a produção é inválida.
+          preco <= 0 || // Verifica se o preço é inválido.
+          lotes <= 0 // Verifica se a quantidade de lotes é inválida.
+        ) { // Entra aqui caso algum valor esteja incorreto.
+
+          div_exibir.innerHTML = ` 
+            <p style="color: red;">
+              <b>Preencha todos os campos corretamente.</b>
+            </p>`
+
+        } else { // Entra aqui quando todos os dados são válidos.
+
+          let perdaLeve = 15; // Percentual de perda do cenário leve (% do lote).
+
+          let perdaModerada = 22.5; // Percentual de perda do cenário moderado (% do lote).
+
+          let perdaSevera = 30; // Percentual de perda do cenário severo (% do lote).
+
+          let faturamentoLote = producao * preco; // Calcula o faturamento potencial de um lote.
+
+          let faturamentoAno = faturamentoLote * lotes; // Calcula o faturamento potencial de um ano.
+
+          let producaoAno = producao * lotes; // Calcula a produção total de um ano.
+
+          let prejuizoLeveLote = faturamentoLote * (perdaLeve / 100); // Calcula o prejuízo de um lote no cenário leve.
+
+          let prejuizoLeveAno = prejuizoLeveLote * lotes; // Calcula o prejuízo de um ano no cenário leve.
+
+          let prejuizoModeradoLote = faturamentoLote * (perdaModerada / 100); // Calcula o prejuízo de um lote no cenário moderado.
+
+          let prejuizoModeradoAno = prejuizoModeradoLote * lotes; // Calcula o prejuízo de um ano no cenário moderado.
+
+          let prejuizoSeveroLote = faturamentoLote * (perdaSevera / 100); // Calcula o prejuízo de um lote no cenário severo.
+
+          let prejuizoSeveroAno = prejuizoSeveroLote * lotes; // Calcula o prejuízo de um ano no cenário severo.
+
+          div_exibir.innerHTML = `
+            <div style="padding: 28px; background-color: #121214; border: 1px solid #2a2a2d; border-radius: 16px">
+
+              <h2 style="margin: 0; font-family: 'Fredoka', Arial, sans-serif; font-size: 24px; font-weight: 600; color: white">
+                Resultado da Simulação Financeira
+              </h2>
+              <div style="width: 48px; height: 3px; margin: 12px 0 0 0; background-color: #ee6340; border-radius: 2px"></div>
+
+              <p style="margin: 24px 0 10px 0; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #ee6340">Seu faturamento</p>
+
+              <div style="margin-bottom: 12px; padding: 22px 24px; background-color: rgba(110, 231, 160, 0.07); border: 1px solid rgba(110, 231, 160, 0.35); border-radius: 12px">
+                <div style="font-size: 13px; color: #c4c4c9">Faturamento por ano</div>
+                <div style="margin-top: 6px; font-family: 'Fredoka', Arial, sans-serif; font-size: 40px; font-weight: 600; color: #6ee7a0">
+                  R$ ${faturamentoAno.toFixed(2)}
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px">
+                <div style="padding: 16px 18px; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 12px">
+                  <div style="font-size: 13px; color: #a9a9b0">Faturamento por lote</div>
+                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: white">R$ ${faturamentoLote.toFixed(2)}</div>
+                </div>
+                <div style="padding: 16px 18px; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 12px">
+                  <div style="font-size: 13px; color: #a9a9b0">Produção por ano</div>
+                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: white">${producaoAno.toFixed(2)} <span style="font-size: 14px; font-weight: 600; color: #a9a9b0">kg</span></div>
+                </div>
+              </div>
+
+              <p style="margin: 24px 0 10px 0; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #ee6340">Risco por falta de controle de umidade</p>
+
+              <div style="margin-bottom: 12px; padding: 22px 24px; background-color: rgba(255, 143, 107, 0.07); border: 1px solid rgba(255, 143, 107, 0.35); border-radius: 12px">
+                <div style="font-size: 13px; color: #c4c4c9">Você pode estar perdendo, por ano, entre</div>
+                <div style="margin-top: 6px; font-family: 'Fredoka', Arial, sans-serif; font-size: 34px; font-weight: 600; color: #ff8f6b">
+                  R$ ${prejuizoLeveAno.toFixed(2)} e R$ ${prejuizoSeveroAno.toFixed(2)}
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px">
+                <div style="padding: 16px 18px; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 12px">
+                  <div style="font-size: 13px; color: #a9a9b0">Cenário leve (${perdaLeve}% do lote)</div>
+                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: #ff8f6b">R$ ${prejuizoLeveAno.toFixed(2)} <span style="font-size: 14px; font-weight: 600; color: #a9a9b0">por ano</span></div>
+                  <div style="margin-top: 4px; font-size: 13px; color: #a9a9b0">R$ ${prejuizoLeveLote.toFixed(2)} por lote</div>
+                </div>
+                <div style="padding: 16px 18px; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 12px">
+                  <div style="font-size: 13px; color: #a9a9b0">Cenário moderado (${perdaModerada}% do lote)</div>
+                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: #ff8f6b">R$ ${prejuizoModeradoAno.toFixed(2)} <span style="font-size: 14px; font-weight: 600; color: #a9a9b0">por ano</span></div>
+                  <div style="margin-top: 4px; font-size: 13px; color: #a9a9b0">R$ ${prejuizoModeradoLote.toFixed(2)} por lote</div>
+                </div>
+                <div style="padding: 16px 18px; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 12px">
+                  <div style="font-size: 13px; color: #a9a9b0">Cenário severo (${perdaSevera}% do lote)</div>
+                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: #ff8f6b">R$ ${prejuizoSeveroAno.toFixed(2)} <span style="font-size: 14px; font-weight: 600; color: #a9a9b0">por ano</span></div>
+                  <div style="margin-top: 4px; font-size: 13px; color: #a9a9b0">R$ ${prejuizoSeveroLote.toFixed(2)} por lote</div>
+                </div>
+              </div>
+
+              <div style="margin-top: 24px; padding: 14px 16px; font-size: 13px; line-height: 1.5; color: #c4c4c9; background-color: rgba(238, 99, 64, 0.08); border: 1px solid rgba(238, 99, 64, 0.35); border-radius: 10px">
+                <b style="color: white">Importante:</b>
+                os percentuais de perda (${perdaLeve}%, ${perdaModerada}% e ${perdaSevera}%) são estimativas de referência para quando a umidade não é controlada a tempo.
+                Os valores mostram o que pode estar em risco, e não um resultado garantido.
+              </div>
+
+            </div>`
+        }
+
+      } 
+
+    </script>
+
+  </body>
+</html>
