@@ -7,26 +7,31 @@
     <link rel="stylesheet" href="../css/login.css">
 </head>
 <body>
+    <div class="lado-logo">
+        <img src="../assets/img/cog-solutions-logo.png" alt="" id="logo-login">
+    </div>
     <div id="div_formulario">
 
-        <div class="lado-logo">
-            <img src="../assets/img/cog-solutions-logo.png" alt="" id="logo-login">
-        </div>
 
         <div class="lado-form">
-            <h1>Seja bem vindo de volta!</h1>
+            <div class="form-header">
+                <h1>Seja bem vindo de volta!</h1>
+                <p>Preencha os dados abaixo para iniciar sua jornada.</p>
+            </div>
 
-            <div class="input-container">
+
+            <div class="input">
+                <label for="ipt_nome">E-MAIL</label>
                 <input type="email" id="ipt_email" placeholder="E-mail">
-                <label for="ipt_email"><img src="../assets/icon/email-icon.png" alt="" class="icon"></label>
             </div>
 
-            <div class="input-container">
+            <div class="input">
+                <label for="ipt_nome">SENHA</label>
                 <input type="password" id="ipt_senha" placeholder="Senha">
-                <label for="ipt_senha"><img src="../assets/icon/senha-icon.png" alt="" class="icon"></label>
             </div>
 
-            <p class="account-text">Não tenho uma conta. <a href="">Crie Aqui</a></p>
+            <p class="account-text">Não tenho uma conta. <a href="cadastro.html" target="_blank" class="sign-up-link">Crie Aqui</a></p>
+            <p class="other">————————————————  OU  ————————————————</p>
             <div class="btn-login-google">
                 <img src="../assets/img/google-logo.webp" alt="" class="google-logo">
                 Continuar com Google
