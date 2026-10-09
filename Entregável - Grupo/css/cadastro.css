@@ -82,7 +82,8 @@ input {
 }
 
 #btn-submit:hover {
-    background-color: #ca4f31;
+    transform: translateY(-5px);
+    background-color: #ff5f37;
     transition: 0.3s;
     cursor: pointer;
 }
