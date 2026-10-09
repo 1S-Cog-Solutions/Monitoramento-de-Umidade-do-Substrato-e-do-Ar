@@ -33,7 +33,6 @@ ALTER TABLE Usuario
 
 
 
-drop table Empresa;
 -- tabela 2: Empresa
 CREATE TABLE Empresa (
 
@@ -45,7 +44,7 @@ idEmpresa INT AUTO_INCREMENT PRIMARY KEY,
     cnpj char(14),
 	dtCadastro DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-select * from empresa;
+
 -- Insert into Empresa
 INSERT INTO Empresa (empresa_nome, email, cnpj) VALUES
 ('Cogumelos Cogumaster SP', 'contato@cogumaster.com.br', '12345678000195'),
@@ -55,18 +54,18 @@ INSERT INTO Empresa (empresa_nome, email, cnpj) VALUES
 select * from Empresa;
 
 -- Tabela 3: estufa
-CREATE TABLE camara (
-    idCamara INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE ambienteCultivo (
+    idambienteCultivo INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(50) NOT NULL, -- Ex: 'Câmara 01 - Incubação'
     faseCultivo VARCHAR(40) NOT NULL,
     CONSTRAINT chkFaseCultivo CHECK(faseCultivo IN ('Compostagem', 'Incubação', 'Frutificação', 'Pasteurização')),
+    Camaras INT ,
     capacidadeSacos INT DEFAULT 800  -- Capacidade padrão (800 a 1000 sacos)
 );
 drop table sensor;
 
 
-ALTER TABLE sensor DROP COLUMN grandeza;
-ALTER TABLE sensor DROP CONSTRAINT chkTipo ;
+
 -- Tabela 4: sensor
 CREATE TABLE sensor (
     idSensor INT AUTO_INCREMENT PRIMARY KEY,
@@ -79,14 +78,14 @@ CREATE TABLE sensor (
 );
 
 -- Tabela 5: leitura (Histórico do Sensoriamento)
-DROP TABLE IF EXISTS leitura;
+
 CREATE TABLE leitura (
-    fk_sensor   INT NOT NULL,
-    dtHora      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    umidadeAr   DECIMAL(4,1) NULL,   -- % (sensor DHT11)
-    umidadeSolo DECIMAL(4,1) NULL,   -- % (sensor capacitivo / substrato)
-    temperatura DECIMAL(4,1) NULL,   -- °C (sensor DHT11)
-    PRIMARY KEY (fk_sensor, dtHora),
+    id_sensor INT PRIMARY KEY auto_increment,
+    umidadeAr   DECIMAL(4,1) NULL,  
+    umidadeSolo DECIMAL(4,1) NULL,   
+    temperatura DECIMAL(4,1) NULL,   
+	fk_sensor   INT NOT NULL,
+     dtHora      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fkLeituraSensor FOREIGN KEY (fk_sensor) REFERENCES sensor(idSensor)
 );
 
@@ -107,7 +106,7 @@ INSERT INTO Usuario (nome, email, senha, fk_Empresa, fk_Responsavel) VALUES
 
 
 -- Inserindo Estufas / Câmaras de Cultivo
-INSERT INTO camara (nome, faseCultivo, capacidadeSacos) VALUES
+INSERT INTO ambienteCultivo  (nome, faseCultivo, capacidadeSacos) VALUES
 ('Câmara 01', 'Incubação', 1000),
 ('Câmara 02', 'Frutificação', 800),
 ('Estufa A - Mogi', 'Frutificação', 950);
@@ -130,14 +129,14 @@ INSERT INTO leitura (umidadeAr, umidadeSolo, temperatura, fk_sensor) VALUES
 (92.5, 69.1, 23.4,1),
 (null,88.0 , 45.5,2);-- Queda na UR do Ar (Alerta potencial)
 
-SELECT * FROM leitura;-- Queda na UR do Ar (Alerta potencial)
 
+-- testes ---------
 
 SELECT * FROM Empresa;
 SELECT * FROM ambienteCultivo;
 SELECT * FROM leitura;
 SELECT * FROM sensor;
-describe Empresa;
+
 
 select * from leitura where umidadeAr and umidadeSolo is not null; 
 
@@ -147,21 +146,22 @@ select * from ambienteCultivo where faseCultivo in ('Frutificação');
 insert into ambienteCultivo values
 (default,'camara 03','Compostagem',1200);
 
-describe Empresa;
-show tables;
+
 
 
 -- JOINS _____________________________________
 
+select * from  usuario;
+select * from  empresa;
 
 
--- 3.1 INNER JOIN: usuários que têm empresa
+-- 3.1 JOIN: usuários que têm empresa
 SELECT u.idUsuario, u.nome AS usuario, u.email, e.empresa_nome AS empresa
 FROM Usuario u
 JOIN Empresa e ON e.idEmpresa = u.fk_Empresa
 ORDER BY e.empresa_nome, u.nome;
  
--- 3.2 SELF JOIN: usuário e seu responsável
+-- 3.2 auto JOIN: usuário e seu responsável
 --     LEFT JOIN para os gestores (sem responsável) não sumirem do resultado
 SELECT u.idUsuario,
        u.nome                              AS usuario,
@@ -200,12 +200,8 @@ LEFT JOIN Empresa e ON e.idEmpresa      = r.fk_Empresa
 GROUP BY r.idUsuario, r.nome, e.empresa_nome
 ORDER BY qtdSubordinados DESC, r.nome;
  
--- 3.6 Quantidade de usuários por empresa (inclui empresas sem usuário)
-SELECT e.idEmpresa, e.empresa_nome, COUNT(u.idUsuario) AS qtdUsuarios
-FROM Empresa e
-LEFT JOIN Usuario u ON u.fk_Empresa = e.idEmpresa
 
-ORDER BY qtdUsuarios DESC;
+
  
 -- 3.7 Usuários sem empresa
 SELECT u.idUsuario, u.nome, u.email
