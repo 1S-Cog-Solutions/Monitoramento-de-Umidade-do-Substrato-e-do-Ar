@@ -91,10 +91,9 @@ input {
 .regras-senhas {
     display: flex;
     flex-direction: row;
-
-    padding: 10px;
+    font-size: 0.8em;
     border-radius: 10px;
-    gap: 10px;
+    gap: 20px;
     width: 100%;
 }
 
