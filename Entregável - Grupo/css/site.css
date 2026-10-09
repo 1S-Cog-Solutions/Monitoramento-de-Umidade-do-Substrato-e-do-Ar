@@ -1,0 +1,406 @@
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #111111;
+    color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* header */
+  header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #333333;
+  }
+
+  .header-logo {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  header h2 {
+    margin: 0;
+  }
+
+  nav {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  nav a {
+    color: #f0f0f0;
+    text-decoration: none;
+  }
+
+  .header-botao {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .botao {
+    display: inline-block;
+    background-color: #e8622c;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  #icon-header {
+    max-width: 50px;
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  /* hero */
+  .hero {
+    text-align: left;
+    padding: 60px 20px;
+
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)),
+      url("../assets/img/champignon-fundo.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+
+  .destaque {
+    color: #e8622c;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    max-width: 800px;
+    margin: 0 0 20px 0;
+  }
+
+  .hero p {
+    font-size: 16px;
+    max-width: 500px;
+    margin: 0 0 20px 0;
+    color: #bbbbbb;
+  }
+
+  .hero-botoes {
+    display: flex;
+    gap: 10px;
+  }
+
+  /* simulação no hero */
+  .simulacao {
+    display: none;
+    width: 220px;
+    height: 220px;
+    margin: 25px 0 0 0;
+    background-color: #1c1c1c;
+    border: 1px solid #333333;
+    border-radius: 6px;
+    padding: 10px;
+  }
+
+  .simulacao-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    background-color: #111111;
+    border-radius: 6px;
+    padding: 15px;
+  }
+
+  .info-titulo {
+    font-size: 13px;
+    color: #e8622c;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .info-valor {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+  .info-texto {
+    font-size: 13px;
+    color: #bbbbbb;
+    margin-bottom: 12px;
+  }
+
+  .info-alerta {
+    font-size: 12px;
+    color: #ff4d4d;
+  }
+
+  /* estrutura geral seções */
+  section {
+    padding: 60px 20px;
+  }
+
+  .conteudo {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  section h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+
+  section p {
+    color: #bbbbbb;
+    margin-bottom: 30px;
+  }
+
+  /* seção clara */
+  .secao-clara {
+    background-color: whitesmoke;
+    color: #1c1c1c;
+    padding: 100px 20px;
+  }
+
+  .secao-clara p {
+    color: #555555;
+  }
+
+  .grid-numeros {
+    display: flex;
+    gap: 20px;
+  }
+
+  .numero {
+    flex: 1;
+    background-color: #e8e8e8;
+    border-radius: 6px;
+    padding: 25px;
+  }
+
+  .numero .valor {
+    color: #e8622c;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+  /* destaque temperatura */
+  .grid-temperatura {
+    display: flex;
+    align-items: stretch;
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .faixa-temperatura {
+    flex: 1;
+    background-color: #1c1c1c;
+    color: white;
+    border-radius: 6px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .faixa-temperatura .fase {
+    font-size: 13px;
+    color: #e8622c;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .faixa-temperatura .graus {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+  .faixa-temperatura p {
+    color: #bbbbbb;
+    font-size: 13px;
+    margin-bottom: 0;
+  }
+
+  .faixa-ideal {
+    background-color: #e8622c;
+  }
+
+  .faixa-ideal .fase {
+    color: #1c1c1c;
+  }
+
+  .faixa-ideal p {
+    color: #3a2416;
+  }
+
+  /* seção escura */
+  .grid-caixas {
+    display: flex;
+    gap: 15px;
+  }
+
+  .caixa {
+    flex: 1;
+    background-color: #1c1c1c;
+    border: 1px solid #333333;
+    border-radius: 6px;
+    padding: 20px 30px;
+  }
+
+  .caixa h3 {
+    margin-top: 0;
+  }
+
+  /* seção com img */
+  .linha-mercado {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+  }
+
+  #foto-branca {
+    max-width: 400px;
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  .lista-destaques {
+    flex: 1;
+  }
+
+  .item-destaque {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  .bolinha {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #e8622c;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  .item-destaque h4 {
+    margin: 0 0 4px 0;
+  }
+
+  .item-destaque p {
+    margin: 0;
+    color: #bbbbbb;
+  }
+
+  /* contato */
+  .grid-contato {
+    display: flex;
+    gap: 30px;
+  }
+
+  .formulario {
+    flex: 1;
+    background-color: #1c1c1c;
+    border: 1px solid #333333;
+    border-radius: 6px;
+    padding: 25px;
+  }
+
+  .formulario label {
+    display: block;
+    font-size: 13px;
+    color: #bbbbbb;
+    margin-bottom: 5px;
+  }
+
+  .formulario input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #111111;
+    border: 1px solid #333333;
+    border-radius: 5px;
+    color: #f0f0f0;
+  }
+
+  /* footer */
+  footer {
+    text-align: center;
+    padding: 20px;
+    border-top: 1px solid #333333;
+    color: #888888;
+    font-size: 13px;
+  }
+
+  /* modal login */
+  .overlay-login {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+
+  .overlay-login.mostrar {
+    display: flex;
+  }
+
+  .caixa-login {
+    border-radius: 10px;
+    overflow: hidden;
+    max-width: 1100px;
+    width: 90%;
+    height: 65vh;
+    position: relative;
+  }
+
+  .caixa-login iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .fechar-login {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  /* responsivo */
+  @media (max-width: 700px) {
+    .grid-numeros,
+    .grid-temperatura,
+    .grid-caixas,
+    .linha-mercado,
+    .grid-contato {
+      flex-direction: column;
+    }
+  }
