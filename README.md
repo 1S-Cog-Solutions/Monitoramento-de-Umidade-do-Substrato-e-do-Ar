@@ -64,7 +64,6 @@ flowchart LR
 | 🗂️ Organização do projeto | [Trello](https://trello.com/b/cUBY6c0U/cog-solutions) |
 | 🔧 Montagem do Arduino | [Tinkercad](https://www.tinkercad.com/things/l5auWBOuWrV/editel?returnTo=%2Fdashboard&sharecode=yHCSTdkNJi3PoDbMhmVLzr81HFQQGqiRWNctGYehJwU) |
 | 🖼️ Prototipagem do site institucional | [Figma](https://www.figma.com/design/lOQJ3ouqiGeTjRjebh4Cyk/Untitled?node-id=0-1&t=8Z2B4NwLQM1jTaju-1) |
-| 📋 Backlog | [Backlog Excel](https://onedrive.live.com/:x:/g/personal/7757a5b70651f75e/IQDzR_ZRcXPyQZkI1lbeEpGzAR3g2UibIaCGJDVpe9I7P0M?rtime=O_WhfC0m30g&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3gvYy83NzU3YTViNzA2NTFmNzVlL0lRRHpSX1pSY1hQeVFaa0kxbGJlRXBHekFSM2cyVWliSWFDR0pEVnBlOUk3UDBNP2U9eEp4UXA2) |
 
 <br>
 
