@@ -4,11 +4,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard - Temperatura e Umidade</title>
-<link rel="stylesheet" href="../css/dashboard.css">
+    <title>Dashboard - Temperatura e Umidade</title>
+    <link rel="icon" href="../assets/img/favicon.png">
+    <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
+
+<aside class="sidebar">
+    <div class="brand">
+        <img src="../assets/icon/favicon.png" alt="" class="brand-icon">
+        <span class="brand-name">COG SOLUTIONS</span>
+    </div>
+
+    <nav class="menu">
+        <!-- Troque os href="#" pelas páginas de destino -->
+        <a href="dashboard.html" class="menu-item active">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <span>Histórico</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+            <span>Alertas</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+            <span>Configurações</span>
+        </a>
+    </nav>
+</aside>
+
 <main class="dashboard">
+
+    <section class="resumo">
+        <div class="secao-titulo">
+            <h2>Resumo semanal da unidade</h2>
+            <span>Comparativo com a semana passada</span>
+        </div>
+
+        <div class="kpis-semana">
+            <div class="kpi-card">
+                <span class="kpi-label">UMIDADE DO SOLO</span>
+                <div class="kpi-linha">
+                    <strong>90%</strong>
+                    <span class="kpi-variacao">▲ +3%</span>
+                </div>
+                <p>5% mais úmido que semana passada</p>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-label">UMIDADE DO AR</span>
+                <div class="kpi-linha">
+                    <strong>90%</strong>
+                    <span class="kpi-variacao">▲ +1.2%</span>
+                </div>
+                <p>2% mais úmido que semana passada</p>
+            </div>
+
+            <div class="kpi-card">
+                <span class="kpi-label">TEMPERATURA</span>
+                <div class="kpi-linha">
+                    <strong>24°C</strong>
+                    <span class="kpi-variacao">▲ +0.8°C</span>
+                </div>
+                <p>10% mais quente que semana passada</p>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="leituras">
+        <div class="secao-titulo">
+            <div class="titulo-camara">
+                <h2>Câmara 02</h2>
+                <span>Fase atual: frutificação</span>
+            </div>
+            <span class="rotulo-secao">LEITURAS ATUAIS</span>
+        </div>
+
+        <div class="leituras-grid">
+            <div class="leitura-card">
+                <span class="kpi-label">Temperatura</span>
+                <strong>18°C</strong>
+                <div class="barra"><div class="barra-preenchida temperatura" style="width: 35%"></div></div>
+                <span class="faixa ok">dentro da faixa (16–22°C)</span>
+            </div>
+
+            <div class="leitura-card">
+                <span class="kpi-label">Umidade do ar</span>
+                <strong>85%</strong>
+                <div class="barra"><div class="barra-preenchida ar" style="width: 75%"></div></div>
+                <span class="faixa ok">dentro da faixa (80–90%)</span>
+            </div>
+
+            <div class="leitura-card alerta">
+                <span class="kpi-label">Umidade do substrato</span>
+                <strong>57%</strong>
+                <div class="barra"><div class="barra-preenchida substrato" style="width: 45%"></div></div>
+                <span class="faixa fora">fora da faixa</span>
+            </div>
+        </div>
+    </section>
 
 
     <section class="cards">
@@ -34,7 +136,7 @@
             <img src="../assets/icon/umidade-solo.png" alt="" class="card-icon">
 
             <div>
-                <span>Umidade do Ar máxima</span>
+                <span>Umidade do Solo máxima</span>
                 <strong>81%</strong>
             </div>
         </div>
@@ -92,7 +194,6 @@
         </div>
 
     </section>
-
 
 </main>
 
