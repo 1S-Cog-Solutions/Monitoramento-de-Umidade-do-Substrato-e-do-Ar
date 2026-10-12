@@ -16,6 +16,10 @@ body {
     background: #242424;
 }
 
+img {
+    width: 90%;
+}
+
 #div_formulario {
     border-radius: 15px 0px 0px 15px;
     background-color: #272727;
