@@ -74,8 +74,5 @@ function verificarSenhas() {
         <p style="color: #e01111">As senhas precisam ser iguais!</p>`
     }
 
-    // if (confirmarSenha = '') {
-    //     divRegrasSenhas.innerHTML = ``;
-    // }
     
 }
