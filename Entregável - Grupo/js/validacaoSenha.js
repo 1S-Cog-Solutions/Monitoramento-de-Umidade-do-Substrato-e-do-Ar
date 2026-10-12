@@ -69,7 +69,7 @@ function verificarSenhas() {
         <p style="color: #22b122">As senhas são iguais!</p>`
     } 
     
-    if (senha !== confirmarSenha) {
+    if (senha !== confirmarSenha || senha == '' || confirmarSenha == '') {
         divRegrasSenhas.innerHTML = `
         <p style="color: #e01111">As senhas precisam ser iguais!</p>`
     }
