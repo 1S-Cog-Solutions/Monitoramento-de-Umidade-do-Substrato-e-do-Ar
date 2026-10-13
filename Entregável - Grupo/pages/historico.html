@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico - Temperatura e Umidade</title>
+    <link rel="icon" href="../assets/img/favicon.png">
+    <link rel="stylesheet" href="../css/historico.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+<body>
+
+<aside class="sidebar">
+    <div class="brand">
+        <img src="../assets/icon/favicon.png" alt="" class="brand-icon">
+        <span class="brand-name">COG SOLUTIONS</span>
+    </div>
+
+    <nav class="menu">
+        <!-- Troque os href="#" pelas páginas de destino -->
+        <a href="dashboard.html" class="menu-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="historico.html" class="menu-item active">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <span>Histórico</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+            <span>Alertas</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+            <span>Configurações</span>
+        </a>
+    </nav>
+</aside>
+
+<main class="dashboard">
+    <section class="charts">
+
+        <div class="chart-card">
+            <div class="chart-header">
+                <div>
+                    <span class="chart-label">SENSOR DHT11</span>
+                    <h2>Temperatura e Umidade</h2>
+                    <p>Acompanhe as mudanças de umidade e temperatura do ar registradas.</p>
+
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
+
+
+        <div class="chart-card">
+            <div class="chart-header">
+                <div>
+                    <span class="chart-label">SENSOR SOLO CAPACITIVO</span>
+                    <h2>Umidade do solo</h2>
+                    <p>Acompanhe as mudanças de umidade do solo registradas.</p>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+
+    </section> <br> <br>
+
+  <section class="card" aria-labelledby="titulo">
+  <header class="card-header">
+    <div>
+      <h1 id="titulo">Registros de leitura</h1>
+      <p class="subtitulo">Câmara 02 · 12 e 13 de outubro de 2026 · 864 registros no período</p>
+    </div>
+    <button class="ordenar" type="button">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M2 1h2v8.2l1.3-1.3L6.7 9.3 3 13 -.7 9.3l1.4-1.4L2 9.2z" transform="translate(1 -1)"/><path d="M7 2h4v1.4H7zm0 3h3v1.4H7zm0 3h2v1.4H7z"/></svg>
+      <span>Mais recentes primeiro</span>
+    </button>
+  </header>
+
+  <div class="tabela-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Data e hora</th>
+          <th>Câmara</th>
+          <th>Fase</th>
+          <th>Tipo de leitura</th>
+          <th>Valor</th>
+          <th>Faixa ideal</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="mono data">13/10/2026<span class="hora">12:00:00</span></td>
+          <td class="suave">Câmara 02</td>
+          <td class="suave">Frutificação</td>
+          <td>Temperatura</td>
+          <td class="mono">17,4°C</td>
+          <td class="mono suave">16-22°C</td>
+          <td><span class="badge">Dentro da faixa</span></td>
+        </tr>
+        <tr>
+          <td class="mono data">13/10/2026<span class="hora">12:00:00</span></td>
+          <td class="suave">Câmara 02</td>
+          <td class="suave">Frutificação</td>
+          <td>Umidade do Ar</td>
+          <td class="mono">87,3%</td>
+          <td class="mono suave">80-90%</td>
+          <td><span class="badge">Dentro da faixa</span></td>
+        </tr>
+        <tr>
+          <td class="mono data">13/10/2026<span class="hora">12:00:00</span></td>
+          <td class="suave">Câmara 02</td>
+          <td class="suave">Frutificação</td>
+          <td>Umidade do Substrato</td>
+          <td class="mono fora">59,9%</td>
+          <td class="mono suave">60-80%</td>
+          <td><span class="badge fora">Fora da faixa</span></td>
+        </tr>
+        <tr>
+          <td class="mono data">13/10/2026<span class="hora">11:55:00</span></td>
+          <td class="suave">Câmara 02</td>
+          <td class="suave">Frutificação</td>
+          <td>Temperatura</td>
+          <td class="mono">17,7°C</td>
+          <td class="mono suave">16-22°C</td>
+          <td><span class="badge">Dentro da faixa</span></td>
+        </tr>
+        <tr>
+          <td class="mono data">13/10/2026<span class="hora">11:55:00</span></td>
+          <td class="suave">Câmara 02</td>
+          <td class="suave">Frutificação</td>
+          <td>Umidade do Ar</td>
+          <td class="mono">86,7%</td>
+          <td class="mono suave">80-90%</td>
+          <td><span class="badge">Dentro da faixa</span></td>
+        </tr>
+        <tr>
+          <td class="mono data">13/10/2026<span class="hora">11:55:00</span></td>
+          <td class="suave">Câmara 02</td>
+          <td class="suave">Frutificação</td>
+          <td>Umidade do Substrato</td>
+          <td class="mono">62,3%</td>
+          <td class="mono suave">60-80%</td>
+          <td><span class="badge">Dentro da faixa</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="../js/historico.js"></script>
+<script src="../js/dashboard.js"></script>
+
+</body>
+</html>
