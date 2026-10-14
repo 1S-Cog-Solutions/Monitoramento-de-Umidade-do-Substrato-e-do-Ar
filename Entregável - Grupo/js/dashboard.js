@@ -6,10 +6,10 @@ Chart.defaults.color = '#fff';
   new Chart(graficoDeBarras, {
     type: 'line',
     data: {
-      labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'],
+      labels: ['11:35', '11:40', '11:45', '11:50', '11:55', '12:00'],
       datasets: [{
         label: 'Umidade do Solo',
-        data: [22, 24, 27, 23, 20, 18],
+        data: [57.5, 60.7, 63.4, 64.6, 62.3, 59.9],
         borderWidth: 1,
         backgroundColor: '#22dbdb',
         borderColor: '#22dbdb',
@@ -19,7 +19,8 @@ Chart.defaults.color = '#fff';
     options: {
       scales: {
         y: {
-          beginAtZero: true
+          beginAtZero: true,
+          max: 100
         }
       }
     }
@@ -28,17 +29,17 @@ Chart.defaults.color = '#fff';
   new Chart(graficoDeLinhas, {
     type: 'line',
     data: {
-      labels: ['12:00:01', '12:00:03', '12:00:05', '12:00:07', '12:00:09', '12:00:11'],
+      labels: ['11:35', '11:40', '11:45', '11:50', '11:55', '12:00'],
       datasets: [{
         label: 'Temperatura',
-        data: [30, 29, 28, 25, 22, 23],
+        data: [18.2, 18.4, 18.1, 17.8, 17.7, 17.4],
         borderWidth: 1,
         backgroundColor: '#ec7d33',
         borderColor: '#ec7d33',
       },
       {
         label: 'Umidade do Ar',
-        data: [80, 82, 80, 85, 80, 83],
+        data: [86.6, 85.2, 86.6, 86.8, 86.7, 87.3],
         borderWidth: 1,
         backgroundColor: '#357cce',
         borderColor: '#357cce',

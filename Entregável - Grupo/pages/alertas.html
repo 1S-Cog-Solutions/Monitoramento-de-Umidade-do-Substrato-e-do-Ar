@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alertas - Cog Solutions</title>
+    <link rel="icon" href="../assets/icon/favicon.png">
+    <!-- dashboard.css traz o menu lateral e os estilos compartilhados; alertas.css traz só o que é desta página -->
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/alertas.css">
+</head>
+<body>
+
+<aside class="sidebar">
+    <a href="site-cogsolutions.html" class="brand" title="Voltar ao site inicial">
+        <img src="../assets/icon/favicon.png" alt="Cog Solutions" class="brand-icon">
+        <span class="brand-name">COG SOLUTIONS</span>
+    </a>
+
+    <nav class="menu">
+        <a href="dashboard.html" class="menu-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="historico.html" class="menu-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <span>Histórico</span>
+        </a>
+
+        <a href="alertas.html" class="menu-item active">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+            <span>Alertas</span>
+        </a>
+
+        <a href="#" class="menu-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+            <span>Configurações</span>
+        </a>
+    </nav>
+</aside>
+
+<main class="dashboard">
+
+    <!-- TOPO DA PÁGINA -->
+    <header class="alertas-topo">
+        <div>
+            <h1>Alertas</h1>
+            <p>Leituras fora da faixa e falhas de sensores registradas nas câmaras.</p>
+        </div>
+        <button class="btn-secundario" onclick="resolverTodos()">Marcar todos como resolvidos</button>
+    </header>
+
+
+    <!-- RESUMO DOS ALERTAS -->
+    <section class="kpis-alertas">
+        <div class="kpi-card vermelho">
+            <span class="kpi-label">ALERTAS ATIVOS</span>
+            <strong id="kpi_ativos">3</strong>
+            <p>precisam de atenção agora</p>
+        </div>
+
+        <div class="kpi-card">
+            <span class="kpi-label">CRÍTICOS</span>
+            <strong id="kpi_criticos">1</strong>
+            <p>fora da faixa ou sem controle</p>
+        </div>
+
+        <div class="kpi-card">
+            <span class="kpi-label">ATENÇÃO</span>
+            <strong id="kpi_atencao">2</strong>
+            <p>próximos do limite ou instáveis</p>
+        </div>
+
+        <div class="kpi-card">
+            <span class="kpi-label">RESOLVIDOS HOJE</span>
+            <strong id="kpi_resolvidos">1</strong>
+            <p>voltaram ao normal</p>
+        </div>
+    </section>
+
+
+    <!-- FILTROS -->
+    <section class="barra-filtros">
+        <div class="abas">
+            <button class="aba ativa" onclick="trocarAba(this, 'todos')">Todos <span class="contagem" id="cont_todos">5</span></button>
+            <button class="aba" onclick="trocarAba(this, 'ativo')">Ativos <span class="contagem" id="cont_ativos">3</span></button>
+            <button class="aba" onclick="trocarAba(this, 'resolvido')">Resolvidos <span class="contagem" id="cont_resolvidos">2</span></button>
+        </div>
+
+        <div class="filtros-selects">
+            <select id="sel_camara" onchange="aplicarFiltros()" aria-label="Filtrar por câmara">
+                <option value="todas">Todas as câmaras</option>
+                <option value="1">Câmara 01</option>
+                <option value="2">Câmara 02</option>
+                <option value="3">Câmara 03</option>
+            </select>
+
+            <select id="sel_severidade" onchange="aplicarFiltros()" aria-label="Filtrar por severidade">
+                <option value="todas">Todas as severidades</option>
+                <option value="critico">Crítico</option>
+                <option value="atencao">Atenção</option>
+            </select>
+        </div>
+    </section>
+
+
+    <!-- LISTA + PAINÉIS LATERAIS -->
+    <section class="alertas-layout">
+
+        <div class="lista-alertas">
+
+            <article class="alerta critico" data-status="ativo" data-severidade="critico" data-camara="2" data-dia="hoje">
+                <div class="alerta-corpo">
+                    <div class="alerta-linha1">
+                        <span class="selo">Crítico</span>
+                        <h3>Umidade do substrato fora da faixa</h3>
+                    </div>
+                    <p class="alerta-detalhe">Câmara 02 · Sensor solo capacitivo</p>
+                    <div class="alerta-medida">
+                        <span>Medido <strong class="valor-medido">59,9%</strong></span>
+                        <span>Faixa esperada <strong>60–80%</strong></span>
+                    </div>
+                </div>
+                <div class="alerta-lado">
+                    <span class="alerta-hora">Hoje, 12:00</span>
+                    <span class="status ativo">Ativo</span>
+                    <button class="btn-resolver" onclick="resolver(this)">Marcar como resolvido</button>
+                </div>
+            </article>
+
+            <article class="alerta atencao" data-status="ativo" data-severidade="atencao" data-camara="3" data-dia="hoje">
+                <div class="alerta-corpo">
+                    <div class="alerta-linha1">
+                        <span class="selo">Atenção</span>
+                        <h3>Sensor desconectado temporariamente</h3>
+                    </div>
+                    <p class="alerta-detalhe">Câmara 03 · Sensor DHT11</p>
+                    <div class="alerta-medida">
+                        <span>Última leitura <strong>há 12 min</strong></span>
+                        <span>Intervalo esperado <strong>1 min</strong></span>
+                    </div>
+                </div>
+                <div class="alerta-lado">
+                    <span class="alerta-hora">Hoje, 09:15</span>
+                    <span class="status ativo">Ativo</span>
+                    <button class="btn-resolver" onclick="resolver(this)">Marcar como resolvido</button>
+                </div>
+            </article>
+
+            <article class="alerta atencao" data-status="ativo" data-severidade="atencao" data-camara="1" data-dia="hoje">
+                <div class="alerta-corpo">
+                    <div class="alerta-linha1">
+                        <span class="selo">Atenção</span>
+                        <h3>Temperatura próxima do limite</h3>
+                    </div>
+                    <p class="alerta-detalhe">Câmara 01 · Sensor DHT11</p>
+                    <div class="alerta-medida">
+                        <span>Medido <strong class="valor-medido">21,6°C</strong></span>
+                        <span>Faixa esperada <strong>16–22°C</strong></span>
+                    </div>
+                </div>
+                <div class="alerta-lado">
+                    <span class="alerta-hora">Hoje, 08:40</span>
+                    <span class="status ativo">Ativo</span>
+                    <button class="btn-resolver" onclick="resolver(this)">Marcar como resolvido</button>
+                </div>
+            </article>
+
+            <article class="alerta atencao resolvido" data-status="resolvido" data-severidade="atencao" data-camara="3" data-dia="hoje">
+                <div class="alerta-corpo">
+                    <div class="alerta-linha1">
+                        <span class="selo">Atenção</span>
+                        <h3>Umidade do ar abaixo da faixa</h3>
+                    </div>
+                    <p class="alerta-detalhe">Câmara 03 · Sensor DHT11</p>
+                    <div class="alerta-medida">
+                        <span>Pico <strong>76%</strong></span>
+                        <span>Faixa esperada <strong>80–90%</strong></span>
+                    </div>
+                </div>
+                <div class="alerta-lado">
+                    <span class="alerta-hora">Hoje, 08:00</span>
+                    <span class="status resolvido">Resolvido</span>
+                    <button class="btn-resolver" onclick="resolver(this)">Marcar como resolvido</button>
+                </div>
+            </article>
+
+            <article class="alerta critico resolvido" data-status="resolvido" data-severidade="critico" data-camara="1" data-dia="ontem">
+                <div class="alerta-corpo">
+                    <div class="alerta-linha1">
+                        <span class="selo">Crítico</span>
+                        <h3>Temperatura acima da faixa</h3>
+                    </div>
+                    <p class="alerta-detalhe">Câmara 01 · Sensor DHT11</p>
+                    <div class="alerta-medida">
+                        <span>Pico <strong>23,4°C</strong></span>
+                        <span>Faixa esperada <strong>16–22°C</strong></span>
+                    </div>
+                </div>
+                <div class="alerta-lado">
+                    <span class="alerta-hora">Ontem, 22:10</span>
+                    <span class="status resolvido">Resolvido</span>
+                    <button class="btn-resolver" onclick="resolver(this)">Marcar como resolvido</button>
+                </div>
+            </article>
+
+            <p class="sem-alertas" id="sem_alertas" hidden>Nenhum alerta encontrado com esses filtros.</p>
+        </div>
+
+
+        <div class="coluna-lateral">
+
+            <div class="painel">
+                <h2>Alertas por origem</h2>
+                <div class="origem-lista">
+                    <div class="origem-item">
+                        <div class="origem-linha"><span>Temperatura</span><strong>2</strong></div>
+                        <div class="barra"><div class="barra-preenchida temperatura" style="width: 100%"></div></div>
+                    </div>
+                    <div class="origem-item">
+                        <div class="origem-linha"><span>Umidade do ar</span><strong>1</strong></div>
+                        <div class="barra"><div class="barra-preenchida ar" style="width: 50%"></div></div>
+                    </div>
+                    <div class="origem-item">
+                        <div class="origem-linha"><span>Umidade do substrato</span><strong>1</strong></div>
+                        <div class="barra"><div class="barra-preenchida substrato" style="width: 50%"></div></div>
+                    </div>
+                    <div class="origem-item">
+                        <div class="origem-linha"><span>Conexão do sensor</span><strong>1</strong></div>
+                        <div class="barra"><div class="barra-preenchida conexao" style="width: 50%"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="painel">
+                <h2>Limites de alerta</h2>
+                <ul class="limites-lista">
+                    <li><span>Temperatura</span><strong>16–22°C</strong></li>
+                    <li><span>Umidade do ar</span><strong>80–90%</strong></li>
+                    <li><span>Umidade do substrato</span><strong>60–80%</strong></li>
+                    <li><span>Sensor sem leitura</span><strong>&gt; 5 min</strong></li>
+                </ul>
+                <a href="#" class="link-suave">Editar limites em Configurações</a>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script src="../js/alertas.js"></script>
+
+</body>
+</html>
