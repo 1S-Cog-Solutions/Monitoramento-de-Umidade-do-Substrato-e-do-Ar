@@ -62,9 +62,10 @@ CREATE TABLE ambienteCultivo (
     Camaras INT ,
     capacidadeSacos INT DEFAULT 800  -- Capacidade padrão (800 a 1000 sacos)
 );
-drop table sensor;
 
 
+
+-- (outra tabela para o vidro que abrange o substrato)
 
 -- Tabela 4: sensor
 CREATE TABLE sensor (
@@ -151,8 +152,10 @@ insert into ambienteCultivo values
 
 -- JOINS _____________________________________
 
-select * from  usuario;
-select * from  empresa;
+SHOW TABLES;
+ 
+
+
 
 
 -- 3.1 JOIN: usuários que têm empresa
@@ -202,7 +205,7 @@ ORDER BY qtdSubordinados DESC, r.nome;
  
 
 
- 
+
 -- 3.7 Usuários sem empresa
 SELECT u.idUsuario, u.nome, u.email
 FROM Usuario u
@@ -211,3 +214,10 @@ WHERE e.idEmpresa IS NULL;
  
  
 
+SELECT * FROM Leitura As dados
+ JOIN Leiutra  ON e.idEmpresa = u.fk_Empresa;
+ 
+ 
+JOIN Empresa e ON e.idEmpresa = u.fk_Empresa
+ORDER BY e.empresa_nome, u.nome;
+ 
