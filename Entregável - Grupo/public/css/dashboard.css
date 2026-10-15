@@ -7,6 +7,11 @@
     --texto-suave: #9b9ba6;
     --laranja: #f26b3a;
     --laranja-fundo: rgba(242, 107, 58, 0.14);
+    --verde: #5ec97b;
+    --vermelho: #ef6a6a;
+    --amarelo: #e8b83a;
+    --azul: #4aa8e0;
+    --mono: "Courier New", Consolas, monospace;
 }
 
 * {
@@ -15,12 +20,21 @@
     box-sizing: border-box;
 }
 
+[hidden] {
+    display: none !important;
+}
+
 body {
     display: flex;
     min-height: 100vh;
     font-family: Arial, Helvetica, sans-serif;
     background-color: var(--bg);
     color: var(--texto);
+}
+
+:focus-visible {
+    outline: 2px solid var(--laranja);
+    outline-offset: 2px;
 }
 
 
@@ -104,11 +118,6 @@ body {
     color: var(--laranja);
 }
 
-.menu-item:focus-visible {
-    outline: 2px solid var(--laranja);
-    outline-offset: 2px;
-}
-
 
 /* ---------- CONTEÚDO ---------- */
 
@@ -119,6 +128,47 @@ body {
     flex-direction: column;
     padding: 32px 36px;
 }
+
+/* fundo e borda padrão de todos os cards */
+.info-card,
+.chart-card,
+.kpi-card,
+.leitura-card {
+    padding: 20px;
+    background: var(--card);
+    border: 1px solid var(--card-borda);
+    border-radius: 12px;
+}
+
+/* números em fonte monoespaçada */
+.info-card div strong,
+.kpi-card strong,
+.leitura-card strong,
+.kpi-variacao {
+    font-family: var(--mono);
+    font-weight: 700;
+}
+
+/* bolinha colorida antes do texto (.faixa no dashboard, .status nos alertas) */
+.faixa,
+.status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--texto-suave);
+}
+
+.faixa::before,
+.status::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.faixa.ok::before   { background: var(--verde); }
+.faixa.fora::before { background: var(--vermelho); }
 
 
 /* ---------- CARDS DE RESUMO ---------- */
@@ -134,10 +184,6 @@ body {
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 20px;
-    background: var(--card);
-    border: 1px solid var(--card-borda);
-    border-radius: 12px;
 }
 
 .info-card div {
@@ -152,9 +198,7 @@ body {
 }
 
 .info-card div strong {
-    font-family: "Courier New", Consolas, monospace;
     font-size: 1.7em;
-    font-weight: 700;
 }
 
 .card-icon {
@@ -175,9 +219,6 @@ body {
 
 .chart-card {
     padding: 24px;
-    background: var(--card);
-    border: 1px solid var(--card-borda);
-    border-radius: 12px;
 }
 
 .chart-header {
@@ -208,11 +249,6 @@ body {
     position: relative;
     width: 100%;
     height: 350px;
-}
-
-#lineChart,
-#barChart {
-    background-color: transparent;
 }
 
 
@@ -271,10 +307,6 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding: 20px;
-    background: var(--card);
-    border: 1px solid var(--card-borda);
-    border-radius: 12px;
 }
 
 .kpi-label {
@@ -291,15 +323,13 @@ body {
 
 .kpi-card strong,
 .leitura-card strong {
-    font-family: "Courier New", Consolas, monospace;
     font-size: 2em;
-    font-weight: 700;
 }
 
 .kpi-variacao {
-    font-family: "Courier New", Consolas, monospace;
     font-size: 12px;
-    color: #5ec97b;
+    font-weight: 400;
+    color: var(--verde);
 }
 
 .kpi-card p {
@@ -319,42 +349,20 @@ body {
     border-radius: 2px;
 }
 
-.barra-preenchida.temperatura { background: #e8b83a; }
-.barra-preenchida.ar          { background: #4aa8e0; }
-.barra-preenchida.substrato   { background: #ef6a6a; }
+.barra-preenchida.temperatura { background: var(--amarelo); }
+.barra-preenchida.ar          { background: var(--azul); }
+.barra-preenchida.substrato   { background: var(--vermelho); }
 
-.faixa {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    color: var(--texto-suave);
-}
-
-.faixa::before {
-    content: "";
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-}
-
-.faixa.ok::before   { background: #5ec97b; }
-.faixa.fora::before { background: #ef6a6a; }
-
-.leitura-card.alerta {
+/* card em destaque vermelho (leitura fora da faixa / KPI crítico dos alertas) */
+.leitura-card.alerta,
+.kpi-card.vermelho {
     background: rgba(239, 106, 106, 0.08);
     border-color: rgba(239, 106, 106, 0.35);
 }
 
-.leitura-card.alerta strong {
-    color: #ef6a6a;
-}
-
-@media (max-width: 1000px) {
-    .kpis-semana,
-    .leituras-grid {
-        grid-template-columns: 1fr;
-    }
+.leitura-card.alerta strong,
+.kpi-card.vermelho strong {
+    color: var(--vermelho);
 }
 
 
@@ -367,7 +375,9 @@ body {
 }
 
 @media (max-width: 1000px) {
-    .charts {
+    .charts,
+    .kpis-semana,
+    .leituras-grid {
         grid-template-columns: 1fr;
     }
 }

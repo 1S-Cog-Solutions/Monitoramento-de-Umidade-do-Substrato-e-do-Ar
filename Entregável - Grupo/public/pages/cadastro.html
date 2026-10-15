@@ -7,47 +7,78 @@
     <link rel="stylesheet" href="../css/cadastro.css">
 </head>
 <body>
-    <div id="div_formulario">
-        <h1>Criar sua conta</h1>
-        <p>Preencha os dados abaixo para iniciar sua jornada.</p>
-        
-        <div class="input">
-            <label for="ipt_nome">NOME COMPLETO</label>
-            <input type="text" name="" id="ipt_nome">
-        </div>
-        
-        <div class="input">
-            <label for="ipt_email">E-MAIL</label>
-            <input type="email" name="" id="ipt_email">
-        </div>
-        
-        <div class="container">
+    <main class="card">
+        <div id="div_formulario">
+            <div class="form-header">
+                <h1>Criar sua conta</h1>
+                <p>Preencha os dados abaixo para iniciar sua jornada.</p>
+            </div>
+
             <div class="input">
-                <label for="ipt_senha">SENHA</label>
-                <input type="password" name="" id="ipt_senha" oninput="validarSenha(), verificarSenhas()">
+                <label for="ipt_nome">NOME COMPLETO</label>
+                <input type="text" id="ipt_nome" placeholder="Seu nome completo">
             </div>
-            
+
             <div class="input">
-                <label for="ipt_confirmar_senha">CONFIRMAR SENHA</label>
-                <input type="password" name="" id="ipt_confirmar_senha" oninput="verificarSenhas()">
+                <label for="ipt_email">E-MAIL</label>
+                <input type="email" id="ipt_email" placeholder="seuemail@exemplo.com">
+            </div>
+
+            <div class="container">
+                <div class="input">
+                    <label for="ipt_senha">SENHA</label>
+                    <input type="password" id="ipt_senha" placeholder="Senha" oninput="validarSenha(), verificarSenhas()">
+                </div>
+
+                <div class="input">
+                    <label for="ipt_confirmar_senha">CONFIRMAR SENHA</label>
+                    <input type="password" id="ipt_confirmar_senha" placeholder="Repita a senha" oninput="verificarSenhas()">
+                </div>
+            </div>
+
+            <div class="regras-senhas" id="regras-senhas">
+                <div class="regras" id="regras"></div>
+                <div class="validar" id="validar"></div>
+            </div>
+
+            <div class="input">
+                <label for="ipt_chave">CHAVE DA EMPRESA</label>
+                <input type="text" id="ipt_chave" placeholder="Chave fornecida pela sua empresa">
+            </div>
+
+            <button type="button" id="btn-sem-empresa" class="btn-secundario" onclick="alternarSemEmpresa()">
+                Não participo de nenhuma empresa
+            </button>
+
+            <button id="btn-submit">Criar Conta</button>
+
+            <div class="links">
+                <p class="account-text">Já tem uma conta? <a href="login.html" class="link">Entrar</a></p>
+                <p class="account-text">É uma empresa? <a href="cadastroEmpresa.html" class="link">Cadastre sua empresa aqui</a></p>
             </div>
         </div>
 
-        <div class="regras-senhas" id="regras-senhas">
-            <div class="regras" id="regras">
-            </div>
-
-            <div class="validar" id="validar">
-            </div>
+        <div class="lado-logo">
+            <img src="../assets/img/cog-solutions-logo.png" alt="Logo CogSolutions" id="logo-login">
         </div>
-
-        
-        <button id="btn-submit">Criar Conta</button>
-    </div>
-    <div class="lado-logo">
-            <img src="../assets/img/cog-solutions-logo.png" alt="" id="logo-login">
-    </div>
+    </main>
 
     <script src="../js/validacaoSenha.js"></script>
+    <script>
+        function alternarSemEmpresa() {
+            var botao = document.getElementById('btn-sem-empresa');
+            var semEmpresa = botao.classList.toggle('ativo');
+
+            ipt_chave.disabled = semEmpresa;
+            if (semEmpresa) {
+                ipt_chave.value = '';
+                ipt_chave.placeholder = 'Sem empresa vinculada';
+                botao.innerText = '✓ Não participo de nenhuma empresa';
+            } else {
+                ipt_chave.placeholder = 'Chave fornecida pela sua empresa';
+                botao.innerText = 'Não participo de nenhuma empresa';
+            }
+        }
+    </script>
 </body>
 </html>

@@ -7,42 +7,60 @@
     <link rel="stylesheet" href="../css/cadastro.css">
 </head>
 <body>
-    <div id="div_formulario">
-        <h1>Cadastre sua Empresa</h1>
-        <p>Preencha os dados abaixo para iniciar sua jornada.</p>
-        
+    <main class="card">
+        <div id="div_formulario">
+            <div class="form-header">
+                <h1>Cadastre sua Empresa</h1>
+                <p>Preencha os dados abaixo para iniciar sua jornada.</p>
+            </div>
 
-        <div class="container">
+            <div class="container">
+                <div class="input">
+                    <label for="ipt_empresa">NOME DA EMPRESA</label>
+                    <input type="text" id="ipt_empresa" placeholder="Razão social">
+                </div>
+
+                <div class="input">
+                    <label for="ipt_cnpj">CNPJ</label>
+                    <input type="text" id="ipt_cnpj" placeholder="00.000.000/0000-00">
+                </div>
+            </div>
+
             <div class="input">
-                <label for="ipt_empresa">NOME DA EMPRESA</label>
-                <input type="text" name="" id="ipt_empresa">
+                <label for="ipt_email">E-MAIL</label>
+                <input type="email" id="ipt_email" placeholder="contato@empresa.com">
             </div>
-            
-            <div class="input">
-                <label for="ipt_cnpj">CNPJ</label>
-                <input type="text" name="" id="ipt_cnpj">
+
+            <div class="container">
+                <div class="input">
+                    <label for="ipt_senha">SENHA</label>
+                    <input type="password" id="ipt_senha" placeholder="Senha" oninput="validarSenhaEmpresa(), verificarSenhasEmpresas()">
+                </div>
+
+                <div class="input">
+                    <label for="ipt_confirmar_senha">CONFIRMAR SENHA</label>
+                    <input type="password" id="ipt_confirmar_senha" placeholder="Repita a senha" oninput="verificarSenhasEmpresas()">
+                </div>
+            </div>
+
+            <div class="regras-senhas" id="regras-senhas">
+                <div class="regras" id="regras"></div>
+                <div class="validar" id="validar"></div>
+            </div>
+
+            <button id="btn-submit">Cadastrar Empresa</button>
+
+            <div class="links">
+                <p class="account-text">Não é uma empresa? <a href="cadastro.html" class="link">Cadastro de usuário</a></p>
+                <p class="account-text">Já tem uma conta? <a href="login.html" class="link">Entrar</a></p>
             </div>
         </div>
 
-        <div class="input">
-            <label for="ipt_email">E-MAIL</label>
-            <input type="email" name="" id="ipt_email">
+        <div class="lado-logo">
+            <img src="../assets/img/cog-solutions-logo.png" alt="Logo CogSolutions" id="logo-login">
         </div>
+    </main>
 
-
-        <div class="regras-senhas" id="regras-senhas">
-            <div class="regras" id="regras">
-            </div>
-
-            <div class="validar" id="validar">
-            </div>
-        </div>
-
-        <button id="btn-submit">Cadastrar Empresa</button>
-    </div>
-    <div class="lado-logo">
-            <img src="../assets/img/cog-solutions-logo.png" alt="" id="logo-login">
-    </div>
-
+    <script src="../js/validacaoSenhaEmpresa.js"></script>
 </body>
 </html>

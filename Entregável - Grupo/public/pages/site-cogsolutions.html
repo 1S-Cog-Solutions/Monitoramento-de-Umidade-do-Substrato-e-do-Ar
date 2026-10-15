@@ -191,7 +191,9 @@
     const alerta = document.getElementById("info-alerta");
     const textoLeituras = document.getElementById("info-leituras");
 
-    let temperatura = 16.6;
+    // leituras fixas da simulação, a última passa de 25°C
+    const temperaturas = [16.6, 17.8, 19.1, 20.3, 21.4, 22.7, 23.9, 24.8, 25.6];
+    let temperatura = temperaturas[0];
     let leituras = 1;
 
     // começa limpo
@@ -200,11 +202,11 @@
     campo.textContent = temperatura.toFixed(1) + "°C";
     textoLeituras.textContent = leituras + " leitura";
 
-    // sobe um pouco a cada volta e só para quando passar de 25°C
+    // mostra a próxima leitura fixa e só para quando passar de 25°C
     while (temperatura <= 25) {
       await esperar(300);
 
-      temperatura += Math.random() * 2;
+      temperatura = temperaturas[leituras];
       leituras++;
 
       campo.textContent = temperatura.toFixed(1) + "°C";

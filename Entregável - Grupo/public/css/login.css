@@ -1,145 +1,15 @@
 @charset "UTF-8";
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-    color: white;
-}
-
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: #242424;
-}
-
-h1 {
-    color: #F06543;
-}
+/* O login usa o mesmo visual das páginas de cadastro */
+@import url('cadastro.css');
 
 #div_formulario {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    gap: 15px;
-    border-radius: 0px 15px 15px 0px;
-    background-color: #272727;
-    box-shadow: 0px 5px 10px #0000008a;
-    width: 45%;
-    height: 95vh;
-    padding: 20px;
-    border-right: 3px solid #F06543;
+    flex: 1;
+    gap: 20px;
 }
 
-.sign-up-link {
-    color: #3b6cff;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.lado-logo {
-    border-radius: 15px 0px 0px 15px;
-    width: 45%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 95vh;
-    background-color: #131313;
-    box-shadow: 0px 5px 10px #0000008a;
-
-}
-
-img {
-    width: 90%;
-}
-
-
-.lado-form {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-.btn-login-google {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    border-radius: 5px;
-    padding: 0 10px;
-    background-color: white;
-    color: black;
-    cursor: pointer;
-    transition: 0.5s;
-}
-
-.btn-login-google:hover {
-    background-color: #dfdfdf;
-    transition: 0.5s;
-}
-
-
-.form-header {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-
-.google-logo{
-    width: 50px;
-}
-
-
-.input {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    width: 100%;
-}
-
-
-input {
-    width: 100%;
-    height: 40px;
-    padding: 10px;
-    border: 1px solid rgb(219, 219, 219);
-    background-color: #53535321;
-    border-radius: 5px;
-    outline: none;
-    color: white;
-    font-size: 1.2em;
-}
-
-
-.other {
-    width: 100%;
-    text-align: center;
-}
-
-
-.container {
-    display: flex;
-    gap: 50px;
-}
-
-#btn-submit {
-    font-size: 1.2em;
-    width: 100%;
-    height: 70px;
-    background-color: #F06543;
-    border-radius: 10px;
-    border: none;
-    color: white;
-    transition: 0.3s;
-}
-
-#btn-submit:hover {
-    transform: translateY(-5px);
-    background-color: #ff5f37;
-    transition: 0.3s;
-    cursor: pointer;
+@media (max-width: 800px) {
+    .card {
+        flex-direction: column;
+    }
 }
