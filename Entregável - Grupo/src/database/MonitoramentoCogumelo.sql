@@ -11,6 +11,7 @@ CREATE DATABASE cog_solutions;
 USE cog_solutions;
 select * from Usuario;
 
+
 -- Tabela 1: Usuario
 CREATE TABLE Usuario (
 
@@ -21,7 +22,9 @@ idUsuario INT AUTO_INCREMENT PRIMARY KEY,
     CONSTRAINT chkEmailuser CHECK (email LIKE '%@%'),
 	dtCadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
     fk_Empresa INT,
-    fk_Responsavel INT,
+     fk_Responsavel INT,
+     adminstrador TINYINT ,
+       CONSTRAINT chk_admin_binary CHECK (fk_Responsavel IN (0, 1)),
     CONSTRAINT responsavel
 	FOREIGN KEY (fk_Responsavel) 
 		REFERENCES Usuario(idUsuario)
