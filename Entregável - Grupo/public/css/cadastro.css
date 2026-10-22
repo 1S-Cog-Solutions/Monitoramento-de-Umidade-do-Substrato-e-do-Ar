@@ -75,6 +75,11 @@ body {
     margin-bottom: 8px;
 }
 
+.exemplo-chave {
+    color: #bdbdbd;
+    font-size: 0.8em;
+}
+
 h1 {
     font-size: 2.1em;
     color: #F06543;

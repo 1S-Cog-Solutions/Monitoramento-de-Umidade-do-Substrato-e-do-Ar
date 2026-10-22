@@ -14,14 +14,16 @@
             <h1>Criar sua conta</h1>
             <p>Preencha os dados abaixo para iniciar sua jornada.</p>
             
-            <div class="input">
-                <label for="ipt_nome">NOME COMPLETO</label>
-                <input type="text" name="" id="ipt_nome" placeholder="Nome completo">
-            </div>
-            
-            <div class="input">
-                <label for="ipt_email">E-MAIL</label>
-                <input type="email" name="" id="ipt_email" placeholder="E-mail">
+            <div class="container">
+                <div class="input">
+                    <label for="ipt_nome">NOME COMPLETO</label>
+                    <input type="text" name="" id="ipt_nome" placeholder="Nome completo">
+                </div>
+                
+                <div class="input">
+                    <label for="ipt_email">E-MAIL</label>
+                    <input type="email" name="" id="ipt_email" placeholder="E-mail">
+                </div>
             </div>
             
             <div class="container">
@@ -35,6 +37,12 @@
                     <input type="password" name="" id="ipt_confirmar_senha" oninput="verificarSenhas()" placeholder="Confirmar senha">
                 </div>
             </div>
+            
+            <div class="input">
+                <label for="ipt_chave">CHAVE DA EMPRESA</label>
+                <input type="password" id="ipt_chave" placeholder="Exemplo: mYybaih78snau732">
+            </div>
+
             <div class="regras-senhas" id="regras-senhas">
                 <div class="regras" id="regras">
                 </div>
