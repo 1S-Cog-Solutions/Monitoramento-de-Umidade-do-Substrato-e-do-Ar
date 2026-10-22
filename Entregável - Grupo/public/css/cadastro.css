@@ -49,6 +49,12 @@ body {
         url('../assets/img/champignon-fundo.jpg') center / cover no-repeat;
 }
 
+.lado-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
 #logo-login {
     width: 80%;
     max-width: 380px;
