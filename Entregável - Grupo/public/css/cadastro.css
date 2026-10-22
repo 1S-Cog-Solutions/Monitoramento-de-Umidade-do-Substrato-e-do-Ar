@@ -29,20 +29,22 @@ body {
 }
 
 #div_formulario {
-    flex: 1.2;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
     gap: 16px;
-    padding: 40px 56px;
+    
     background-color: #222222;
+    width: 90%;
+    height: 500px;
 }
 
 .lado-logo {
-    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 40%;
+    height: 100%;
     padding: 40px;
     background:
         linear-gradient(160deg, rgba(240, 101, 67, 0.35), rgba(10, 10, 10, 0.92)),
@@ -51,8 +53,13 @@ body {
 
 .lado-form {
     display: flex;
+    justify-content: center;
     flex-direction: column;
     gap: 16px;
+    width: 60%;
+    height: 100%;
+    padding: 20px 56px;
+
 }
 
 #logo-login {
@@ -127,7 +134,7 @@ input:disabled {
     font-size: 1.1em;
     font-weight: 600;
     width: 100%;
-    height: 54px;
+    height: 50px;
     margin-top: 6px;
     background: linear-gradient(135deg, #F06543, #ff8a5c);
     border-radius: 12px;

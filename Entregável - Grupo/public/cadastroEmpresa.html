@@ -10,40 +10,36 @@
 </head>
 <body>
     <div id="div_formulario">
-        <h1>Cadastre sua Empresa</h1>
-        <p>Preencha os dados abaixo para iniciar sua jornada.</p>
-        
-
-        <div class="container">
-            <div class="input">
-                <label for="ipt_empresa">NOME DA EMPRESA</label>
-                <input type="text" name="" id="ipt_empresa">
-            </div>
+        <div class="lado-form">
+            <h1>Cadastre sua Empresa</h1>
+            <p>Preencha os dados abaixo para iniciar sua jornada.</p>
             
+            <div class="container">
+                <div class="input">
+                    <label for="ipt_empresa">NOME DA EMPRESA</label>
+                    <input type="text" name="" id="ipt_empresa">
+                </div>
+            
+                <div class="input">
+                    <label for="ipt_cnpj">CNPJ</label>
+                    <input type="text" name="" id="ipt_cnpj">
+                </div>
+            </div>
             <div class="input">
-                <label for="ipt_cnpj">CNPJ</label>
-                <input type="text" name="" id="ipt_cnpj">
+                <label for="ipt_email">E-MAIL</label>
+                <input type="email" name="" id="ipt_email">
             </div>
-        </div>
-
-        <div class="input">
-            <label for="ipt_email">E-MAIL</label>
-            <input type="email" name="" id="ipt_email">
-        </div>
-
-
-        <div class="regras-senhas" id="regras-senhas">
-            <div class="regras" id="regras">
+            <div class="regras-senhas" id="regras-senhas">
+                <div class="regras" id="regras">
+                </div>
+                <div class="validar" id="validar">
+                </div>
             </div>
-
-            <div class="validar" id="validar">
-            </div>
+            <button id="btn-submit">Cadastrar Empresa</button>
         </div>
-
-        <button id="btn-submit">Cadastrar Empresa</button>
-    </div>
-    <div class="lado-logo">
-            <img src="./assets/img/cog-solutions-logo.png" alt="" id="logo-login">
+        <div class="lado-logo">
+                <img src="./assets/img/cog-solutions-logo.png" alt="" id="logo-login">
+        </div>
     </div>
 
 </body>
