@@ -167,6 +167,8 @@
 
   /* simulação no hero */
   .simulacao {
+    position: absolute;
+    right: 10%;
     display: none;
     width: 220px;
     height: 220px;
