@@ -12,6 +12,9 @@
     --amarelo: #e8b83a;
     --azul: #4aa8e0;
     --mono: "Courier New", Consolas, monospace;
+    /* mesmas fontes da página inicial (site.css) */
+    --display: "Barlow Condensed", "Arial Narrow", sans-serif;
+    --body: "Manrope", system-ui, Arial, sans-serif;
 }
 
 * {
@@ -27,9 +30,19 @@
 body {
     display: flex;
     min-height: 100vh;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--body);
     background-color: var(--bg);
     color: var(--texto);
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+}
+
+h1, h2, h3 {
+    font-family: var(--display);
+    font-weight: 700;
+    letter-spacing: .02em;
 }
 
 :focus-visible {
@@ -69,8 +82,9 @@ body {
 }
 
 .brand-name {
-    font-size: 15px;
-    font-weight: 700;
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 800;
     letter-spacing: 0.5px;
 }
 
@@ -285,7 +299,7 @@ body {
 }
 
 .titulo-camara h2 {
-    font-size: 17px;
+    font-size: 22px;
 }
 
 .titulo-camara span {

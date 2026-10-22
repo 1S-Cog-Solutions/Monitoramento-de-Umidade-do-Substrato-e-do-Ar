@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Empresa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/cadastro.css">
     <link rel="icon" type="image/png" href="./assets/icon/favicon.png">
 
@@ -39,12 +42,32 @@
                 <div class="validar" id="validar">
                 </div>
             </div>
-            <button id="btn-submit">Cadastrar Empresa</button>
+            <button id="btn-submit" onclick="cadastrarEmpresa()">Cadastrar Empresa</button>
         </div>
         <div class="lado-logo">
                 <img src="./assets/img/cog-solutions-logo.png" alt="" id="logo-login">
         </div>
     </div>
+
+<script>
+    function cadastrarEmpresa() {
+        var empresa = ipt_empresa.value.trim();
+        var cnpj = ipt_cnpj.value.replace(/\D/g, '');
+        var email = ipt_email.value.trim();
+        var chave = ipt_chave.value.trim();
+
+        if (empresa == '' || cnpj == '' || email == '' || chave == '') {
+            alert('Preencha todos os campos.');
+        } else if (cnpj.length != 14) {
+            alert('O CNPJ precisa ter 14 números.');
+        } else if (!email.includes('@') || !email.includes('.')) {
+            alert('Digite um e-mail válido.');
+        } else {
+            alert('Empresa cadastrada! Agora crie sua conta usando a chave da empresa.');
+            window.location.href = 'cadastro.html';
+        }
+    }
+</script>
 
 </body>
 </html>

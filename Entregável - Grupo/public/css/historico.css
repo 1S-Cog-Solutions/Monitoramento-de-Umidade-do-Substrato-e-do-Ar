@@ -14,7 +14,9 @@
   --destaque: #3a1f1c;
   --destaque-borda: #7a3a33;
   --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
-  --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* mesmas fontes da página inicial (site.css) */
+  --sans: "Manrope", system-ui, Arial, sans-serif;
+  --display: "Barlow Condensed", "Arial Narrow", sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -45,7 +47,7 @@ body {
   padding: 20px 24px 16px;
 }
 
-h1 { margin: 0 0 4px; font-size: 15px; font-weight: 600; }
+h1 { margin: 0 0 4px; font-family: var(--display); font-size: 22px; font-weight: 700; letter-spacing: .02em; }
 .subtitulo { margin: 0; font-size: 11px; color: var(--suave); }
 
 .ordenar {
