@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/png" href="./assets/icon/favicon.png">
-<title>Cog Solutions</title>
-<link rel="stylesheet" href="./css/site.css">
-</head>
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="./assets/icon/favicon.png">
+  <title>Cog Solutions</title>
+  <link rel="stylesheet" href="./css/site.css">
+  </head>
 <body>
 
 <header>
@@ -15,8 +15,8 @@
     <h2>Cog Solutions</h2>
   </div>
   <nav>
-    <a href="#sobre">Sobre</a>
     <a href="#etapas">Como funciona</a>
+    <a href="#sobre">Sobre</a>
     <a href="#contato">Contato</a>
   </nav>
   <div class="header-botao">
@@ -25,15 +25,16 @@
 </header>
 
 <div class="hero">
-  <div class="destaque">Projeto de Pesquisa e Inovação</div>
-  <h1>Monitoramento de Umidade do Substrato, do Ar e de Temperatura em Ambientes de Cultivo de Champignon Paris</h1>
-  <p>A <b>Cog Solutions</b> desenvolve um protótipo com sensores conectados a um Arduino para acompanhar a umidade do ar, do substrato e da temperatura no cultivo de Champignon Paris, ajudando a identificar variações antes que prejudiquem a produção.</p>
-
-  <div class="hero-botoes">
-    <button class="botao" onclick="simularEstufa()">Simular temperatura</button>
-    <a href="calculadora.html">
-      <button class="botao">Simulador Financeiro</button>
-    </a>
+  <div class="hero-content">
+    <div class="destaque">Projeto de Pesquisa e Inovação</div>
+    <h1>Monitoramento de Umidade do Substrato, do Ar e de Temperatura em Ambientes de Cultivo de Champignon Paris</h1>
+    <p>A <b>Cog Solutions</b> desenvolve um protótipo com sensores conectados a um Arduino para acompanhar a umidade do ar, do substrato e da temperatura no cultivo de Champignon Paris, ajudando a identificar variações antes que prejudiquem a produção.</p>
+    <div class="hero-botoes">
+      <button class="botao" onclick="simularEstufa()">Simular temperatura</button>
+      <a href="./dashboard/calculadora.html">
+        <button class="botao-simulador">Simulador Financeiro</button>
+      </a>
+    </div>
   </div>
 
   <div class="simulacao" id="simulacao">
@@ -105,7 +106,7 @@
 <section id="sobre">
   <div class="conteudo">
     <div class="linha-mercado">
-      <img id="foto-branca" src="../assets/img/champignon-tigela.jpg" alt="champignon paris">
+      <img id="foto-branca" src="./assets/img/champignon-tigela.jpg" alt="champignon paris">
       <div class="lista-destaques">
         <h2>Por que monitorar?</h2>
         <div class="item-destaque">
