@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -21,7 +20,6 @@
     </a>
 
     <nav class="menu">
-        <!-- Troque os href="#" pelas páginas de destino -->
         <a href="dashboard.html" class="menu-item">
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
             <span>Dashboard</span>
@@ -36,32 +34,23 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
             <span>Alertas</span>
         </a>
-
-        <!-- <a href="#" class="menu-item">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
-            <span>Configurações</span>
-        </a> -->
     </nav>
 </aside>
 
 <main class="dashboard">
     <section class="charts">
-
         <div class="chart-card">
             <div class="chart-header">
                 <div>
                     <span class="chart-label">SENSOR DHT11</span>
                     <h2>Temperatura e Umidade</h2>
                     <p>Acompanhe as mudanças de umidade e temperatura do ar registradas.</p>
-
                 </div>
             </div>
-
             <div class="chart-container">
                 <canvas id="lineChart"></canvas>
             </div>
         </div>
-
 
         <div class="chart-card">
             <div class="chart-header">
@@ -71,55 +60,101 @@
                     <p>Acompanhe as mudanças de umidade do solo registradas.</p>
                 </div>
             </div>
-
             <div class="chart-container">
                 <canvas id="barChart"></canvas>
             </div>
         </div>
+    </section>
 
-    </section> <br> <br>
+    <br><br>
 
-  <section class="card" aria-labelledby="titulo">
-  <header class="card-header">
-    <div>
-      <h1 id="titulo">Registros de leitura</h1>
-      <p class="subtitulo" id="subtitulo">Câmara 02 · 12 e 13 de outubro de 2026 · 864 registros no período</p>
-    </div>
-    <button class="ordenar" id="btn-ordem" type="button">
-      <span id="rotulo-ordem">Mais recentes primeiro</span>
-      <span id="seta-ordem">↓</span>
-    </button>
-  </header>
+    <section class="card" aria-labelledby="titulo">
+        <header class="card-header">
+            <div>
+                <h1 id="titulo">Registros de leitura</h1>
+                <p class="subtitulo" id="subtitulo">Câmara 02 · 13 de outubro de 2026 · Exibindo registros recentes</p>
+            </div>
+        </header>
 
-  <div class="tabela-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Data e hora</th>
-          <th>Câmara</th>
-          <th>Fase</th>
-          <th>Tipo de leitura</th>
-          <th>Valor</th>
-          <th>Faixa ideal</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody id="corpo"></tbody>
-    </table>
-  </div>
+        <div class="tabela-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data e hora</th>
+                        <th>Câmara</th>
+                        <th>Fase</th>
+                        <th>Tipo de leitura</th>
+                        <th>Valor</th>
+                        <th>Faixa ideal</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="corpo">
+                    <tr>
+                        <td class="mono data">13/10/2026<span class="hora">12:00:00</span></td>
+                        <td class="suave">Câmara 02</td>
+                        <td class="suave">Frutificação</td>
+                        <td>Umidade do Substrato</td>
+                        <td class="mono">62,5%</td>
+                        <td class="mono suave">60-80%</td>
+                        <td><span class="badge">Dentro da faixa</span></td>
+                    </tr>
+                    <tr>
+                        <td class="mono data">13/10/2026<span class="hora">12:00:00</span></td>
+                        <td class="suave">Câmara 02</td>
+                        <td class="suave">Frutificação</td>
+                        <td>Umidade do Ar</td>
+                        <td class="mono">85,2%</td>
+                        <td class="mono suave">80-90%</td>
+                        <td><span class="badge">Dentro da faixa</span></td>
+                    </tr>
+                    <tr>
+                        <td class="mono data">13/10/2026<span class="hora">12:00:00</span></td>
+                        <td class="suave">Câmara 02</td>
+                        <td class="suave">Frutificação</td>
+                        <td>Temperatura</td>
+                        <td class="mono">18,2°C</td>
+                        <td class="mono suave">16-22°C</td>
+                        <td><span class="badge">Dentro da faixa</span></td>
+                    </tr>
+                    <tr>
+                        <td class="mono data">13/10/2026<span class="hora">11:55:00</span></td>
+                        <td class="suave">Câmara 02</td>
+                        <td class="suave">Frutificação</td>
+                        <td>Umidade do Substrato</td>
+                        <td class="mono">61,8%</td>
+                        <td class="mono suave">60-80%</td>
+                        <td><span class="badge">Dentro da faixa</span></td>
+                    </tr>
+                    <tr>
+                        <td class="mono data">13/10/2026<span class="hora">11:55:00</span></td>
+                        <td class="suave">Câmara 02</td>
+                        <td class="suave">Frutificação</td>
+                        <td>Umidade do Ar</td>
+                        <td class="mono">87,1%</td>
+                        <td class="mono suave">80-90%</td>
+                        <td><span class="badge">Dentro da faixa</span></td>
+                    </tr>
+                    <tr>
+                        <td class="mono data">13/10/2026<span class="hora">11:55:00</span></td>
+                        <td class="suave">Câmara 02</td>
+                        <td class="suave">Frutificação</td>
+                        <td>Temperatura</td>
+                        <td class="mono">17,9°C</td>
+                        <td class="mono suave">16-22°C</td>
+                        <td><span class="badge">Dentro da faixa</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-  <footer class="card-footer">
-    <span class="contagem" id="contagem"></span>
-    <nav class="paginacao" id="paginacao" aria-label="Paginação"></nav>
-  </footer>
-</section>
-
+        <footer class="card-footer">
+            <span class="contagem" id="contagem">Exibindo 1-6 de 6 registros</span>
+        </footer>
+    </section>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script src="../js/historico.js"></script>
 <script src="../js/dashboard.js"></script>
-
 </body>
 </html>
