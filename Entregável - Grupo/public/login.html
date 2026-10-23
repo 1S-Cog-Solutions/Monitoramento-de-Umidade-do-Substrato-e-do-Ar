@@ -55,7 +55,6 @@
     function entrar() {
         aguardar();
 
-<<<<<<< HEAD
         var emailVar = ipt_email.value;
         var senhaVar = ipt_senha.value;
 
@@ -63,14 +62,13 @@
             cardErro.style.display = "block"
             mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
             finalizarAguardar();
-            return false;
-=======
+            return false; 
         if (email.endsWith('@sptech.school')) {
             window.top.location.href = 'dashboard/dashboard.html';
         } else {
             alert('Acesso permitido apenas para e-mails @sptech.school');
->>>>>>> 5ca9dccd5d451bb7bdc83b8dfd32e8257d3b47f9
         }
+    }
         else {
             setInterval(sumirMensagem, 5000)
         }
@@ -123,6 +121,8 @@
 
         return false;
     }
+
+
 
     function sumirMensagem() {
         cardErro.style.display = "none"
