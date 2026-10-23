@@ -45,6 +45,10 @@ body {
     height: 600px;
 }
 
+.cadastrar-funcionario {
+    color: #F06543;
+}
+
 .lado-logo {
     display: flex;
     justify-content: center;
