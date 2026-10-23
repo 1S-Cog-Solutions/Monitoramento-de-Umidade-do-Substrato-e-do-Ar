@@ -64,7 +64,6 @@ INSERT INTO Empresa (empresa_nome, email, cnpj) VALUES
 ('Estufas e Cogumelos Brasil',  'contato@estufascogumelos.com.br',  '38710932000175'),
 ('Fungicultura Paris Brasil',  'atendimento@parisbrasil.com.br','98765432000110');
 
-select * from Empresa;
 
 -- Tabela 3: estufa
 -- A fase do cultivo deixou de ficar aqui e passou para a tabela lote (Tabela 7)
@@ -152,10 +151,10 @@ CREATE TABLE faixa_ideal (
     CONSTRAINT uqFaixa UNIQUE (fk_Empresa, fase, parametro)
 );
 
-INSERT INTO Usuario (nome, email, senha, fk_Empresa, fk_Responsavel) VALUES
-('Ana Lima',      'ana@cogumaster.com.br',        'Teste@123', 1, NULL),  -- id 1 (gestora)
-('Diego Rocha',   'diego@estufascogumelos.com.br','Teste@123', 2, NULL),  -- id 2 (gestor)
-('Fábio Teixeira','fabio@parisbrasil.com.br',     'Teste@123', 3, NULL),  -- id 3 (gestor)
+INSERT INTO Usuario (nome, email, senha, fk_Empresa, fk_Responsavel, administrador) VALUES
+('Ana Lima',      'ana@cogumaster.com.br',        'Teste@123', 1, 1),  -- id 1 (gestora)
+('Diego Rocha',   'diego@estufascogumelos.com.br','Teste@123', 2, 1),  -- id 2 (gestor)
+('Fábio Teixeira','fabio@parisbrasil.com.br',     'Teste@123', 3, 1),  -- id 3 (gestor)
 ('Helena Duarte', 'helena@semempresa.com',        'Teste@123', NULL, NULL); -- id 4 (sem empresa)
  
 INSERT INTO Usuario (nome, email, senha, fk_Empresa, fk_Responsavel) VALUES
@@ -220,14 +219,6 @@ INSERT INTO leitura (umidadeAr, umidadeSolo, temperatura, fk_sensor, dtHora) VAL
 (null, 66.5, null, 7, '2026-10-18 08:10:00');   -- substrato acima do máximo
 
 
--- testes ---------
-
-SELECT * FROM Empresa;
-SELECT * FROM ambienteCultivo;
-SELECT * FROM leitura;
-SELECT * FROM sensor;
-
-
 select * from leitura where umidadeAr is not null and umidadeSolo is not null; 
 
 
@@ -268,6 +259,14 @@ INSERT INTO faixa_ideal (fase, parametro, valor_min, valor_max, fk_Empresa) VALU
 ('Frutificação',  'umidadeSolo', 60.0, 65.0, 2),
 ('Frutificação',  'temperatura', 16.0, 22.0, 2);
 
+
+-- testes ---------
+
+SELECT * FROM Empresa;
+SELECT * FROM usuario;
+SELECT * FROM ambienteCultivo;
+SELECT * FROM leitura;
+SELECT * FROM sensor;
 SELECT * FROM Endereco;
 SELECT * FROM lote;
 SELECT * FROM faixa_ideal;
@@ -627,5 +626,5 @@ FROM Empresa e
 LEFT JOIN ambienteCultivo a ON a.fk_Empresa        = e.idEmpresa
 LEFT JOIN sensor s          ON s.fk_ambienteCultivo = a.idambienteCultivo
 LEFT JOIN leitura l         ON l.fk_sensor          = s.idSensor
-GROUP BY e.empresa_nome, a.nome, s.idSensor, s.tipo
-ORDER BY e.empresa_nome, a.nome, s.idSensor;
+/*GROUP BY e.empresa_nome, a.nome, s.idSensor, s.tipo*/
+/*ORDER BY e.empresa_nome, a.nome, s.idSensor;*/
