@@ -34,39 +34,102 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
             <span>Alertas</span>
         </a>
+        <a href="#" class="menu-item">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+            <span>Configurações</span>
+        </a>
     </nav>
+    <div class="sidebar-status">
+        <span class="faixa ok">Sistema online</span>
+        <small>Sincronizado agora</small>
+    </div>
 </aside>
 
 <main class="dashboard">
-    <section class="charts">
-        <div class="chart-card">
-            <div class="chart-header">
-                <div>
-                    <span class="chart-label">SENSOR DHT11</span>
-                    <h2>Temperatura e Umidade</h2>
-                    <p>Acompanhe as mudanças de umidade e temperatura do ar registradas.</p>
-                </div>
-            </div>
-            <div class="chart-container">
-                <canvas id="lineChart"></canvas>
-            </div>
-        </div>
 
-        <div class="chart-card">
-            <div class="chart-header">
-                <div>
-                    <span class="chart-label">SENSOR SOLO CAPACITIVO</span>
-                    <h2>Umidade do solo</h2>
-                    <p>Acompanhe as mudanças de umidade do solo registradas.</p>
-                </div>
-            </div>
-            <div class="chart-container">
-                <canvas id="barChart"></canvas>
-            </div>
+<header class="topo">
+    <div>
+        <nav class="breadcrumb" aria-label="Você está em">Histórico / Unidades / Unidade 1</nav>
+        <h1>Histórico de Leituras da Unidade 1</h1>
+    </div>
+    <div class="topo-direita">
+        <div class="tempo-real">
+            <span class="faixa ok">Histórico atualizado</span>
+            <small>Última leitura: 13/10/2026 às 12:00</small>
         </div>
-    </section>
+        <select class="select" aria-label="Unidade"><option>Unidade 1</option></select>
+        <button type="button" class="btn-exportar" id="exportar">Exportar CSV</button>
+    </div>
+</header>
 
-    <br><br>
+<section class="filtros" aria-label="Filtros do histórico">
+    <label class="filtro">
+        <span>Período</span>
+        <select class="select" id="periodo">
+            <option value="24h">Últimas 24 horas</option>
+            <option value="7d">Últimos 7 dias</option>
+            <option value="30d">Últimos 30 dias</option>
+        </select>
+    </label>
+    <div class="filtro">
+        <span>Intervalo de datas</span>
+        <div class="campo-data">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+            12/10/2026 — 13/10/2026
+        </div>
+    </div>
+    <label class="filtro">
+        <span>Câmara</span>
+        <select class="select"><option>Câmara 02 · Frutificação</option></select>
+    </label>
+    <label class="filtro">
+        <span>Tipo de leitura</span>
+        <select class="select"><option>Todas as leituras</option></select>
+    </label>
+    <div class="filtros-resumo">
+        <strong>864 registros</strong>
+        <small>Coleta a cada 5 minutos</small>
+    </div>
+</section>
+
+<div class="tend-topo">
+    <h2>Tendências de leitura · Câmara 02</h2>
+    <span id="tend-sub">Últimas 24 horas · Faixas de referência da fase de frutificação</span>
+</div>
+
+<section class="tendencias">
+    <article class="tend-card" data-grafico="temp">
+        <header><span>Temperatura (°C)</span><span class="legenda">Dentro da faixa</span></header>
+        <div class="tend-valor">
+            <strong class="v-atual">--</strong>
+            <div class="v-meta"><span>Faixa ideal: 16–22°C</span><span>Último: <b class="v-hora">12:00</b></span></div>
+        </div>
+        <div class="chart-container"><canvas id="chartTemp"></canvas></div>
+        <footer><span>Mín: <b class="v-min">--</b></span><span>Máx: <b class="v-max">--</b></span></footer>
+    </article>
+
+    <article class="tend-card" data-grafico="ar">
+        <header><span>Umidade do ar (%)</span><span class="legenda">Dentro da faixa</span></header>
+        <div class="tend-valor">
+            <strong class="v-atual">--</strong>
+            <div class="v-meta"><span>Faixa ideal: 80–90%</span><span>Último: <b class="v-hora">12:00</b></span></div>
+        </div>
+        <div class="chart-container"><canvas id="chartAr"></canvas></div>
+        <footer><span>Mín: <b class="v-min">--</b></span><span>Máx: <b class="v-max">--</b></span></footer>
+    </article>
+
+    <article class="tend-card" data-grafico="substrato">
+        <header><span>Umidade do substrato (%)</span><span class="legenda">Dentro da faixa</span></header>
+        <div class="tend-valor">
+            <strong class="v-atual">--</strong>
+            <div class="v-meta"><span>Faixa ideal: 60–80%</span><span>Último: <b class="v-hora">12:00</b></span></div>
+        </div>
+        <div class="chart-container"><canvas id="chartSubstrato"></canvas></div>
+        <footer><span>Mín: <b class="v-min">--</b></span><span>Máx: <b class="v-max">--</b></span></footer>
+    </article>
+</section>
+
+<br>
 
     <section class="card" aria-labelledby="titulo">
         <header class="card-header">
@@ -154,7 +217,7 @@
     </section>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="../js/dashboard.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   <script src="../js/historico.js"></script>
 </body>
 </html>

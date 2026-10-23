@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alertas - Cog Solutions</title>
     <link rel="icon" href="../assets/icon/favicon.png">
-    <!-- dashboard.css traz o menu lateral e os estilos compartilhados; alertas.css traz só o que é desta página -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
@@ -37,16 +36,19 @@
             <span>Alertas</span>
         </a>
 
-        <!-- <a href="#" class="menu-item">
+        <a href="#" class="menu-item">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
             <span>Configurações</span>
-        </a> -->
+        </a>
     </nav>
+    <div class="sidebar-status">
+        <span class="faixa ok">Sistema online</span>
+        <small>Sincronizado agora</small>
+    </div>
 </aside>
 
 <main class="dashboard">
 
-    <!-- TOPO DA PÁGINA -->
     <header class="alertas-topo">
         <div>
             <h1>Alertas</h1>
@@ -56,7 +58,6 @@
     </header>
 
 
-    <!-- RESUMO DOS ALERTAS -->
     <section class="kpis-alertas">
         <div class="kpi-card vermelho">
             <span class="kpi-label">ALERTAS ATIVOS</span>
@@ -84,7 +85,6 @@
     </section>
 
 
-    <!-- FILTROS -->
     <section class="barra-filtros">
         <div class="abas">
             <button class="aba ativa" onclick="trocarAba(this, 'todos')">Todos <span class="contagem" id="cont_todos">5</span></button>
@@ -109,7 +109,6 @@
     </section>
 
 
-    <!-- LISTA + PAINÉIS LATERAIS -->
     <section class="alertas-layout">
 
         <div class="lista-alertas">

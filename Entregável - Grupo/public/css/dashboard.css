@@ -427,3 +427,84 @@ h1, h2, h3 {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+.painel2 {
+    height: 100%;
+}
+
+.topo { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 24px; }
+.breadcrumb { margin-bottom: 6px; font-size: 11px; color: var(--texto-suave); }
+.topo h1 { font-size: 30px; }
+.topo-direita { display: flex; align-items: center; gap: 16px; }
+.tempo-real { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.tempo-real .faixa { color: var(--verde); }
+.tempo-real small, .sidebar-status small { font-size: 10px; color: var(--texto-suave); }
+
+.select {
+    padding: 8px 12px;
+    background: var(--card);
+    color: var(--texto);
+    border: 1px solid var(--card-borda);
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.sidebar { display: flex; flex-direction: column; }
+.sidebar-status {
+    display: flex; flex-direction: column; gap: 4px;
+    margin-top: auto; padding: 12px;
+    background: var(--card); border: 1px solid var(--card-borda); border-radius: 8px;
+}
+.sidebar-status .faixa { color: var(--texto); font-weight: 700; }
+.sidebar-status .faixa.ok::before { background: var(--verde); }
+.tempo-real .faixa.ok::before { background: var(--verde); }
+
+.grade { display: grid; grid-template-columns: minmax(260px, 320px) minmax(0, 1fr); gap: 16px; align-items: start; }
+.coluna-esq, .coluna-dir { display: flex; flex-direction: column; gap: 16px; height: 100%; }
+
+.painel { margin: 0; padding: 20px; background: var(--card); border: 1px solid var(--card-borda); border-radius: 12px; }
+.painel h3 { font-size: 16px; }
+.painel-topo { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.painel > h3 { margin-bottom: 14px; }
+.painel .secao-titulo { margin-bottom: 16px; }
+.painel .leitura-card:not(.alerta) { background: var(--bg); }
+
+.tabela-camaras { width: 100%; border-collapse: collapse; font-size: 12px; }
+.tabela-camaras th { padding: 0 8px 8px; font-weight: 500; text-align: left; color: var(--texto-suave); }
+.tabela-camaras td { padding: 10px 8px; border-top: 1px solid var(--card-borda); }
+.tabela-camaras tr.selecionada td { background: var(--laranja-fundo); }
+.tabela-camaras tr.selecionada td:first-child { border-radius: 6px 0 0 6px; }
+.tabela-camaras tr.selecionada td:last-child { border-radius: 0 6px 6px 0; }
+
+.pill { padding: 3px 8px; border-radius: 999px; font-size: 11px; }
+.pill.ideal   { color: var(--verde);    background: rgba(94, 201, 123, 0.14); }
+.pill.atencao { color: var(--vermelho); background: rgba(239, 106, 106, 0.14); }
+
+.badge {
+    min-width: 22px; padding: 2px 7px; border-radius: 999px;
+    font-size: 11px; text-align: center;
+    color: var(--texto-suave); background: #2a2a32;
+}
+
+.alertas-lista { display: flex; flex-direction: column; gap: 18px; list-style: none; }
+.alertas-lista li { position: relative; display: flex; flex-direction: column; gap: 4px; padding-left: 16px; font-size: 12px; }
+.alertas-lista li::before { content: ""; position: absolute; left: 0; top: 4px; width: 6px; height: 6px; border-radius: 50%; }
+.alertas-lista .critico::before { background: var(--vermelho); }
+.alertas-lista .aviso::before   { background: var(--amarelo); }
+.alertas-lista .ok::before      { background: var(--verde); }
+.alertas-lista time { font-family: var(--mono); font-size: 11px; color: var(--texto-suave); }
+
+.leitura-topo { display: flex; align-items: center; justify-content: space-between; }
+.leitura-topo .card-icon { width: 18px; height: 18px; }
+
+.grafico-bloco + .grafico-bloco { margin-top: 18px; }
+.grafico-titulo { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 12px; }
+.legenda { font-size: 11px; color: var(--texto-suave); }
+.legenda::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 6px; border-radius: 50%; background: var(--verde); }
+.legenda.fora::before { background: var(--vermelho); }
+.historico .chart-container { height: 140px; }
+
+@media (max-width: 1000px) {
+    .grade { grid-template-columns: 1fr; }
+    .topo { flex-direction: column; }
+}

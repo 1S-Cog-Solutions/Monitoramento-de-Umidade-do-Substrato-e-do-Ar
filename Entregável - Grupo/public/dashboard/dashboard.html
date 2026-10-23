@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Temperatura e Umidade</title>
+    <title>Dashboard - Visão Geral da Unidade 1</title>
     <link rel="icon" href="../assets/icon/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,25 +23,43 @@
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
             <span>Dashboard</span>
         </a>
-
         <a href="historico.html" class="menu-item">
             <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
             <span>Histórico</span>
         </a>
-
         <a href="alertas.html" class="menu-item">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
             <span>Alertas</span>
         </a>
-
-        <!-- <a href="#" class="menu-item">
+        <a href="#" class="menu-item">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
             <span>Configurações</span>
-        </a> -->
+        </a>
     </nav>
+
+    <div class="sidebar-status">
+        <span class="faixa ok">Sistema online</span>
+        <small>Sincronizado agora</small>
+    </div>
 </aside>
 
 <main class="dashboard">
+
+    <header class="topo">
+        <div>
+            <nav class="breadcrumb" aria-label="Você está em">Dashboard / Unidades / Unidade 1</nav>
+            <h1>Visão Geral da Unidade 1</h1>
+        </div>
+        <div class="topo-direita">
+            <div class="tempo-real">
+                <span class="faixa ok">Monitoramento em tempo real</span>
+                <small>Leituras atualizadas automaticamente</small>
+            </div>
+            <select class="select" aria-label="Unidade">
+                <option>Unidade 1</option>
+            </select>
+        </div>
+    </header>
 
     <section class="resumo">
         <div class="secao-titulo">
@@ -53,154 +70,111 @@
         <div class="kpis-semana">
             <div class="kpi-card">
                 <span class="kpi-label">UMIDADE DO SOLO</span>
-                <div class="kpi-linha">
-                    <strong>62%</strong>
-                    <span class="kpi-variacao">▲ +2%</span>
-                </div>
+                <div class="kpi-linha"><strong>62%</strong><span class="kpi-variacao">▲ +2%</span></div>
                 <p>2% mais úmido que semana passada</p>
             </div>
-
             <div class="kpi-card">
                 <span class="kpi-label">UMIDADE DO AR</span>
-                <div class="kpi-linha">
-                    <strong>86%</strong>
-                    <span class="kpi-variacao">▲ +1%</span>
-                </div>
+                <div class="kpi-linha"><strong>86%</strong><span class="kpi-variacao">▲ +1%</span></div>
                 <p>1% mais úmido que semana passada</p>
             </div>
-
             <div class="kpi-card">
                 <span class="kpi-label">TEMPERATURA</span>
-                <div class="kpi-linha">
-                    <strong>18°C</strong>
-                    <span class="kpi-variacao">▲ +0,5°C</span>
-                </div>
+                <div class="kpi-linha"><strong>18°C</strong><span class="kpi-variacao">▲ +0,5°C</span></div>
                 <p>3% mais quente que semana passada</p>
             </div>
         </div>
     </section>
 
+    <div class="grade">
 
-    <section class="leituras">
-        <div class="secao-titulo">
-            <div class="titulo-camara">
-                <h2>Câmara 02</h2>
-                <span>Fase atual: frutificação</span>
-            </div>
-            <span class="rotulo-secao">LEITURAS ATUAIS</span>
-        </div>
+        <div class="coluna-esq">
+            <section class="painel">
+                <h3>Câmaras da unidade</h3>
+                <table class="tabela-camaras">
+                    <thead><tr><th>Câmara</th><th>Fase</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>Câmara 01</td><td>Incubação</td><td><span class="pill ideal">Ideal</span></td></tr>
+                        <tr class="selecionada" aria-selected="true"><td>Câmara 02</td><td>Frutificação</td><td><span class="pill atencao">Atenção</span></td></tr>
+                        <tr><td>Câmara 03</td><td>Colonização</td><td><span class="pill ideal">Ideal</span></td></tr>
+                    </tbody>
+                </table>
+            </section>
 
-        <div class="leituras-grid">
-            <div class="leitura-card">
-                <span class="kpi-label">Temperatura</span>
-                <strong>17,4°C</strong>
-                <div class="barra"><div class="barra-preenchida temperatura" style="width: 44%"></div></div>
-                <span class="faixa ok">dentro da faixa (16–22°C)</span>
-            </div>
-
-            <div class="leitura-card">
-                <span class="kpi-label">Umidade do ar</span>
-                <strong>87,3%</strong>
-                <div class="barra"><div class="barra-preenchida ar" style="width: 87%"></div></div>
-                <span class="faixa ok">dentro da faixa (80–90%)</span>
-            </div>
-
-            <div class="leitura-card alerta">
-                <span class="kpi-label">Umidade do substrato</span>
-                <strong>59,9%</strong>
-                <div class="barra"><div class="barra-preenchida substrato" style="width: 60%"></div></div>
-                <span class="faixa fora">fora da faixa (60–80%)</span>
-            </div>
-        </div>
-    </section>
-
-
-    <section class="cards">
-
-        <div class="info-card">
-            <img src="../assets/icon/temperature.png" alt="" class="card-icon">
-            <div>
-                <span>Temperatura máxima</span>
-                <strong>18,6°C</strong>
-            </div>
-        </div>
-
-        <div class="info-card">
-            <img src="../assets/icon/umidade-ar.png" alt="" class="card-icon">
-
-            <div>
-                <span>Umidade do Ar máxima</span>
-                <strong>87,5%</strong>
-            </div>
-        </div>
-
-        <div class="info-card">
-            <img src="../assets/icon/umidade-solo.png" alt="" class="card-icon">
-
-            <div>
-                <span>Umidade do Solo máxima</span>
-                <strong>67%</strong>
-            </div>
-        </div>
-
-        <div class="info-card">
-            <img src="../assets/icon/graph.png" alt="" class="card-icon">
-            <div>
-                <span>Qntd. de Registros</span>
-                <strong>864</strong>
-            </div>
-        </div>
-
-
-        <div class="info-card">
-            <img src="../assets/icon/warning.png" alt="" class="card-icon">
-            <div>
-                <span>Alertas</span>
-                <strong>3</strong>
-            </div>
-        </div>
-
-    </section>
-
-
-    <section class="charts">
-
-        <div class="chart-card">
-            <div class="chart-header">
-                <div>
-                    <span class="chart-label">SENSOR DHT11</span>
-                    <h2>Temperatura e Umidade</h2>
-                    <p>Acompanhe as mudanças de umidade e temperatura do ar registradas.</p>
-
+            <section class="painel painel2">
+                <div class="painel-topo">
+                    <h3>Alertas recentes</h3>
+                    <span class="badge">3</span>
                 </div>
-            </div>
-
-            <div class="chart-container">
-                <canvas id="lineChart"></canvas>
-            </div>
+                <ul class="alertas-lista">
+                    <li class="critico"><time>11:30</time>Umidade do substrato abaixo de 60% (59,9%)</li>
+                    <li class="aviso"><time>09:21</time>Sensor da estufa desconectado temporariamente</li>
+                    <li class="ok"><time>08:00</time>Umidade do ar na faixa ideal</li>
+                </ul>
+            </section>
         </div>
 
-
-        <div class="chart-card">
-            <div class="chart-header">
-                <div>
-                    <span class="chart-label">SENSOR SOLO CAPACITIVO</span>
-                    <h2>Umidade do solo</h2>
-                    <p>Acompanhe as mudanças de umidade do solo registradas.</p>
+        <div class="coluna-dir">
+            <section class="painel leituras">
+                <div class="secao-titulo">
+                    <div class="titulo-camara">
+                        <h2>Câmara 02</h2>
+                        <span>Fase atual: frutificação</span>
+                    </div>
+                    <span class="rotulo-secao">LEITURAS ATUAIS</span>
                 </div>
-            </div>
 
-            <div class="chart-container">
-                <canvas id="barChart"></canvas>
-            </div>
+                <div class="leituras-grid">
+                    <div class="leitura-card">
+                        <div class="leitura-topo"><span class="kpi-label">Temperatura</span><img src="../assets/icon/temperature.png" alt="" class="card-icon"></div>
+                        <strong>17,4°C</strong>
+                        <div class="barra"><div class="barra-preenchida temperatura" style="width: 44%"></div></div>
+                        <span class="faixa ok">dentro da faixa (16–22°C)</span>
+                    </div>
+                    <div class="leitura-card">
+                        <div class="leitura-topo"><span class="kpi-label">Umidade do ar</span><img src="../assets/icon/umidade-ar.png" alt="" class="card-icon"></div>
+                        <strong>87,3%</strong>
+                        <div class="barra"><div class="barra-preenchida ar" style="width: 87%"></div></div>
+                        <span class="faixa ok">dentro da faixa (80–90%)</span>
+                    </div>
+                    <div class="leitura-card alerta">
+                        <div class="leitura-topo"><span class="kpi-label">Umidade do substrato</span><img src="../assets/icon/umidade-solo.png" alt="" class="card-icon"></div>
+                        <strong>59,9%</strong>
+                        <div class="barra"><div class="barra-preenchida substrato" style="width: 60%"></div></div>
+                        <span class="faixa fora">fora da faixa (60–80%)</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="painel historico">
+                <div class="painel-topo">
+                    <h3>Histórico de leituras (Câmara 02)</h3>
+                    <select class="select" id="periodo" aria-label="Período">
+                        <option value="24h">24h</option>
+                        <option value="7d">7 dias</option>
+                        <option value="30d">30 dias</option>
+                    </select>
+                </div>
+
+                <div class="grafico-bloco">
+                    <div class="grafico-titulo"><span>Temperatura (°C)</span><span class="legenda">Dentro da faixa</span></div>
+                    <div class="chart-container"><canvas id="chartTemp"></canvas></div>
+                </div>
+                <div class="grafico-bloco">
+                    <div class="grafico-titulo"><span>Umidade do ar (%)</span><span class="legenda">Dentro da faixa</span></div>
+                    <div class="chart-container"><canvas id="chartAr"></canvas></div>
+                </div>
+                <div class="grafico-bloco">
+                    <div class="grafico-titulo"><span>Umidade do substrato (%)</span><span class="legenda fora">Fora da faixa</span></div>
+                    <div class="chart-container"><canvas id="chartSubstrato"></canvas></div>
+                </div>
+            </section>
         </div>
 
-    </section>
-
+    </div>
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script src="../js/dashboard.js"></script>
 
 </body>
