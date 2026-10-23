@@ -1,10 +1,16 @@
 @charset "UTF-8";
 
+/* mesmas fontes da página inicial (site.css) */
+:root {
+    --display: "Barlow Condensed", "Arial Narrow", sans-serif;
+    --body: "Manrope", system-ui, Arial, sans-serif;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+    font-family: var(--body);
     color: #f2f2f2;
 }
 
@@ -81,7 +87,11 @@ body {
 }
 
 h1 {
-    font-size: 2.1em;
+    font-family: var(--display);
+    font-size: 2.6em;
+    font-weight: 800;
+    line-height: .95;
+    text-transform: uppercase;
     color: #F06543;
 }
 

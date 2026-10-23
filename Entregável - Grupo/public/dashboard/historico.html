@@ -6,13 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Histórico - Temperatura e Umidade</title>
     <link rel="icon" href="../assets/icon/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/historico.css">
     <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
 
 <aside class="sidebar">
-    <a href="../pages/site-cogsolutions.html" class="brand" title="Voltar ao site inicial">
+    <a href="../index.html" class="brand" title="Voltar ao site inicial">
         <img src="../assets/icon/favicon.png" alt="Cog Solutions" class="brand-icon">
         <span class="brand-name">COG SOLUTIONS</span>
     </a>
@@ -80,8 +83,12 @@
   <header class="card-header">
     <div>
       <h1 id="titulo">Registros de leitura</h1>
-      <p class="subtitulo">Câmara 02 · 12 e 13 de outubro de 2026 · 864 registros no período</p>
+      <p class="subtitulo" id="subtitulo">Câmara 02 · 12 e 13 de outubro de 2026 · 864 registros no período</p>
     </div>
+    <button class="ordenar" id="btn-ordem" type="button">
+      <span id="rotulo-ordem">Mais recentes primeiro</span>
+      <span id="seta-ordem">↓</span>
+    </button>
   </header>
 
   <div class="tabela-wrap">
@@ -97,64 +104,14 @@
           <th>Status</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td class="mono data">13/10/2026<span class="hora">12:00:00</span></td>
-          <td class="suave">Câmara 02</td>
-          <td class="suave">Frutificação</td>
-          <td>Temperatura</td>
-          <td class="mono">17,4°C</td>
-          <td class="mono suave">16-22°C</td>
-          <td><span class="badge">Dentro da faixa</span></td>
-        </tr>
-        <tr>
-          <td class="mono data">13/10/2026<span class="hora">12:00:00</span></td>
-          <td class="suave">Câmara 02</td>
-          <td class="suave">Frutificação</td>
-          <td>Umidade do Ar</td>
-          <td class="mono">87,3%</td>
-          <td class="mono suave">80-90%</td>
-          <td><span class="badge">Dentro da faixa</span></td>
-        </tr>
-        <tr>
-          <td class="mono data">13/10/2026<span class="hora">12:00:00</span></td>
-          <td class="suave">Câmara 02</td>
-          <td class="suave">Frutificação</td>
-          <td>Umidade do Substrato</td>
-          <td class="mono fora">59,9%</td>
-          <td class="mono suave">60-80%</td>
-          <td><span class="badge fora">Fora da faixa</span></td>
-        </tr>
-        <tr>
-          <td class="mono data">13/10/2026<span class="hora">11:55:00</span></td>
-          <td class="suave">Câmara 02</td>
-          <td class="suave">Frutificação</td>
-          <td>Temperatura</td>
-          <td class="mono">17,7°C</td>
-          <td class="mono suave">16-22°C</td>
-          <td><span class="badge">Dentro da faixa</span></td>
-        </tr>
-        <tr>
-          <td class="mono data">13/10/2026<span class="hora">11:55:00</span></td>
-          <td class="suave">Câmara 02</td>
-          <td class="suave">Frutificação</td>
-          <td>Umidade do Ar</td>
-          <td class="mono">86,7%</td>
-          <td class="mono suave">80-90%</td>
-          <td><span class="badge">Dentro da faixa</span></td>
-        </tr>
-        <tr>
-          <td class="mono data">13/10/2026<span class="hora">11:55:00</span></td>
-          <td class="suave">Câmara 02</td>
-          <td class="suave">Frutificação</td>
-          <td>Umidade do Substrato</td>
-          <td class="mono">62,3%</td>
-          <td class="mono suave">60-80%</td>
-          <td><span class="badge">Dentro da faixa</span></td>
-        </tr>
-      </tbody>
+      <tbody id="corpo"></tbody>
     </table>
   </div>
+
+  <footer class="card-footer">
+    <span class="contagem" id="contagem"></span>
+    <nav class="paginacao" id="paginacao" aria-label="Paginação"></nav>
+  </footer>
 </section>
 
 </main>

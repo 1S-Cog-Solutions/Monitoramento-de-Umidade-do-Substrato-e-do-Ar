@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/cadastro.css">
     <link rel="icon" type="image/png" href="./assets/icon/favicon.png">
     <script src="./js/sessao.js"></script>
@@ -52,6 +55,7 @@
     function entrar() {
         aguardar();
 
+<<<<<<< HEAD
         var emailVar = ipt_email.value;
         var senhaVar = ipt_senha.value;
 
@@ -60,6 +64,12 @@
             mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
             finalizarAguardar();
             return false;
+=======
+        if (email.endsWith('@sptech.school')) {
+            window.top.location.href = 'dashboard/dashboard.html';
+        } else {
+            alert('Acesso permitido apenas para e-mails @sptech.school');
+>>>>>>> 5ca9dccd5d451bb7bdc83b8dfd32e8257d3b47f9
         }
         else {
             setInterval(sumirMensagem, 5000)

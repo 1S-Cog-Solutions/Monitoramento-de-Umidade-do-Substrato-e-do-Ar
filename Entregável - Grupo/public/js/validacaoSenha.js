@@ -53,7 +53,7 @@ function validarSenha() {
         <p style="${estiloCaractereEspecial}">Pelo menos um caractere especial.</p>
     `;
 
-    if (senha = '') {
+    if (senha === '') {
         divRegrasSenhas.innerHTML = ``;
     }
 }
@@ -75,4 +75,53 @@ function verificarSenhas() {
     }
 
     
+}
+
+function senhaCumpreRegras(senha) {
+    let numeros = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    let caracteresEspeciais = ['@', '!', '#', '$', '%', '&', '*', '(', ')', '/', '?', ',', '.', '[', ']', '{', '}', '+', '=', '-', '_'];
+    let temNumero = false;
+    let temCaracterEspecial = false;
+    let contador = 0;
+
+    while (contador < numeros.length) {
+        if (senha.includes(numeros[contador])) {
+            temNumero = true;
+        }
+        contador++;
+    }
+
+    contador = 0;
+    while (contador < caracteresEspeciais.length) {
+        if (senha.includes(caracteresEspeciais[contador])) {
+            temCaracterEspecial = true;
+        }
+        contador++;
+    }
+
+    let temMaiuscula = senha != senha.toLowerCase();
+    let temMinuscula = senha != senha.toUpperCase();
+
+    return temMaiuscula && temMinuscula && temNumero && temCaracterEspecial;
+}
+
+function cadastrar() {
+    let nome = ipt_nome.value.trim();
+    let email = ipt_email.value.trim();
+    let senha = ipt_senha.value;
+    let confirmarSenha = ipt_confirmar_senha.value;
+    let chave = ipt_chave.value.trim();
+
+    if (nome == '' || email == '' || senha == '' || confirmarSenha == '' || chave == '') {
+        alert('Preencha todos os campos.');
+    } else if (!email.includes('@') || !email.includes('.')) {
+        alert('Digite um e-mail válido.');
+    } else if (!senhaCumpreRegras(senha)) {
+        alert('A senha precisa cumprir todas as regras indicadas.');
+    } else if (senha !== confirmarSenha) {
+        alert('As senhas precisam ser iguais.');
+    } else {
+        alert('Conta criada com sucesso!');
+        window.location.href = 'dashboard/dashboard.html';
+    }
 }

@@ -53,14 +53,14 @@ function validarSenhaEmpresa() {
     }
 
     divRegrasSenhas.innerHTML = `
-        <p style="${estiloCaractere}">Pelo menos uma 16 caracteres.</p> 
+        <p style="${estiloCaractere}">Pelo menos 16 caracteres.</p> 
         <p style="${estiloMaiuscula}">Pelo menos uma letra maiúscula (A-Z).</p> 
         <p style="${estiloMinuscula}">Pelo menos uma letra minúscula (a-z).</p>
         <p style="${estiloNumero}">Pelo menos um número (0-9).</p>
         <p style="${estiloCaractereEspecial}">Pelo menos um caractere especial.</p>
     `;
 
-    if (senha = '') {
+    if (senha === '') {
         divRegrasSenhas.innerHTML = ``;
     }
 }

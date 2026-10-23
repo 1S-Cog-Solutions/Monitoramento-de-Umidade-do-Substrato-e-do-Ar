@@ -1,3 +1,9 @@
+  :root {
+    --display: "Barlow Condensed", "Arial Narrow", sans-serif;
+    --body: "Manrope", system-ui, Arial, sans-serif;
+    --laranja: #e8622c;
+  }
+
   * {
     margin: 0;
     padding: 0;
@@ -5,8 +11,12 @@
     scroll-behavior: smooth;
   }
 
+  button, input {
+    font-family: inherit;
+  }
+
   body {
-    font-family: Arial, sans-serif;
+    font-family: var(--body);
     background-color: #111111;
     color: #f0f0f0;
     margin: 0;
@@ -31,8 +41,48 @@
     gap: 10px;
   }
 
+  /* link da logo: mantém ícone e título lado a lado, sem a cor/sublinhado padrão */
+  .header-logo a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: inherit;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+
+  .header-logo a:hover {
+    opacity: 0.85;
+  }
+
   header h2 {
     margin: 0;
+    font-family: var(--display);
+    font-size: 1.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .02em;
+  }
+
+  /* títulos e eyebrow, no padrão dos sites demo */
+  h1, h2, h3, h4 {
+    font-family: var(--display);
+    line-height: .95;
+    letter-spacing: .005em;
+  }
+
+  h1 em, h2 em {
+    font-style: normal;
+    color: var(--laranja);
+  }
+
+  .eyebrow {
+    margin-bottom: 14px;
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--laranja);
   }
 
   nav {
@@ -147,20 +197,22 @@
     justify-content: center;
     flex-direction: column;
     gap: 15px;
-    width: 700px;
+    width: 100%;
+    max-width: 700px;
   }
 
   .hero h1 {
-    font-size: 2em;
+    font-size: clamp(2.4rem, 4.6vw, 3.6rem);
+    font-weight: 800;
+    text-transform: uppercase;
   }
 
   .hero p {
     text-align: justify;
   }
 
-  .destaque {
-    color: #e8622c;
-    font-size: 14px;
+  .hero .eyebrow {
+    margin-bottom: 0;
   }
 
 
@@ -225,8 +277,21 @@
   }
 
   section h2 {
-    font-size: 32px;
-    margin-bottom: 10px;
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  section h3 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  section h4 {
+    font-size: 1.3rem;
+    font-weight: 700;
   }
 
   section p {
@@ -380,6 +445,10 @@
     gap: 30px;
   }
 
+  .grid-contato > div {
+    flex: 1;
+  }
+
   .formulario {
     flex: 1;
     background-color: #1c1c1c;
@@ -467,5 +536,77 @@
     .linha-mercado,
     .grid-contato {
       flex-direction: column;
+    }
+
+    /* header: logo e botão na primeira linha, menu embaixo */
+    header {
+      flex-wrap: wrap;
+      padding: 12px 16px;
+      row-gap: 10px;
+      z-index: 10;
+    }
+
+    #icon-header {
+      max-width: 36px;
+    }
+
+    header h2 {
+      font-size: 1.35rem;
+    }
+
+    .header-botao {
+      flex: 0;
+    }
+
+    .header-botao .botao {
+      padding: 8px 16px;
+    }
+
+    nav {
+      order: 3;
+      flex: 1 0 100%;
+      gap: 24px;
+      font-size: 14px;
+    }
+
+    /* hero: começa abaixo do header fixo e cresce com o conteúdo */
+    .hero {
+      height: auto;
+      min-height: 100vh;
+      padding: 140px 16px 48px;
+    }
+
+    .hero p {
+      text-align: left;
+    }
+
+    .hero-botoes {
+      width: 100%;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .hero-botoes > * {
+      flex: 1 1 140px;
+    }
+
+    .hero-botoes button {
+      width: 100%;
+    }
+
+    .simulacao {
+      position: static;
+      width: 100%;
+      height: auto;
+      margin: 10px 0 0 0;
+    }
+
+    section,
+    .secao-clara {
+      padding: 64px 16px;
+    }
+
+    #foto-branca {
+      max-width: 100%;
     }
   }
