@@ -116,10 +116,15 @@
   }
 
   .header-botao {
-    flex: 1;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
+  }
+
+  .nav-link {
+    color: white;
+    text-decoration: none;
   }
 
   .botao {
@@ -554,9 +559,6 @@
       font-size: 1.35rem;
     }
 
-    .header-botao {
-      flex: 0;
-    }
 
     .header-botao .botao {
       padding: 8px 16px;
