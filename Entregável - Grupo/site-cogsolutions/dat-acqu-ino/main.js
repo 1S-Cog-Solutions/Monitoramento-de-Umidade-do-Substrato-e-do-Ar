@@ -19,7 +19,7 @@ const serial = async (
 ) => {
 
     // conexão com o banco de dados MySQL
-    let poolBancoDados = mysql.createPool(
+  /*  let poolBancoDados = mysql.createPool(
         {
             host: 'localhost',
             user: 'sensor',
@@ -28,11 +28,11 @@ const serial = async (
             port: 3306
         }
     ).promise();
-
-      /* conexão vm: 
+*/
+       //conexão vm: 
        let poolBancoDados = mysql.createPool(
         {
-            host: 'localhost',
+            host: '10.18.33.123',
             user: 'cogSolutions',
             password: 'Paris#2026',
             database: 'cog_solutions',
@@ -40,7 +40,7 @@ const serial = async (
         }
     ).promise();
 
-    */
+    
    
 
 

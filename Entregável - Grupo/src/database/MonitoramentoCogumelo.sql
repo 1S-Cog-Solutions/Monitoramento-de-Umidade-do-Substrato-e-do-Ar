@@ -32,8 +32,8 @@ idUsuario INT AUTO_INCREMENT PRIMARY KEY,
 	dtCadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
     fk_Empresa INT,
      fk_Responsavel INT,
-     adminstrador TINYINT ,
-       CONSTRAINT chk_admin_binary CHECK (adminstrador IN (0, 1)),
+     administrador TINYINT ,
+       CONSTRAINT chk_admin_binary CHECK (administrador IN (0, 1)),
     CONSTRAINT responsavel
 	FOREIGN KEY (fk_Responsavel) 
 		REFERENCES Usuario(idUsuario)
@@ -152,20 +152,20 @@ CREATE TABLE faixa_ideal (
 );
 
 INSERT INTO Usuario (nome, email, senha, fk_Empresa, fk_Responsavel, administrador) VALUES
-('Ana Lima',      'ana@cogumaster.com.br',        'Teste@123', 1, 1),  -- id 1 (gestora)
-('Diego Rocha',   'diego@estufascogumelos.com.br','Teste@123', 2, 1),  -- id 2 (gestor)
-('Fábio Teixeira','fabio@parisbrasil.com.br',     'Teste@123', 3, 1),  -- id 3 (gestor)
-('Helena Duarte', 'helena@semempresa.com',        'Teste@123', NULL, NULL); -- id 4 (sem empresa)
+('Ana Lima',      'ana@cogumaster.com.br',        'Teste@123', 1, Null,1),  -- id 1 (gestora)
+('Diego Rocha',   'diego@estufascogumelos.com.br','Teste@123', 1, 1,1),  -- id 2 (gestor)
+('Fábio Teixeira','fabio@parisbrasil.com.br',     'Teste@123', 1, 1,1),  -- id 3 (gestor)
+('Helena Duarte', 'helena@semempresa.com',        'Teste@123', NULL, NULL, NULL); -- id 4 (sem empresa)
  
-INSERT INTO Usuario (nome, email, senha, fk_Empresa, fk_Responsavel) VALUES
-('Bruno Costa',   'bruno@cogumaster.com.br',      'Teste@123', 1, 1),     -- id 5, responsável: Ana
-('Elisa Prado',   'elisa@estufascogumelos.com.br','Teste@123', 2, 2),     -- id 6, responsável: Diego
-('Gustavo Alves', 'gustavo@parisbrasil.com.br',   'Teste@123', 3, 3);     -- id 7, responsável: Fábio
+INSERT INTO Usuario (nome, email, senha, fk_Empresa, fk_Responsavel, administrador) VALUES
+('Bruno Costa',   'bruno@cogumaster.com.br',      'Teste@123', 1, 1,0),     -- id 5, responsável: Ana
+('Elisa Prado',   'elisa@estufascogumelos.com.br','Teste@123', 1, 2,0),     -- id 6, responsável: Diego
+('Gustavo Alves', 'gustavo@parisbrasil.com.br',   'Teste@123', 1, 3,0);     -- id 7, responsável: Fábio
  
-INSERT INTO Usuario (nome, email, senha, fk_Empresa, fk_Responsavel) VALUES
-('Carla Mendes',  'carla@cogumaster.com.br',      'Teste@123', 1, 5);     -- id 8, responsável: Bruno (3º nível)
+INSERT INTO Usuario (nome, email, senha, fk_Empresa, fk_Responsavel, administrador) VALUES
+('Carla Mendes',  'carla@cogumaster.com.br',      'Teste@123', 1, 2,0);     -- id 8, responsável: Bruno (3º nível)
 
-
+truncate Usuario;
 
 -- Inserindo Estufas / Câmaras de Cultivo
 INSERT INTO ambienteCultivo  (nome, capacidadeSacos, fk_Empresa) VALUES
