@@ -15,6 +15,7 @@
     font-family: inherit;
   }
 
+
   body {
     font-family: var(--body);
     background-color: #111111;
@@ -23,7 +24,6 @@
     padding: 0;
   }
 
-  /* header */
   header {
     width: 100%;
     background-color: #1c1c1c;
@@ -41,7 +41,6 @@
     gap: 10px;
   }
 
-  /* link da logo: mantém ícone e título lado a lado, sem a cor/sublinhado padrão */
   .header-logo a {
     display: flex;
     align-items: center;
@@ -64,7 +63,6 @@
     letter-spacing: .02em;
   }
 
-  /* títulos e eyebrow, no padrão dos sites demo */
   h1, h2, h3, h4 {
     font-family: var(--display);
     line-height: .95;
@@ -175,13 +173,12 @@
     border-radius: 10px;
   }
 
-  /* hero */
   .hero {
     display: flex;
     justify-content: center;
     flex-direction: column;
     gap: 15px;
-    height: 100vh;
+    height: 110vh;
 
     padding: 50px;
 
@@ -216,10 +213,7 @@
   }
 
 
-
-  /* simulação no hero */
   .simulacao {
-    position: absolute;
     right: 10%;
     display: none;
     width: 220px;
@@ -266,7 +260,6 @@
     color: #ff4d4d;
   }
 
-  /* estrutura geral seções */
   section {
     padding: 60px 20px;
   }
@@ -299,7 +292,6 @@
     margin-bottom: 30px;
   }
 
-  /* seção clara */
   .secao-clara {
     background-color: whitesmoke;
     color: #1c1c1c;
@@ -329,7 +321,6 @@
     margin-bottom: 8px;
   }
 
-  /* destaque temperatura */
   .grid-temperatura {
     display: flex;
     align-items: stretch;
@@ -380,7 +371,6 @@
     color: #3a2416;
   }
 
-  /* seção escura */
   .grid-caixas {
     display: flex;
     gap: 15px;
@@ -398,7 +388,6 @@
     margin-top: 0;
   }
 
-  /* seção com img */
   .linha-mercado {
     display: flex;
     align-items: center;
@@ -439,7 +428,6 @@
     color: #bbbbbb;
   }
 
-  /* contato */
   .grid-contato {
     display: flex;
     gap: 30px;
@@ -474,7 +462,6 @@
     color: #f0f0f0;
   }
 
-  /* footer */
   footer {
     text-align: center;
     padding: 20px;
@@ -483,7 +470,6 @@
     font-size: 13px;
   }
 
-  /* modal login */
   .overlay-login {
     display: none;
     position: fixed;
@@ -528,7 +514,6 @@
     z-index: 1;
   }
 
-  /* responsivo */
   @media (max-width: 700px) {
     .grid-numeros,
     .grid-temperatura,
@@ -538,7 +523,6 @@
       flex-direction: column;
     }
 
-    /* header: logo e botão na primeira linha, menu embaixo */
     header {
       flex-wrap: wrap;
       padding: 12px 16px;
@@ -569,7 +553,6 @@
       font-size: 14px;
     }
 
-    /* hero: começa abaixo do header fixo e cresce com o conteúdo */
     .hero {
       height: auto;
       min-height: 100vh;
