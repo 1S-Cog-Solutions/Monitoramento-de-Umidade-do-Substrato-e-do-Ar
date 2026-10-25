@@ -28,17 +28,7 @@ Este projeto propõe um **sistema de monitoramento** (não de automação) com s
 
 ## 🔄 Como funciona
 
-```mermaid
-flowchart LR
-    A[🌡️ Sensores<br/>Umidade do ar · Umidade do solo · Temperatura] --> B[🔌 Arduino]
-    B --> C[⚙️ API]
-    C --> D[(🗄️ Banco de Dados)]
-    D --> E[📊 Dashboard]
-    E --> F{Dentro da faixa ideal?}
-    F -- Não --> G[🔔 Alerta ao produtor]
-    F -- Sim --> H[✅ Monitoramento contínuo]
-    G --> I[🧑‍🌾 Tomada de decisão do produtor]
-```
+![Diagrama de Solução Técnica](Entregável%20-%20Grupo/public/assets/docs/diagrama_solucao_tecnica.png)
 
 <br>
 
