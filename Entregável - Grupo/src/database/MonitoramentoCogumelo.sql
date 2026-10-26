@@ -23,133 +23,126 @@ DROP TABLE IF EXISTS Empresa;
 
 -- Tabela 1: Usuario
 CREATE TABLE Usuario (
-
+ 
 idUsuario INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL, 
     email VARCHAR(100) UNIQUE NOT NULL,
     senha varchar(50) NOT NULL,
     CONSTRAINT chkEmailuser CHECK (email LIKE '%@%'),
-	dtCadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
-    fk_Empresa INT,
-     fk_Responsavel INT,
-     administrador TINYINT ,
-       CONSTRAINT chk_admin_binary CHECK (administrador IN (0, 1)),
+    fkEmpresa INT,
+     fkResponsavel INT,
+     admin TINYINT(1),
+       CONSTRAINT chk_admin_binary CHECK (admin IN (0, 1)),
     CONSTRAINT responsavel
-	FOREIGN KEY (fk_Responsavel) 
+	FOREIGN KEY (fkResponsavel) 
 		REFERENCES Usuario(idUsuario)
 );
 
-
-
 -- tabela 2: Empresa
 CREATE TABLE Empresa (
-
+ 
 idEmpresa INT AUTO_INCREMENT PRIMARY KEY,
-    empresa_nome VARCHAR(100) NOT NULL, 
-    email VARCHAR(100) UNIQUE NOT NULL,
-    CONSTRAINT chkEmail CHECK (email LIKE '%@%'),
-    telefone char(20),
+    Empresa_nome VARCHAR(100) NOT NULL, 
     cnpj char(14),
 	dtCadastro DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-
+ 
 -- A FK de Usuario para Empresa so pode ser criada depois da tabela Empresa existir
 ALTER TABLE Usuario
     ADD CONSTRAINT fkUsuarioEmpresa
-    FOREIGN KEY (fk_Empresa) REFERENCES Empresa(idEmpresa);
-
--- Insert into Empresa
-INSERT INTO Empresa (empresa_nome, email, cnpj) VALUES
-('Cogumelos Cogumaster SP', 'contato@cogumaster.com.br', '12345678000195'),
-('Estufas e Cogumelos Brasil',  'contato@estufascogumelos.com.br',  '38710932000175'),
-('Fungicultura Paris Brasil',  'atendimento@parisbrasil.com.br','98765432000110');
-
+    FOREIGN KEY (fkEmpresa) REFERENCES Empresa(idEmpresa);
 
 -- Tabela 3: estufa
--- A fase do cultivo deixou de ficar aqui e passou para a tabela lote (Tabela 7)
 CREATE TABLE ambienteCultivo (
-    idambienteCultivo INT AUTO_INCREMENT PRIMARY KEY,
+    IdAmbienteCultivo INT AUTO_INCREMENT,
+    fkEmpresa INT NOT NULL,
     nome VARCHAR(50) NOT NULL, -- Ex: 'Câmara 01'
-    capacidadeSacos INT DEFAULT 800,  -- Capacidade padrão (800 a 1000 sacos)
-    fk_Empresa INT NOT NULL,
+    capacidade_sacos INT DEFAULT 800,  -- Capacidade padrão (800 a 1000 sacos)
+    CONSTRAINT pkAmbiente PRIMARY KEY (IdAmbienteCultivo, fkEmpresa),
+    CONSTRAINT uqAmbienteId UNIQUE (IdAmbienteCultivo),
     CONSTRAINT fkAmbienteEmpresa
-    FOREIGN KEY (fk_Empresa) REFERENCES Empresa(idEmpresa)
+    FOREIGN KEY (fkEmpresa) REFERENCES Empresa(idEmpresa)
 );
-
-
-
--- (outra tabela para o vidro que abrange o substrato)
-
+ 
+ 
+ 
 -- Tabela 4: sensor
 CREATE TABLE sensor (
     idSensor INT AUTO_INCREMENT PRIMARY KEY,
+    fkAmbienteCultivo INT NOT NULL,
     tipo VARCHAR(40) NOT NULL,  -- Ex: 'DHT11', 'Capacitivo - Substrato'
     CONSTRAINT chkTipo CHECK(tipo IN ('DHT11', 'Capacitivo - Substrato')),
-    posicaoAmbienteCultivo VARCHAR(50), -- Ex: 'Setor Norte - Prateleira 2'
     statuss VARCHAR(20) DEFAULT 'Ativo', -- 'Ativo', 'Inativo'
     CONSTRAINT chkStatuss CHECK(statuss IN ('Ativo', 'Inativo')),
-    descricao VARCHAR(80),
-    fk_ambienteCultivo INT NOT NULL,
     CONSTRAINT fkSensorAmbiente
-    FOREIGN KEY (fk_ambienteCultivo) REFERENCES ambienteCultivo(idambienteCultivo)
+    FOREIGN KEY (fkAmbienteCultivo) REFERENCES ambienteCultivo(IdAmbienteCultivo)
 );
-
+ 
 -- Tabela 5: leitura (Histórico do Sensoriamento)
-
 CREATE TABLE leitura (
-    id_leitura INT PRIMARY KEY auto_increment,
+    id_leitura INT AUTO_INCREMENT,
+    fkSensor   INT NOT NULL,
     umidadeAr   DECIMAL(4,1) NULL,  
     umidadeSolo DECIMAL(4,1) NULL,   
-    temperatura DECIMAL(4,1) NULL,   
-	fk_sensor   INT NOT NULL,
-     dtHora      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fkLeituraSensor FOREIGN KEY (fk_sensor) REFERENCES sensor(idSensor)
+    Temperatura DECIMAL(4,1) NULL,   
+    dtHora      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT pkLeitura PRIMARY KEY (id_leitura, fkSensor),
+    CONSTRAINT fkLeituraSensor FOREIGN KEY (fkSensor) REFERENCES sensor(idSensor)
 );
-
+ 
 -- Tabela 6: Endereco (1 empresa pode ter varios enderecos: matriz e filiais)
 CREATE TABLE Endereco (
-    idEndereco INT AUTO_INCREMENT PRIMARY KEY,
+    idEndereco INT AUTO_INCREMENT,
+    fkEmpresa INT NOT NULL,
+    unidade VARCHAR(10),
     cep CHAR(10) NOT NULL,
     logradouro VARCHAR(45) NOT NULL,
     numero CHAR(10) NOT NULL,
     complemento VARCHAR(45),
     bairro VARCHAR(45) NOT NULL,
     cidade VARCHAR(45) NOT NULL,
-    UF CHAR(2) NOT NULL,
-    fk_Empresa INT NOT NULL,
+    UF VARCHAR(45) NOT NULL,
+    CONSTRAINT pkEndereco PRIMARY KEY (idEndereco, fkEmpresa),
     CONSTRAINT fkEnderecoEmpresa
-    FOREIGN KEY (fk_Empresa) REFERENCES Empresa(idEmpresa)
+    FOREIGN KEY (fkEmpresa) REFERENCES Empresa(idEmpresa)
 );
-
+ 
 -- Tabela 7: lote (ciclo de cultivo de uma câmara)
+-- Relacao IDENTIFICADORA com ambienteCultivo: a PK e composta (id_lote, fkAmbienteCultivo)
 CREATE TABLE lote (
-    id_lote INT AUTO_INCREMENT PRIMARY KEY,
-    fase_atual VARCHAR(40) NOT NULL,
+    id_lote INT AUTO_INCREMENT,
+    fkAmbienteCultivo INT NOT NULL,
+    fase_atual VARCHAR(45) NOT NULL,
     CONSTRAINT chkFaseLote CHECK(fase_atual IN ('Compostagem', 'Pasteurização', 'Incubação', 'Indução', 'Frutificação')),
     dt_inicio DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     dt_final DATETIME NULL, -- NULL = lote em andamento
     CONSTRAINT chkLoteDatas CHECK(dt_final IS NULL OR dt_final >= dt_inicio),
-    fk_ambienteCultivo INT NOT NULL,
+    CONSTRAINT pkLote PRIMARY KEY (id_lote, fkAmbienteCultivo),
     CONSTRAINT fkLoteAmbiente
-    FOREIGN KEY (fk_ambienteCultivo) REFERENCES ambienteCultivo(idambienteCultivo)
+    FOREIGN KEY (fkAmbienteCultivo) REFERENCES ambienteCultivo(IdAmbienteCultivo)
 );
-
+ 
 -- Tabela 8: faixa_ideal (limites minimo e maximo por empresa, fase e parametro)
 -- O parametro usa o mesmo nome das colunas da tabela leitura
+-- Relacao IDENTIFICADORA com Empresa: a PK e composta (idfaixa_ideal, fkEmpresa)
 CREATE TABLE faixa_ideal (
-    idfaixa_ideal INT AUTO_INCREMENT PRIMARY KEY,
-    fase VARCHAR(40) NOT NULL,
+    idfaixa_ideal INT AUTO_INCREMENT,
+    fkEmpresa INT NOT NULL,
+    fase VARCHAR(45) NOT NULL,
     CONSTRAINT chkFaseFaixa CHECK(fase IN ('Compostagem', 'Pasteurização', 'Incubação', 'Indução', 'Frutificação')),
     parametro VARCHAR(45) NOT NULL,
     CONSTRAINT chkParametro CHECK(parametro IN ('umidadeAr', 'umidadeSolo', 'temperatura')),
     valor_min DECIMAL(4,1) NOT NULL,
     valor_max DECIMAL(4,1) NOT NULL,
     CONSTRAINT chkFaixaValores CHECK(valor_min <= valor_max),
-    fk_Empresa INT NOT NULL,
+    CONSTRAINT pkFaixa PRIMARY KEY (idfaixa_ideal, fkEmpresa),
     CONSTRAINT fkFaixaEmpresa
-    FOREIGN KEY (fk_Empresa) REFERENCES Empresa(idEmpresa),
-    CONSTRAINT uqFaixa UNIQUE (fk_Empresa, fase, parametro)
+    FOREIGN KEY (fkEmpresa) REFERENCES Empresa(idEmpresa),
+    CONSTRAINT uqFaixa UNIQUE (fkEmpresa, fase, parametro)
 );
+ 
+ 
+
 
 INSERT INTO Usuario (nome, email, senha, fk_Empresa, fk_Responsavel, administrador) VALUES
 ('Ana Lima',      'ana@cogumaster.com.br',        'Teste@123', 1, Null,1),  -- id 1 (gestora)
@@ -165,13 +158,23 @@ INSERT INTO Usuario (nome, email, senha, fk_Empresa, fk_Responsavel, administrad
 INSERT INTO Usuario (nome, email, senha, fk_Empresa, fk_Responsavel, administrador) VALUES
 ('Carla Mendes',  'carla@cogumaster.com.br',      'Teste@123', 1, 2,0);     -- id 8, responsável: Bruno (3º nível)
 
-truncate Usuario;
+-- Insert into Empresa
+INSERT INTO Empresa (empresa_nome, email, cnpj) VALUES
+('Cogumelos Cogumaster SP', 'contato@cogumaster.com.br', '12345678000195'),
+('Estufas e Cogumelos Brasil',  'contato@estufascogumelos.com.br',  '38710932000175'),
+('Fungicultura Paris Brasil',  'atendimento@parisbrasil.com.br','98765432000110');
 
 -- Inserindo Estufas / Câmaras de Cultivo
 INSERT INTO ambienteCultivo  (nome, capacidadeSacos, fk_Empresa) VALUES
 ('Câmara 01', 1000, 1),          -- id 1, Cogumaster
 ('Câmara 02', 800, 1),           -- id 2, Cogumaster
 ('Estufa A - Mogi', 950, 2);     -- id 3, Estufas e Cogumelos Brasil
+
+insert into ambienteCultivo (nome, capacidadeSacos, fk_Empresa) values
+('camara 03', 1200, 1);   -- id 4, Cogumaster (ainda sem sensor)
+
+
+
 
 -- Inserindo Sensores (DHT11 e Umidade de Solo/Substrato)
 INSERT INTO sensor (tipo, posicaoAmbienteCultivo, statuss, descricao, fk_ambienteCultivo) VALUES
@@ -218,12 +221,6 @@ INSERT INTO leitura (umidadeAr, umidadeSolo, temperatura, fk_sensor, dtHora) VAL
 (null, 64.0, null, 7, '2026-10-18 08:05:00'),
 (null, 66.5, null, 7, '2026-10-18 08:10:00');   -- substrato acima do máximo
 
-
-select * from leitura where umidadeAr is not null and umidadeSolo is not null; 
-
-
-insert into ambienteCultivo (nome, capacidadeSacos, fk_Empresa) values
-('camara 03', 1200, 1);   -- id 4, Cogumaster (ainda sem sensor)
 
 
 
@@ -626,5 +623,5 @@ FROM Empresa e
 LEFT JOIN ambienteCultivo a ON a.fk_Empresa        = e.idEmpresa
 LEFT JOIN sensor s          ON s.fk_ambienteCultivo = a.idambienteCultivo
 LEFT JOIN leitura l         ON l.fk_sensor          = s.idSensor
-/*GROUP BY e.empresa_nome, a.nome, s.idSensor, s.tipo*/
-/*ORDER BY e.empresa_nome, a.nome, s.idSensor;*/
+GROUP BY e.empresa_nome, a.nome, s.idSensor, s.tipo
+ORDER BY e.empresa_nome, a.nome, s.idSensor;
