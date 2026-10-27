@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cog Solutions — Vídeo Promocional</title>
+<link rel="icon" type="image/png" href="./assets/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --display: "Barlow Condensed", "Arial Narrow", sans-serif;
+    --body: "Manrope", system-ui, Arial, sans-serif;
+    --laranja: #e8622c;
+    --laranja-claro: #ff8a4c;
+    --verde: #5ec97b;
+    --vermelho: #ff5d5d;
+    --amarelo: #f2c14e;
+    --texto-suave: #a3a3ab;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    background: #000;
+    overflow: hidden;
+    font-family: var(--body);
+    color: #f5f5f5;
+  }
+
+  /* palco fixo 1920x1080, escalado para caber na janela */
+  #stage {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 1920px;
+    height: 1080px;
+    margin: -540px 0 0 -960px;
+    overflow: hidden;
+    background: #07070a;
+    transform-origin: 50% 50%;
+  }
+
+  /* fundo com brilho colorido */
+  .glow-layer { position: absolute; inset: 0; overflow: hidden; }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(110px);
+    mix-blend-mode: screen;
+    opacity: .55;
+  }
+  .b1 { width: 900px; height: 900px; left: -200px; top: -250px; background: radial-gradient(circle, #e8622c 0%, transparent 65%); }
+  .b2 { width: 1000px; height: 1000px; right: -300px; top: -200px; background: radial-gradient(circle, #7a3cff 0%, transparent 65%); }
+  .b3 { width: 900px; height: 900px; left: 500px; bottom: -500px; background: radial-gradient(circle, #13b5a5 0%, transparent 65%); }
+  .b4 { width: 700px; height: 700px; right: 100px; bottom: -300px; background: radial-gradient(circle, #ff3d7f 0%, transparent 65%); }
+
+  .grid-floor {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse at 50% 60%, #000 0%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 60%, #000 0%, transparent 70%);
+  }
+
+  .vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,.75) 100%);
+    pointer-events: none;
+    z-index: 50;
+  }
+
+  .grain {
+    position: absolute;
+    inset: -50%;
+    opacity: .06;
+    z-index: 51;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  #content { position: absolute; inset: 0; }
+
+  /* headlines */
+  .headline {
+    position: absolute;
+    left: 120px;
+    top: 50%;
+    width: 700px;
+    transform: translateY(-50%);
+    opacity: 0;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--laranja-claro);
+    margin-bottom: 26px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 34px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--laranja);
+  }
+  .headline h1 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 112px;
+    line-height: .92;
+    text-transform: uppercase;
+    letter-spacing: -.5px;
+    color: #fff;
+  }
+  .headline h1 .linha { display: block; overflow: visible; }
+  .headline h1 .w { display: inline-block; will-change: transform, filter; }
+  .headline h1 em {
+    font-style: normal;
+    color: var(--laranja);
+    background: linear-gradient(90deg, #e8622c, #ff9a5a);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 30px rgba(232,98,44,.45));
+  }
+  .headline p {
+    margin-top: 30px;
+    font-size: 27px;
+    line-height: 1.45;
+    color: #c9c9d1;
+    max-width: 620px;
+  }
+
+  .headline.centro {
+    left: 0;
+    right: 0;
+    width: auto;
+    top: 96px;
+    transform: none;
+    text-align: center;
+  }
+  .headline.centro h1 { font-size: 104px; }
+  .headline.centro .eyebrow { justify-content: center; }
+
+  /* monitor 3D */
+  .float { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; pointer-events: none; }
+  .rig {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform-origin: 0 0;
+    perspective: 4800px;
+  }
+  /* o monitor é montado em 2x (zoom) e reduzido pelo .rig, para o zoom na tela ficar nítido */
+  #monitor { zoom: 2; }
+  .monitor {
+    position: relative;
+    width: 996px;
+    transform-style: preserve-3d;
+    transform-origin: 50% 40%;
+  }
+  .bezel {
+    position: relative;
+    padding: 18px;
+    border-radius: 26px;
+    background: linear-gradient(160deg, #3a3a42 0%, #16161a 40%, #0d0d10 100%);
+    box-shadow:
+      inset 0 0 0 1.5px rgba(255,255,255,.12),
+      inset 0 2px 0 rgba(255,255,255,.18),
+      0 50px 120px rgba(0,0,0,.7),
+      0 0 120px rgba(232,98,44,.18);
+  }
+  .screen {
+    position: relative;
+    width: 960px;
+    height: 600px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #111;
+  }
+  .screen img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top left;
+    opacity: 0;
+  }
+  .glare {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, rgba(255,255,255,.14) 0%, rgba(255,255,255,0) 32%, rgba(255,255,255,0) 70%, rgba(255,255,255,.05) 100%);
+    pointer-events: none;
+  }
+  .neck {
+    width: 150px;
+    height: 110px;
+    margin: -2px auto 0;
+    background: linear-gradient(90deg, #1b1b20, #3b3b44 45%, #1b1b20);
+    clip-path: polygon(14% 0, 86% 0, 100% 100%, 0 100%);
+  }
+  .base {
+    width: 400px;
+    height: 22px;
+    margin: 0 auto;
+    border-radius: 0 0 40px 40px / 0 0 22px 22px;
+    background: linear-gradient(180deg, #45454f, #18181c);
+    box-shadow: 0 30px 50px rgba(0,0,0,.6);
+  }
+  .shadow {
+    position: absolute;
+    left: 50%;
+    bottom: -40px;
+    width: 900px;
+    height: 70px;
+    margin-left: -450px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(0,0,0,.75), transparent 70%);
+    filter: blur(10px);
+  }
+
+  /* celular */
+  .phone {
+    position: absolute;
+    left: 1560px;
+    top: 420px;
+    width: 290px;
+    height: 600px;
+    padding: 12px;
+    border-radius: 48px;
+    background: linear-gradient(150deg, #44444c, #121216 45%, #0a0a0c);
+    box-shadow:
+      inset 0 0 0 2px rgba(255,255,255,.14),
+      0 40px 90px rgba(0,0,0,.75),
+      0 0 80px rgba(122,60,255,.25);
+    opacity: 0;
+    z-index: 20;
+  }
+  .phone-screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 37px;
+    overflow: hidden;
+    background: linear-gradient(180deg, #1d1d22, #121215);
+  }
+  .notch {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 92px;
+    height: 26px;
+    margin-left: -46px;
+    border-radius: 14px;
+    background: #000;
+    z-index: 3;
+  }
+  .app {
+    position: absolute;
+    inset: 0;
+    padding: 50px 18px 18px;
+  }
+  .app-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 20px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .app-top img { width: 26px; height: 26px; }
+  .app-sub {
+    font-size: 11px;
+    color: var(--verde);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .app-sub::before, .dot::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+    display: inline-block;
+  }
+  .app h4 {
+    font-family: var(--display);
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+  .mini {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.07);
+    border-radius: 16px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .mini small { display: block; font-size: 11px; color: var(--texto-suave); }
+  .mini b { font-family: var(--display); font-size: 30px; }
+  .mini.ruim { border-color: rgba(255,93,93,.4); background: rgba(255,93,93,.08); }
+  .mini.ruim b { color: var(--vermelho); }
+  .mini.alerta b { font-family: var(--body); font-size: 13px; font-weight: 600; }
+  .bar { height: 4px; border-radius: 2px; background: rgba(255,255,255,.08); margin-top: 6px; overflow: hidden; }
+  .bar i { display: block; height: 100%; border-radius: 2px; }
+
+  /* cards que saltam do celular */
+  .card {
+    position: absolute;
+    width: 330px;
+    padding: 22px 26px;
+    border-radius: 24px;
+    background: rgba(26,26,31,.78);
+    border: 1px solid rgba(255,255,255,.12);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    box-shadow: 0 30px 70px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.1);
+    opacity: 0;
+    z-index: 30;
+  }
+  .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 17px;
+    color: #c9c9d1;
+  }
+  .card-top img { width: 32px; height: 32px; }
+  .card .valor {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 66px;
+    line-height: 1.05;
+    margin-top: 6px;
+  }
+  .card .dot { font-size: 15px; display: flex; align-items: center; gap: 8px; color: var(--verde); }
+  .card.fora { border-color: rgba(255,93,93,.5); box-shadow: 0 30px 70px rgba(0,0,0,.55), 0 0 50px rgba(255,93,93,.25); }
+  .card.fora .valor, .card.fora .dot { color: var(--vermelho); }
+
+  .card.notif { width: 420px; padding: 18px 22px; }
+  .notif .tag {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 8px;
+    margin-right: 10px;
+  }
+  .tag.critico { background: rgba(255,93,93,.15); color: var(--vermelho); }
+  .tag.atencao { background: rgba(242,193,78,.15); color: var(--amarelo); }
+  .notif h5 { font-size: 19px; font-weight: 700; margin-top: 10px; }
+  .notif span.meta { display: block; font-size: 14px; color: var(--texto-suave); margin-top: 4px; }
+  .notif .hora { float: right; font-family: monospace; font-size: 14px; color: var(--texto-suave); margin-top: 6px; }
+  .notif.critico { border-left: 4px solid var(--vermelho); }
+  .notif.atencao { border-left: 4px solid var(--amarelo); }
+
+  /* leque de monitores */
+  .fan { position: absolute; inset: 0; perspective: 2200px; }
+  .fan-mon {
+    position: absolute;
+    left: 50%;
+    top: 610px;
+    width: 640px;
+    margin-left: -320px;
+    margin-top: -200px;
+    opacity: 0;
+    transform-style: preserve-3d;
+  }
+  .fan-mon .bezel { padding: 12px; border-radius: 18px; }
+  .fan-mon .screen { width: 616px; height: 385px; border-radius: 6px; }
+  .fan-mon .screen img { opacity: 1; }
+  .fan-mon .neck { width: 90px; height: 66px; }
+  .fan-mon .base { width: 240px; height: 14px; }
+
+  /* encerramento */
+  .final {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .final .logo {
+    width: 430px;
+    height: 430px;
+    opacity: 0;
+    filter: drop-shadow(0 0 60px rgba(232,98,44,.45));
+  }
+  .final h2 {
+    margin-top: 10px;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 96px;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .final h2 .w { display: inline-block; opacity: 0; }
+  .final h2 em {
+    font-style: normal;
+    background: linear-gradient(90deg, #e8622c, #ff9a5a);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .final p {
+    margin-top: 22px;
+    font-size: 26px;
+    color: #b9b9c2;
+    opacity: 0;
+  }
+  .flare {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    width: 1400px;
+    height: 1400px;
+    margin: -700px 0 0 -700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,98,44,.35), rgba(122,60,255,.12) 40%, transparent 65%);
+    opacity: 0;
+  }
+
+  /* controles (fora do enquadramento útil, somem sozinhos) */
+  #ui {
+    position: fixed;
+    left: 50%;
+    bottom: 18px;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 16px;
+    border-radius: 14px;
+    background: rgba(20,20,24,.85);
+    border: 1px solid rgba(255,255,255,.1);
+    font-size: 13px;
+    color: #ddd;
+    z-index: 100;
+    transition: opacity .4s;
+  }
+  #ui.oculto { opacity: 0; pointer-events: none; }
+  #ui button {
+    font: inherit;
+    color: #fff;
+    background: var(--laranja);
+    border: 0;
+    border-radius: 8px;
+    padding: 6px 14px;
+    cursor: pointer;
+  }
+  #ui input { width: 320px; accent-color: var(--laranja); }
+  #tempo { font-variant-numeric: tabular-nums; min-width: 86px; }
+</style>
+</head>
+<body>
+
+<div id="stage">
+  <div class="glow-layer">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="blob b4"></div>
+    <div class="grid-floor"></div>
+  </div>
+
+  <div id="content">
+
+    <!-- headlines das cenas -->
+    <div class="headline" id="h1">
+      <div class="eyebrow">Apresentando Cog Solutions</div>
+      <h1>
+        <span class="linha"><span class="w">Seu</span> <span class="w">cultivo,</span></span>
+        <span class="linha"><span class="w">sempre</span></span>
+        <span class="linha"><span class="w"><em>monitorado.</em></span></span>
+      </h1>
+      <p>Umidade do substrato, do ar e temperatura do Champignon Paris em um só lugar.</p>
+    </div>
+
+    <div class="headline" id="h2">
+      <div class="eyebrow">Login e cadastro</div>
+      <h1>
+        <span class="linha"><span class="w">Sua</span> <span class="w">estufa</span></span>
+        <span class="linha"><span class="w">a</span> <span class="w">um</span> <span class="w"><em>login</em></span></span>
+        <span class="linha"><span class="w">de</span> <span class="w">distância.</span></span>
+      </h1>
+      <p>Crie sua conta com a chave da empresa e acompanhe tudo de onde estiver.</p>
+    </div>
+
+    <div class="headline" id="h3">
+      <div class="eyebrow">Dashboard</div>
+      <h1>
+        <span class="linha"><span class="w">Cada</span> <span class="w">câmara</span></span>
+        <span class="linha"><span class="w">em</span> <span class="w"><em>tempo</em></span></span>
+        <span class="linha"><span class="w"><em>real.</em></span></span>
+      </h1>
+      <p>Temperatura, umidade do ar e do substrato ao vivo, com a faixa ideal de cada fase.</p>
+    </div>
+
+    <div class="headline" id="h4">
+      <div class="eyebrow">Histórico</div>
+      <h1>
+        <span class="linha"><span class="w">Cada</span> <span class="w">leitura,</span></span>
+        <span class="linha"><span class="w"><em>registrada.</em></span></span>
+      </h1>
+      <p>Tendências de 24 horas, 7 e 30 dias — com exportação em CSV.</p>
+    </div>
+
+    <div class="headline" id="h5">
+      <div class="eyebrow">Alertas</div>
+      <h1>
+        <span class="linha"><span class="w">Aja</span> <span class="w"><em>antes</em></span></span>
+        <span class="linha"><span class="w">da</span> <span class="w">perda.</span></span>
+      </h1>
+      <p>Leituras fora da faixa e sensores desconectados avisados na hora.</p>
+    </div>
+
+    <div class="headline centro" id="h6">
+      <h1>
+        <span class="linha"><span class="w">Do</span> <span class="w">sensor</span> <span class="w">ao</span> <span class="w"><em>painel.</em></span></span>
+      </h1>
+    </div>
+
+    <!-- monitor principal -->
+    <div class="float" id="float">
+      <div class="rig" id="rig">
+        <div class="monitor" id="monitor">
+          <div class="bezel">
+            <div class="screen">
+              <img src="./assets/home.jpg" data-tela="home" alt="">
+              <img src="./assets/login.jpg" data-tela="login" alt="">
+              <img src="./assets/cadastro.jpg" data-tela="cadastro" alt="">
+              <img src="./assets/dashboard.jpg" data-tela="dashboard" alt="">
+              <img src="./assets/historico.jpg" data-tela="historico" alt="">
+              <img src="./assets/alertas.jpg" data-tela="alertas" alt="">
+              <div class="glare"></div>
+            </div>
+          </div>
+          <div class="neck"></div>
+          <div class="base"></div>
+          <div class="shadow"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- celular -->
+    <div class="phone" id="phone">
+      <div class="phone-screen">
+        <div class="notch"></div>
+        <div class="app" id="app-leituras">
+          <div class="app-top"><img src="./assets/favicon.png" alt="">Cog Solutions</div>
+          <div class="app-sub">Monitoramento em tempo real</div>
+          <h4>Câmara 02</h4>
+          <div class="mini"><small>Temperatura</small><b>17,4°C</b><div class="bar"><i style="width:55%;background:var(--amarelo)"></i></div></div>
+          <div class="mini"><small>Umidade do ar</small><b>87,3%</b><div class="bar"><i style="width:87%;background:#3b8fe0"></i></div></div>
+          <div class="mini ruim"><small>Umidade do substrato</small><b>59,9%</b><div class="bar"><i style="width:60%;background:var(--vermelho)"></i></div></div>
+        </div>
+        <div class="app" id="app-alertas" style="opacity:0">
+          <div class="app-top"><img src="./assets/favicon.png" alt="">Cog Solutions</div>
+          <div class="app-sub" style="color:var(--vermelho)">3 alertas ativos</div>
+          <h4>Alertas</h4>
+          <div class="mini alerta ruim"><small>Crítico · 12:00</small><b>Substrato fora da faixa</b></div>
+          <div class="mini alerta"><small>Atenção · 09:15</small><b>Sensor desconectado</b></div>
+          <div class="mini alerta"><small>Atenção · 08:40</small><b>Temperatura perto do limite</b></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- cards de leituras (dashboard) -->
+    <div class="card leit" style="left:1110px; top:250px">
+      <div class="card-top">Temperatura <img src="./assets/temperature.png" alt=""></div>
+      <div class="valor">17,4°C</div>
+      <div class="dot">dentro da faixa (16–22°C)</div>
+    </div>
+    <div class="card leit" style="left:1170px; top:500px">
+      <div class="card-top">Umidade do ar <img src="./assets/umidade-ar.png" alt=""></div>
+      <div class="valor">87,3%</div>
+      <div class="dot">dentro da faixa (80–90%)</div>
+    </div>
+    <div class="card leit fora" style="left:1110px; top:750px">
+      <div class="card-top">Umidade do substrato <img src="./assets/umidade-solo.png" alt=""></div>
+      <div class="valor">59,9%</div>
+      <div class="dot">fora da faixa (60–80%)</div>
+    </div>
+
+    <!-- cards de alertas -->
+    <div class="card notif critico" style="left:1040px; top:300px">
+      <span class="hora">Hoje, 12:00</span>
+      <span class="tag critico">Crítico</span>
+      <h5>Umidade do substrato fora da faixa</h5>
+      <span class="meta">Câmara 02 · Medido 59,9% · Faixa 60–80%</span>
+    </div>
+    <div class="card notif atencao" style="left:1090px; top:510px">
+      <span class="hora">Hoje, 09:15</span>
+      <span class="tag atencao">Atenção</span>
+      <h5>Sensor desconectado temporariamente</h5>
+      <span class="meta">Câmara 03 · Última leitura há 12 min</span>
+    </div>
+    <div class="card notif atencao" style="left:1040px; top:720px">
+      <span class="hora">Hoje, 08:40</span>
+      <span class="tag atencao">Atenção</span>
+      <h5>Temperatura próxima do limite</h5>
+      <span class="meta">Câmara 01 · Medido 21,6°C · Faixa 16–22°C</span>
+    </div>
+
+    <!-- leque de monitores -->
+    <div class="fan" id="fan">
+      <div class="fan-mon"><div class="bezel"><div class="screen"><img src="./assets/home.jpg" alt=""><div class="glare"></div></div></div><div class="neck"></div><div class="base"></div></div>
+      <div class="fan-mon"><div class="bezel"><div class="screen"><img src="./assets/login.jpg" alt=""><div class="glare"></div></div></div><div class="neck"></div><div class="base"></div></div>
+      <div class="fan-mon"><div class="bezel"><div class="screen"><img src="./assets/dashboard.jpg" alt=""><div class="glare"></div></div></div><div class="neck"></div><div class="base"></div></div>
+      <div class="fan-mon"><div class="bezel"><div class="screen"><img src="./assets/historico.jpg" alt=""><div class="glare"></div></div></div><div class="neck"></div><div class="base"></div></div>
+      <div class="fan-mon"><div class="bezel"><div class="screen"><img src="./assets/alertas.jpg" alt=""><div class="glare"></div></div></div><div class="neck"></div><div class="base"></div></div>
+    </div>
+
+    <!-- logo + tagline -->
+    <div class="final" id="final">
+      <div class="flare"></div>
+      <img class="logo" src="./assets/cog-solutions-logo.png" alt="Cog Solutions">
+      <h2>
+        <span class="w">Monitorar</span> <span class="w">hoje.</span>
+        <span class="w"><em>Colher</em></span> <span class="w">amanhã.</span>
+      </h2>
+      <p>Monitoramento inteligente para o cultivo de Champignon Paris.</p>
+    </div>
+
+  </div>
+
+  <div class="vignette"></div>
+  <div class="grain"></div>
+</div>
+
+<div id="ui">
+  <button id="btn-play">Pausar</button>
+  <button id="btn-restart">Reiniciar</button>
+  <input type="range" id="scrub" min="0" max="1000" value="0">
+  <span id="tempo">0.0s / 30s</span>
+  <span style="opacity:.6">Espaço: play/pause · H: ocultar</span>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+  // ---------- escala do palco ----------
+  const stage = document.getElementById('stage');
+  function ajustarEscala() {
+    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    stage.style.transform = 'scale(' + s + ')';
+  }
+  window.addEventListener('resize', ajustarEscala);
+  ajustarEscala();
+
+  // ---------- referências ----------
+  const $ = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+  const rig = $('#rig');
+  const monitor = $('#monitor');
+  const phone = $('#phone');
+  const telas = {};
+  $$('.screen img[data-tela]').forEach(img => telas[img.dataset.tela] = img);
+  const cardsLeit = $$('.card.leit');
+  const cardsNotif = $$('.card.notif');
+  const fanMons = $$('.fan-mon');
+
+  // posição padrão do monitor
+  const Z = 2; // mesmo valor do zoom do #monitor no CSS
+  const RIG = { x: 860, y: 190, scale: 1 / Z };
+  const POSE = { rotationY: -18, rotationX: 5, rotationZ: 0 };
+
+  // zoom: região do print (coordenadas 1600x1000) -> centralizada no palco
+  const FATOR = 960 / 1600, BORDA = 18;
+  function zoomPara(rx, ry, rw, rh, maxW = 1720, maxH = 900) {
+    const cx = Z * (BORDA + (rx + rw / 2) * FATOR);
+    const cy = Z * (BORDA + (ry + rh / 2) * FATOR);
+    const s = Math.min(maxW / (rw * FATOR * Z), maxH / (rh * FATOR * Z));
+    return { x: 960 - cx * s, y: 540 - cy * s, scale: s };
+  }
+
+  // estado inicial
+  gsap.set(rig, { ...RIG, opacity: 0, transformOrigin: '0 0' });
+  gsap.set(monitor, POSE);
+  gsap.set($$('.headline h1 .w'), { opacity: 0, y: 80, filter: 'blur(18px)' });
+  gsap.set($$('.headline .eyebrow, .headline p'), { opacity: 0, y: 24, filter: 'blur(10px)' });
+  gsap.set(phone, { x: 260, y: 120, rotation: 14, opacity: 0 });
+  gsap.set([...cardsLeit, ...cardsNotif], { opacity: 0 });
+
+  // movimento contínuo do fundo (fora da timeline principal)
+  gsap.to('.b1', { x: 260, y: 160, duration: 9, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+  gsap.to('.b2', { x: -220, y: 200, duration: 11, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+  gsap.to('.b3', { x: 300, y: -140, duration: 10, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+  gsap.to('.b4', { x: -260, y: -120, duration: 8, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+
+  // ---------- helpers de animação ----------
+  function entrarHeadline(id) {
+    const h = $(id);
+    const t = gsap.timeline();
+    t.set(h, { opacity: 1 })
+     .fromTo(h.querySelector('.eyebrow'), { opacity: 0, y: 24, filter: 'blur(10px)' },
+       { opacity: 1, y: 0, filter: 'blur(0px)', duration: .6, ease: 'power3.out' }, 0)
+     .fromTo(h.querySelectorAll('h1 .w'), { opacity: 0, y: 80, filter: 'blur(18px)' },
+       { opacity: 1, y: 0, filter: 'blur(0px)', duration: .8, ease: 'power4.out', stagger: .08 }, .1);
+    const p = h.querySelector('p');
+    if (p) t.fromTo(p, { opacity: 0, y: 24, filter: 'blur(10px)' },
+      { opacity: 1, y: 0, filter: 'blur(0px)', duration: .7, ease: 'power3.out' }, .45);
+    return t;
+  }
+
+  function sairHeadline(id) {
+    const h = $(id);
+    return gsap.timeline()
+      .to(h.querySelectorAll('.eyebrow, h1 .w, p'), {
+        opacity: 0, y: -40, filter: 'blur(20px)', duration: .5, ease: 'power2.in', stagger: .025
+      })
+      .set(h, { opacity: 0 });
+  }
+
+  function trocarTela(de, para) {
+    const t = gsap.timeline();
+    if (de) t.to(telas[de], { opacity: 0, filter: 'blur(24px)', scale: 1.04, duration: .55, ease: 'power2.in' }, 0);
+    t.fromTo(telas[para],
+      { opacity: 0, filter: 'blur(28px)', scale: 1.08 },
+      { opacity: 1, filter: 'blur(0px)', scale: 1, duration: .8, ease: 'power3.out' }, de ? .3 : 0);
+    // pulso de blur no monitor inteiro durante a troca
+    t.fromTo(monitor, { filter: 'blur(0px)' }, { filter: 'blur(6px)', duration: .3, yoyo: true, repeat: 1, ease: 'sine.inOut' }, 0);
+    return t;
+  }
+
+  function zoomIn(regiao, dur = 1.1) {
+    return gsap.timeline()
+      .to(monitor, { rotationY: 0, rotationX: 0, duration: dur, ease: 'power3.inOut' }, 0)
+      .to(rig, { ...zoomPara(...regiao), duration: dur, ease: 'power3.inOut' }, 0);
+  }
+
+  function zoomOut(dur = 1) {
+    return gsap.timeline()
+      .to(monitor, { ...POSE, duration: dur, ease: 'power3.inOut' }, 0)
+      .to(rig, { ...RIG, duration: dur, ease: 'power3.inOut' }, 0);
+  }
+
+  // cards saltando do celular: saem do centro do celular com efeito mola
+  function saltarCards(cards) {
+    const pr = { x: 1560 + 145, y: 420 + 300 };
+    const t = gsap.timeline();
+    cards.forEach((c, i) => {
+      const cx = parseFloat(c.style.left) + c.offsetWidth / 2;
+      const cy = parseFloat(c.style.top) + c.offsetHeight / 2;
+      t.fromTo(c,
+        { opacity: 0, x: pr.x - cx, y: pr.y - cy, scale: .25, rotation: 8, filter: 'blur(12px)' },
+        { opacity: 1, x: 0, y: 0, scale: 1, rotation: i % 2 ? 2 : -2, filter: 'blur(0px)', duration: .8, ease: 'back.out(2.2)' },
+        i * .13);
+    });
+    // flutuação leve depois do salto
+    t.to(cards, { y: '-=10', duration: 1.2, ease: 'sine.inOut', yoyo: true, repeat: 1, stagger: .15 }, '>-0.2');
+    return t;
+  }
+
+  function sairCards(cards) {
+    return gsap.to(cards, { opacity: 0, scale: .85, filter: 'blur(16px)', y: '-=30', duration: .45, ease: 'power2.in', stagger: .05 });
+  }
+
+  function entrarPhone() {
+    return gsap.fromTo(phone, { opacity: 0, x: 260, y: 120, rotation: 14, filter: 'blur(14px)' },
+      { opacity: 1, x: 0, y: 0, rotation: -6, filter: 'blur(0px)', duration: .9, ease: 'expo.out' });
+  }
+
+  function sairPhone() {
+    return gsap.to(phone, { opacity: 0, x: 200, y: 80, rotation: 10, filter: 'blur(14px)', duration: .5, ease: 'power2.in' });
+  }
+
+  function corFundo(cores, dur = 1.2) {
+    const blobs = ['.b1', '.b2', '.b3', '.b4'];
+    const t = gsap.timeline();
+    cores.forEach((cor, i) => {
+      t.to(blobs[i], { background: `radial-gradient(circle, ${cor} 0%, transparent 65%)`, duration: dur, ease: 'sine.inOut' }, 0);
+    });
+    return t;
+  }
+
+  // ---------- timeline principal (30s) ----------
+  const tl = gsap.timeline({ paused: true });
+
+  // flutuação do monitor dentro da timeline (para o scrub funcionar)
+  tl.to('#float', { y: -14, duration: 2.5, ease: 'sine.inOut', yoyo: true, repeat: 11 }, 0);
+
+  // CENA 1 — Tela principal (0 – 4.6s)
+  tl.from('.glow-layer', { opacity: 0, duration: 1.4, ease: 'power2.out' }, 0)
+    .fromTo(rig, { opacity: 0, y: RIG.y + 260, scale: .82 / Z, filter: 'blur(30px)' },
+                 { opacity: 1, y: RIG.y, scale: RIG.scale, filter: 'blur(0px)', duration: 1.6, ease: 'expo.out' }, .3)
+    .fromTo(monitor, { rotationY: -40, rotationX: 18 }, { ...POSE, duration: 1.8, ease: 'expo.out' }, .3)
+    .add(trocarTela(null, 'home'), .5)
+    .add(entrarHeadline('#h1'), .9)
+    .to(monitor, { rotationY: -12, duration: 2.6, ease: 'sine.inOut' }, 2)
+    .add(sairHeadline('#h1'), 4.2);
+
+  // Cenas 2–5: troca a tela, dá zoom na área principal e, na volta do zoom,
+  // a headline entra e fica até o fim da cena.
+
+  // CENA 2 — Login e cadastro (4.6 – 9.4s)
+  tl.add(corFundo(['#ff6a2c', '#3c6cff', '#b03aff', '#ff3d7f']), 4.4)
+    .to(monitor, { ...POSE, duration: .8, ease: 'power2.inOut' }, 4.4)
+    .add(trocarTela('home', 'login'), 4.5)
+    .add(zoomIn([680, 300, 800, 400], 1), 4.9)
+    .add(trocarTela('login', 'cadastro'), 6.2)
+    .to(rig, { ...zoomPara(140, 250, 780, 490), duration: .9, ease: 'power3.inOut' }, 6.2)
+    .add(zoomOut(.9), 7.3)
+    .add(entrarHeadline('#h2'), 7.35)
+    .add(sairHeadline('#h2'), 9.0);
+
+  // CENA 3 — Dashboard (9.4 – 14.4s)
+  tl.add(corFundo(['#e8622c', '#7a3cff', '#13b5a5', '#ff8a2c']), 9.2)
+    .add(trocarTela('cadastro', 'dashboard'), 9.3)
+    .add(zoomIn([600, 290, 960, 230]), 9.7)
+    .add(zoomOut(.9), 11.2)
+    .add(entrarHeadline('#h3'), 11.3)
+    .add(entrarPhone(), 11.6)
+    .add(saltarCards(cardsLeit), 11.9)
+    .add(sairCards(cardsLeit), 13.9)
+    .add(sairPhone(), 14.0)
+    .add(sairHeadline('#h3'), 13.95);
+
+  // CENA 4 — Histórico (14.4 – 18.8s)
+  tl.add(corFundo(['#13b5a5', '#3c6cff', '#e8622c', '#7a3cff']), 14.2)
+    .add(trocarTela('dashboard', 'historico'), 14.4)
+    .add(zoomIn([266, 260, 1284, 270]), 14.8)
+    .add(zoomOut(.9), 16.0)
+    .add(entrarHeadline('#h4'), 16.1)
+    .add(sairHeadline('#h4'), 18.4);
+
+  // CENA 5 — Alertas (18.8 – 23.4s)
+  tl.add(corFundo(['#ff3d3d', '#7a3cff', '#ff8a2c', '#b03aff']), 18.6)
+    .add(trocarTela('historico', 'alertas'), 18.8)
+    .add(zoomIn([266, 110, 1300, 470]), 19.2)
+    .add(zoomOut(.9), 20.6)
+    .add(entrarHeadline('#h5'), 20.7)
+    .set('#app-leituras', { opacity: 0 }, 20.5)
+    .set('#app-alertas', { opacity: 1 }, 20.5)
+    .add(entrarPhone(), 20.9)
+    .add(saltarCards(cardsNotif), 21.2)
+    .add(sairCards(cardsNotif), 23.0)
+    .add(sairPhone(), 23.0)
+    .add(sairHeadline('#h5'), 23.0);
+
+  // CENA 6 — Monitores em leque (23.4 – 26.8s)
+  const LEQUE = [
+    { x: -700, z: -260, rotationY: 34, rotation: -6, scale: .78 },
+    { x: -400, z: -90,  rotationY: 20, rotation: -3, scale: .9 },
+    { x: 0,    z: 80,   rotationY: 0,  rotation: 0,  scale: 1.04 },
+    { x: 400,  z: -90,  rotationY: -20, rotation: 3, scale: .9 },
+    { x: 700,  z: -260, rotationY: -34, rotation: 6, scale: .78 }
+  ];
+  tl.add(corFundo(['#e8622c', '#7a3cff', '#13b5a5', '#ff3d7f']), 23.2)
+    .to(rig, { opacity: 0, scale: .7 / Z, x: 960 - 498 * .7, y: 330, filter: 'blur(26px)', duration: .7, ease: 'power3.in' }, 23.2)
+    .set('#h6', { opacity: 1 }, 23.6);
+  fanMons.forEach((m, i) => {
+    m.style.zIndex = 3 - Math.abs(i - 2);
+    tl.fromTo(m,
+      { opacity: 0, x: 0, y: 260, z: -400, rotationY: 0, rotation: 0, scale: .6, filter: 'blur(24px)' },
+      { opacity: 1, y: 0, filter: 'blur(0px)', ...LEQUE[i], duration: 1.3, ease: 'expo.out' },
+      23.6 + Math.abs(i - 2) * .12);
+  });
+  tl.to($$('#h6 .w'), { opacity: 1, y: 0, filter: 'blur(0px)', duration: .8, ease: 'power4.out', stagger: .08 }, 24.0)
+    .to(fanMons, { y: '-=16', duration: 1.4, ease: 'sine.inOut', yoyo: true, repeat: 1, stagger: .1 }, 24.9)
+    .to('#fan', { scale: 1.06, duration: 2.6, ease: 'none' }, 24.2);
+
+  // CENA 7 — Logo + tagline (26.8 – 30s)
+  tl.to(fanMons, { opacity: 0, scale: '-=.2', filter: 'blur(30px)', duration: .7, ease: 'power2.in', stagger: .04 }, 26.6)
+    .to($$('#h6 .w'), { opacity: 0, y: -40, filter: 'blur(20px)', duration: .5, ease: 'power2.in' }, 26.6)
+    .add(corFundo(['#e8622c', '#ff3d7f', '#7a3cff', '#e8622c'], 1), 26.8)
+    .fromTo('.flare', { opacity: 0, scale: .4 }, { opacity: 1, scale: 1, duration: 1.6, ease: 'expo.out' }, 27.1)
+    .fromTo('.final .logo', { opacity: 0, scale: .55, filter: 'blur(30px) drop-shadow(0 0 60px rgba(232,98,44,.45))' },
+      { opacity: 1, scale: 1, filter: 'blur(0px) drop-shadow(0 0 60px rgba(232,98,44,.45))', duration: 1.2, ease: 'back.out(1.6)' }, 27.1)
+    .fromTo('.final h2 .w', { opacity: 0, y: 50, filter: 'blur(16px)' },
+      { opacity: 1, y: 0, filter: 'blur(0px)', duration: .8, ease: 'power4.out', stagger: .12 }, 27.8)
+    .fromTo('.final p', { opacity: 0, y: 20, filter: 'blur(10px)' },
+      { opacity: 1, y: 0, filter: 'blur(0px)', duration: .7, ease: 'power3.out' }, 28.5)
+    .to('.final .logo', { scale: 1.04, duration: 2, ease: 'sine.inOut' }, 28.3)
+    .to({}, { duration: .01 }, 30);
+
+  // ---------- controles ----------
+  const btnPlay = $('#btn-play'), scrub = $('#scrub'), tempo = $('#tempo'), ui = $('#ui');
+  tl.eventCallback('onUpdate', () => {
+    scrub.value = Math.round(tl.progress() * 1000);
+    tempo.textContent = tl.time().toFixed(1) + 's / 30s';
+  });
+  tl.eventCallback('onComplete', () => btnPlay.textContent = 'Play');
+
+  function alternar() {
+    if (tl.progress() === 1) tl.restart();
+    else tl.paused(!tl.paused());
+    btnPlay.textContent = tl.paused() ? 'Play' : 'Pausar';
+  }
+  btnPlay.onclick = alternar;
+  $('#btn-restart').onclick = () => { tl.restart(); btnPlay.textContent = 'Pausar'; };
+  scrub.oninput = () => { tl.pause(); tl.progress(scrub.value / 1000); btnPlay.textContent = 'Play'; };
+
+  let esconderTimer;
+  let uiFixoOculto = false;
+  function mostrarUI() {
+    if (uiFixoOculto) return;
+    ui.classList.remove('oculto');
+    clearTimeout(esconderTimer);
+    esconderTimer = setTimeout(() => ui.classList.add('oculto'), 2200);
+  }
+  document.addEventListener('mousemove', mostrarUI);
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Space') { e.preventDefault(); alternar(); }
+    if (e.key === 'h' || e.key === 'H') { uiFixoOculto = !uiFixoOculto; ui.classList.toggle('oculto', uiFixoOculto); }
+  });
+
+  // ?t=12 pula para um instante; ?rec deixa os controles ocultos para gravação
+  const params = new URLSearchParams(location.search);
+  if (params.has('rec')) { uiFixoOculto = true; ui.classList.add('oculto'); }
+
+  // começa quando fontes e imagens carregarem
+  const imagens = $$('img').map(img => img.complete ? Promise.resolve() : new Promise(r => { img.onload = img.onerror = r; }));
+  Promise.all([document.fonts.ready, ...imagens]).then(() => {
+    if (params.has('t')) { tl.progress(0).pause(); tl.time(parseFloat(params.get('t'))); btnPlay.textContent = 'Play'; }
+    else { tl.play(0); mostrarUI(); }
+  });
+</script>
+</body>
+</html>

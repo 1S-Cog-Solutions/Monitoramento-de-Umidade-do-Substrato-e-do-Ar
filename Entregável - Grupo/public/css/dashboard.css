@@ -508,3 +508,35 @@ h1, h2, h3 {
     .grade { grid-template-columns: 1fr; }
     .topo { flex-direction: column; }
 }
+/* ---------- VISÃO GERAL CABENDO NA TELA (sem scroll no desktop) ---------- */
+
+@media (min-width: 1001px) and (min-height: 600px) {
+    .tela-cheia { height: 100vh; overflow: hidden; }
+    .tela-cheia .dashboard { height: 100vh; padding: 20px 28px; }
+
+    .tela-cheia .topo { margin-bottom: 14px; }
+    .tela-cheia .topo h1 { font-size: 26px; }
+
+    .tela-cheia .resumo,
+    .tela-cheia .leituras { margin-bottom: 0; }
+    .tela-cheia .secao-titulo { margin-bottom: 8px; }
+    .tela-cheia .painel .secao-titulo { margin-bottom: 10px; }
+    .tela-cheia .kpi-card,
+    .tela-cheia .leitura-card { padding: 12px 16px; gap: 6px; }
+    .tela-cheia .kpi-card strong,
+    .tela-cheia .leitura-card strong { font-size: 1.6em; }
+
+    /* a grade ocupa o espaço restante e os gráficos dividem a altura do painel */
+    .tela-cheia .grade { flex: 1; min-height: 0; margin-top: 14px; align-items: stretch; }
+    .tela-cheia .coluna-esq,
+    .tela-cheia .coluna-dir { min-height: 0; gap: 14px; }
+    .tela-cheia .painel { padding: 16px; }
+    .tela-cheia .painel2 { flex: 1; min-height: 0; overflow-y: auto; }
+
+    .tela-cheia .historico { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+    .tela-cheia .historico .painel-topo { margin-bottom: 8px; }
+    .tela-cheia .grafico-bloco { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+    .tela-cheia .grafico-bloco + .grafico-bloco { margin-top: 10px; }
+    .tela-cheia .grafico-titulo { margin-bottom: 4px; }
+    .tela-cheia .historico .chart-container { flex: 1; min-height: 0; height: auto; }
+}
