@@ -1,0 +1,111 @@
+:root {
+  --preto: #050505;
+  --card: #0e0e10;
+  --card-interno: #121214;
+  --borda: #2a2a2d;
+  --branco: #ffffff;
+  --suave: #c4c4c9;
+  --laranja: #ee6340;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 40px 16px;
+  font-family: "Nunito", Arial, sans-serif;
+  color: var(--branco);
+  background-color: var(--preto);
+  /* Camada preta por cima da foto, igual ao simulador */
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.92), rgba(0, 0, 0, 0.92)),
+    url("https://github.com/1S-Cog-Solutions/Monitoramento-de-Umidade-do-Substrato-e-do-Ar/blob/main/Entreg%C3%A1vel%20-%20Grupo/assets/img/champignon-fundo.jpg?raw=true");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+header {
+  max-width: 1200px;
+  margin: 0 auto 32px;
+  text-align: center;
+}
+
+.logo {
+  display: block;
+  width: 80px;
+  height: auto;
+  margin: 0 auto 14px;
+}
+
+header h1 {
+  margin: 0 0 8px;
+  font-family: "Fredoka", Arial, sans-serif;
+  font-size: 36px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+header p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--suave);
+}
+
+header b { color: var(--laranja); }
+
+main {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card {
+  padding: 28px;
+  background-color: var(--card);
+  border: 1px solid var(--borda);
+  border-radius: 20px;
+}
+
+.card h2 {
+  margin: 0 0 24px;
+  font-family: "Fredoka", Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* Barrinha laranja embaixo do título de cada card */
+.card h2::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 3px;
+  margin-top: 12px;
+  background-color: var(--laranja);
+  border-radius: 2px;
+}
+
+/* O Chart.js precisa de um contêiner com altura definida */
+.chart-box {
+  position: relative;
+  height: 340px;
+  padding: 16px;
+  background-color: var(--card-interno);
+  border: 1px solid var(--borda);
+  border-radius: 14px;
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 32px;
+  font-size: 12px;
+  color: #8f8f96;
+}
+
+.logo-mini { width: 20px; height: auto; }

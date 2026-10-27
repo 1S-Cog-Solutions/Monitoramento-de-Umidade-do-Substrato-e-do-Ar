@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard de Monitoramento | Cog Solutions</title>
+  <link rel="shortcut icon" type="image/png" href="\assets\icon\favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <img src="\assets\icon\favicon.png" alt="Logo da Cog Solutions" class="logo">
+    <h1>Dashboard de Monitoramento</h1>
+    <p>Temperatura e umidade no cultivo de <b>Champignon Paris</b></p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Temperatura e umidade por horário</h2>
+      <div class="chart-box"><canvas id="graficoLinhas"></canvas></div>
+    </section>
+
+    <section class="card">
+      <h2>Médias mensais</h2>
+      <div class="chart-box"><canvas id="graficoBarras"></canvas></div>
+    </section>
+  </main>
+
+  <footer>
+    <img src="c:\Users\Paulo\Documents\Aulas\P.I\Sprint2GP5\Monitoramento-de-Umidade-do-Substrato-e-do-Ar\Entregável - Grupo\assets\icon\favicon.png" alt="" class="logo-mini">
+    <span>Dados de exemplo · Cog Solutions™</span>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  
+  <script src="script.js"></script>
+</body>
+</html>
