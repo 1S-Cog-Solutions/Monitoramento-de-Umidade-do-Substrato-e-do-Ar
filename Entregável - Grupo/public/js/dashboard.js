@@ -128,23 +128,7 @@ let chartTemp = new Chart(
                 {
                     data: temperaturas.slice(-24),
                     borderColor: verde,
-                    segment: {
-                        borderColor: function(context) {
-                            var valorInicial = context.p0.parsed.y;
-                            var valorFinal = context.p1.parsed.y;
-
-                            if (
-                                valorInicial < temperaturaMinima ||
-                                valorInicial > temperaturaMaxima ||
-                                valorFinal < temperaturaMinima ||
-                                valorFinal > temperaturaMaxima
-                            ) {
-                                return vermelho;
-                            }
-
-                            return verde;
-                        }
-                    },
+                    
                     pointBackgroundColor: criarCores(
                         temperaturas.slice(-24),
                         temperaturaMinima,
