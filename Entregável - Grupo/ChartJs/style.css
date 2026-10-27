@@ -19,7 +19,7 @@ body {
   /* Camada preta por cima da foto, igual ao simulador */
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.92), rgba(0, 0, 0, 0.92)),
-    url("https://github.com/1S-Cog-Solutions/Monitoramento-de-Umidade-do-Substrato-e-do-Ar/blob/main/Entreg%C3%A1vel%20-%20Grupo/assets/img/champignon-fundo.jpg?raw=true");
+    url("../public/assets/img/champignon-fundo.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
