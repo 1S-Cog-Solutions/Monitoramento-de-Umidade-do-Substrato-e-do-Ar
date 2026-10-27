@@ -63,7 +63,7 @@ function desenhar(periodo) {
                 interaction: { mode: 'index', intersect: false },
                 plugins: { legend: { display: false }, bandaFaixa: { min: g.min, max: g.max } },
                 scales: {
-                    x: { ticks: { display: g === GRAFICOS[GRAFICOS.length - 1], color: SUAVE, font: { size: 9 }, maxTicksLimit: 8 }, grid: { display: false } },
+                    x: { ticks: { color: SUAVE, font: { size: 9 }, maxTicksLimit: 8 }, grid: { display: false } },
                     y: {
                         suggestedMin: g.min - 4,
                         suggestedMax: g.max + 4,
