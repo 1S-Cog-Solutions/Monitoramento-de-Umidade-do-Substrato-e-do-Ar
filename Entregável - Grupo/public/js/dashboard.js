@@ -15,8 +15,8 @@ let umidadeSubstratoMaxima = 80;
 
 
 // Cores utilizadas nos graficos
-let verde = '#1c7423';
-let vermelho = '#d94343';
+let verde = '#5da154';
+let vermelho = '#d83939';
 
 
 // Horarios das ultimas 24 horas
@@ -122,14 +122,60 @@ let chartTemp = new Chart(
                     data: Array(24).fill(temperaturaMaxima),
                     borderWidth: 0,
                     pointRadius: 0,
+                    fill: '-1',
+                    backgroundColor: 'rgba(46, 139, 92, 0.10)'
+                },
+                {
+                    data: temperaturas.slice(-24),
+                    borderColor: verde,
+                    segment: {
+                        borderColor: function(context) {
+                            var valorInicial = context.p0.parsed.y;
+                            var valorFinal = context.p1.parsed.y;
 
+                            if (
+                                valorInicial < temperaturaMinima ||
+                                valorInicial > temperaturaMaxima ||
+                                valorFinal < temperaturaMinima ||
+                                valorFinal > temperaturaMaxima
+                            ) {
+                                return vermelho;
+                            }
+
+                            return verde;
+                        }
+                    },
+                    pointBackgroundColor: criarCores(
+                        temperaturas.slice(-24),
+                        temperaturaMinima,
+                        temperaturaMaxima
+                    ),
+                    pointRadius: 2,
+                    borderWidth: 2,
+                    tension: 0.3
+                }
+            ]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            plugins: {
+                legend: {
+                    display: false
                 }
             },
+            
 
             scales: {
-                y: {
-                    min: 12,
-                    max: 26
+                x: {
+                    ticks: {
+                        autoSkip: true,
+                        maxTicksLimit: 8,
+                        maxRotation: 0,
+                        minRotation: 0
+                    }
                 }
             }
         }
@@ -170,7 +216,7 @@ let chartAr = new Chart(
                         umidadeArMinima,
                         umidadeArMaxima
                     ),
-                    pointRadius: 3,
+                    pointRadius: 2,
                     borderWidth: 2,
                     tension: 0.3
                 }
@@ -188,9 +234,13 @@ let chartAr = new Chart(
             },
 
             scales: {
-                y: {
-                    min: 70,
-                    max: 100
+                x: {
+                    ticks: {
+                        autoSkip: true,
+                        maxTicksLimit: 8,
+                        maxRotation: 0,
+                        minRotation: 0
+                    }
                 }
             }
         }
@@ -231,7 +281,7 @@ let chartSubstrato = new Chart(
                         umidadeSubstratoMinima,
                         umidadeSubstratoMaxima
                     ),
-                    pointRadius: 3,
+                    pointRadius: 2,
                     borderWidth: 2,
                     tension: 0.3
                 }
@@ -249,9 +299,13 @@ let chartSubstrato = new Chart(
             },
 
             scales: {
-                y: {
-                    min: 50,
-                    max: 90
+                x: {
+                    ticks: {
+                        autoSkip: true,
+                        maxTicksLimit: 8,
+                        maxRotation: 0,
+                        minRotation: 0
+                    }
                 }
             }
         }
@@ -341,10 +395,10 @@ function desenhar(periodo) {
 
     } else if (periodo == '7d') {
 
-        rotulos = gerarDias(28);
-        temp = temperaturas.slice(-28);
-        ar = umidadesAr.slice(-28);
-        substrato = umidadesSubstrato.slice(-28);
+        rotulos = gerarDias(7);
+        temp = temperaturas.slice(-7);
+        ar = umidadesAr.slice(-7);
+        substrato = umidadesSubstrato.slice(-7);
 
     } else if (periodo == '30d') {
 
