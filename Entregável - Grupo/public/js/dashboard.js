@@ -122,31 +122,7 @@ let chartTemp = new Chart(
                     data: Array(24).fill(temperaturaMaxima),
                     borderWidth: 0,
                     pointRadius: 0,
-                    fill: '-1',
-                    backgroundColor: 'rgba(46, 139, 92, 0.10)'
-                },
-                {
-                    data: temperaturas.slice(-24),
-                    borderColor: verde,
-                    pointBackgroundColor: criarCores(
-                        temperaturas.slice(-24),
-                        temperaturaMinima,
-                        temperaturaMaxima
-                    ),
-                    pointRadius: 3,
-                    borderWidth: 2,
-                    tension: 0.3
-                }
-            ]
-        },
 
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-
-            plugins: {
-                legend: {
-                    display: false
                 }
             },
 

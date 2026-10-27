@@ -72,6 +72,13 @@ body {
 
 }
 
+/* link do logo: volta para a página inicial sem mudar o tamanho da imagem */
+.link-logo {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
 #logo-login {
     width: 80%;
     max-width: 380px;
