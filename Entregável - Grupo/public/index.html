@@ -181,22 +181,15 @@
 
   let simulando = false;
 
-  // pausa (em milissegundos) para o while dar tempo de a tela atualizar
-  function esperar(ms) {
-    return new Promise(function (resolve) {
-      setTimeout(resolve, ms);
-    });
-  }
-
-  async function simularEstufa() {
-    if (simulando) return; // ignora cliques durante a animação
+  function simularEstufa() {
+    if (simulando) return; // ignora cliques durante a simulação
     simulando = true;
 
     document.getElementById("simulacao").style.display = "flex";
 
-    const campo = document.getElementById("info-temperatura");
-    const alerta = document.getElementById("info-alerta");
-    const textoLeituras = document.getElementById("info-leituras");
+    let campo = document.getElementById("info-temperatura");
+    let alerta = document.getElementById("info-alerta");
+    let textoLeituras = document.getElementById("info-leituras");
 
     let temperatura = 16.6;
     let leituras = 1;
@@ -207,21 +200,21 @@
     campo.textContent = temperatura.toFixed(1) + "°C";
     textoLeituras.textContent = leituras + " leitura";
 
-    // sobe um pouco a cada volta e só para quando passar de 25°C
-    while (temperatura <= 25) {
-      await esperar(300);
-
+    // a cada 300 ms a temperatura sobe um pouco, até passar de 25°C
+    let intervalo = setInterval(function () {
       temperatura += Math.random() * 2;
       leituras++;
 
       campo.textContent = temperatura.toFixed(1) + "°C";
       textoLeituras.textContent = leituras + " leituras";
-    }
 
-    campo.style.color = "#ff4d4d";
-    alerta.textContent = "Alerta! Temperatura alta!";
-
-    simulando = false;
+      if (temperatura > 25) {
+        clearInterval(intervalo);
+        campo.style.color = "#ff4d4d";
+        alerta.textContent = "Alerta! Temperatura alta!";
+        simulando = false;
+      }
+    }, 300);
   }
 </script>
 

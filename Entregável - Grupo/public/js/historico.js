@@ -1,76 +1,129 @@
-const css = getComputedStyle(document.documentElement);
-const cor = nome => css.getPropertyValue(nome).trim();
-const VERDE = cor('--verde'), VERMELHO = cor('--vermelho'), SUAVE = cor('--texto-suave'), BORDA = cor('--card-borda');
+// Histórico: gráficos de tendência e exportação da tabela em CSV.
+// Os dados dos gráficos são simulados até existir a API de medidas.
 
-const GRAFICOS = [
-    { chave: 'temp',      id: 'chartTemp',      un: '°C', min: 16, max: 22, base: 18, queda: 0,   amp: 1.2, fase: 0.5, alvo: 17.4 },
-    { chave: 'ar',        id: 'chartAr',        un: '%',  min: 80, max: 90, base: 85, queda: 0,   amp: 2.5, fase: 2,   alvo: 87.3 },
-    { chave: 'substrato', id: 'chartSubstrato', un: '%',  min: 60, max: 80, base: 78, queda: -18, amp: 1.2, fase: 0,   alvo: 59.9 }
+// Cores do tema (definidas no dashboard.css)
+let cores = getComputedStyle(document.documentElement);
+let verde = cores.getPropertyValue('--verde').trim();
+let vermelho = cores.getPropertyValue('--vermelho').trim();
+let corTexto = cores.getPropertyValue('--texto-suave').trim();
+let corGrade = cores.getPropertyValue('--card-borda').trim();
+
+// Cada gráfico tem a faixa ideal (min e max) e os valores de início e fim da simulação
+let graficos = [
+    { chave: 'temp',      canvas: 'chartTemp',      unidade: '°C', min: 16, max: 22, inicio: 18, fim: 17.4, variacao: 1.2 },
+    { chave: 'ar',        canvas: 'chartAr',        unidade: '%',  min: 80, max: 90, inicio: 85, fim: 87.3, variacao: 2.5 },
+    { chave: 'substrato', canvas: 'chartSubstrato', unidade: '%',  min: 60, max: 80, inicio: 78, fim: 59.9, variacao: 1.2 }
 ];
-const PERIODOS = {
-    '24h': { n: 24, passoMin: 60,   hora: true, texto: 'Últimas 24 horas' },
-    '7d':  { n: 7,  passoMin: 1440,             texto: 'Últimos 7 dias' },
-    '30d': { n: 30, passoMin: 1440,             texto: 'Últimos 30 dias' }
+
+let periodos = {
+    '24h': { quantidade: 24, porHora: true,  texto: 'Últimas 24 horas' },
+    '7d':  { quantidade: 7,  porHora: false, texto: 'Últimos 7 dias' },
+    '30d': { quantidade: 30, porHora: false, texto: 'Últimos 30 dias' }
 };
-const FIM = new Date(2026, 9, 13, 12, 0);
-const pad = v => String(v).padStart(2, '0');
-const fmt = (v, un) => v.toFixed(1).replace('.', ',') + un;
 
-function gerarSerie(n, g) {
-    const f = i => g.base + g.queda * (i / (n - 1)) + g.amp * Math.sin((i / n) * Math.PI * 4 + g.fase);
-    const ajuste = g.alvo - f(n - 1);
-    return Array.from({ length: n }, (_, i) => +(f(i) + ajuste * (i / (n - 1))).toFixed(1));
+let ultimaLeitura = new Date(2026, 9, 13, 12, 0);
+let graficosNaTela = [];
+
+function doisDigitos(numero) {
+    if (numero < 10) {
+        return '0' + numero;
+    }
+    return '' + numero;
 }
 
-function gerarRotulos(p) {
-    return Array.from({ length: p.n }, (_, i) => {
-        const d = new Date(FIM - (p.n - 1 - i) * p.passoMin * 60000);
-        return p.hora ? `${pad(d.getHours())}:${pad(d.getMinutes())}` : `${pad(d.getDate())}/${pad(d.getMonth() + 1)}`;
-    });
+function formatar(valor, unidade) {
+    return valor.toFixed(1).replace('.', ',') + unidade;
 }
 
-const instancias = [];
+// Vai do valor de início ao de fim, oscilando um pouco no meio do caminho
+function gerarDados(quantidade, grafico) {
+    let dados = [];
+    let i = 0;
+
+    while (i < quantidade) {
+        let progresso = i / (quantidade - 1);
+        let valor = grafico.inicio + (grafico.fim - grafico.inicio) * progresso
+            + grafico.variacao * Math.sin(progresso * Math.PI * 4);
+
+        dados.push(Number(valor.toFixed(1)));
+        i++;
+    }
+
+    return dados;
+}
+
+// Rótulos do eixo X: horas (24h) ou dias (7 e 30 dias), terminando na última leitura
+function gerarRotulos(quantidade, porHora) {
+    let rotulos = [];
+    let i = quantidade - 1;
+
+    while (i >= 0) {
+        let data = new Date(ultimaLeitura);
+
+        if (porHora) {
+            data.setHours(data.getHours() - i);
+            rotulos.push(doisDigitos(data.getHours()) + ':00');
+        } else {
+            data.setDate(data.getDate() - i);
+            rotulos.push(doisDigitos(data.getDate()) + '/' + doisDigitos(data.getMonth() + 1));
+        }
+        i--;
+    }
+
+    return rotulos;
+}
 
 function desenhar(chavePeriodo) {
-    instancias.splice(0).forEach(c => c.destroy());
-    const p = PERIODOS[chavePeriodo];
-    const rotulos = gerarRotulos(p);
-    document.getElementById('tend-sub').textContent = `${p.texto} · Faixas de referência da fase de frutificação`;
+    // apaga os gráficos do período anterior
+    for (let i = 0; i < graficosNaTela.length; i++) {
+        graficosNaTela[i].destroy();
+    }
+    graficosNaTela = [];
 
-    GRAFICOS.forEach(g => {
-        const dados = gerarSerie(p.n, g);
-        const ultimo = dados[dados.length - 1];
-        const fora = ultimo < g.min || ultimo > g.max;
-        const linha = fora ? VERMELHO : VERDE;
+    let periodo = periodos[chavePeriodo];
+    let rotulos = gerarRotulos(periodo.quantidade, periodo.porHora);
+    document.getElementById('tend-sub').textContent = periodo.texto + ' · Faixas de referência da fase de frutificação';
 
-        const card = document.querySelector(`[data-grafico="${g.chave}"]`);
-        const legenda = card.querySelector('.legenda');
+    for (let i = 0; i < graficos.length; i++) {
+        let grafico = graficos[i];
+        let dados = gerarDados(periodo.quantidade, grafico);
+        let atual = dados[dados.length - 1];
+        let fora = atual < grafico.min || atual > grafico.max;
+
+        let cor = verde;
+        if (fora) {
+            cor = vermelho;
+        }
+
+        // atualiza o card com o valor atual, mínimo, máximo e a legenda
+        let card = document.querySelector('[data-grafico="' + grafico.chave + '"]');
+        let legenda = card.querySelector('.legenda');
+
         card.classList.toggle('tend-fora', fora);
         legenda.classList.toggle('fora', fora);
-        legenda.textContent = fora ? 'Fora da faixa' : 'Dentro da faixa';
-        card.querySelector('.v-atual').textContent = fmt(ultimo, g.un);
-        card.querySelector('.v-min').textContent = fmt(Math.min(...dados), g.un);
-        card.querySelector('.v-max').textContent = fmt(Math.max(...dados), g.un);
 
-        instancias.push(new Chart(document.getElementById(g.id), {
+        if (fora) {
+            legenda.textContent = 'Fora da faixa';
+        } else {
+            legenda.textContent = 'Dentro da faixa';
+        }
+
+        card.querySelector('.v-atual').textContent = formatar(atual, grafico.unidade);
+        card.querySelector('.v-min').textContent = formatar(Math.min(...dados), grafico.unidade);
+        card.querySelector('.v-max').textContent = formatar(Math.max(...dados), grafico.unidade);
+
+        graficosNaTela.push(new Chart(document.getElementById(grafico.canvas), {
             type: 'line',
             data: {
                 labels: rotulos,
                 datasets: [{
                     data: dados,
-                    borderColor: linha,
+                    borderColor: cor,
+                    backgroundColor: cor + '22',
                     borderWidth: 1.5,
                     tension: 0.3,
                     pointRadius: 0,
-                    fill: true,
-                    backgroundColor: ctx => {
-                        const a = ctx.chart.chartArea;
-                        if (!a) return linha + '22';
-                        const gr = ctx.chart.ctx.createLinearGradient(0, a.top, 0, a.bottom);
-                        gr.addColorStop(0, linha + '40');
-                        gr.addColorStop(1, linha + '00');
-                        return gr;
-                    }
+                    fill: true
                 }]
             },
             options: {
@@ -79,26 +132,47 @@ function desenhar(chavePeriodo) {
                 interaction: { mode: 'index', intersect: false },
                 plugins: { legend: { display: false } },
                 scales: {
-                    x: { ticks: { color: SUAVE, font: { size: 9 }, maxTicksLimit: 7, maxRotation: 0 }, grid: { display: false } },
-                    y: { ticks: { color: SUAVE, font: { size: 9 }, maxTicksLimit: 4 }, grid: { color: BORDA } }
+                    x: { ticks: { color: corTexto, font: { size: 9 }, maxTicksLimit: 7, maxRotation: 0 }, grid: { display: false } },
+                    y: { ticks: { color: corTexto, font: { size: 9 }, maxTicksLimit: 4 }, grid: { color: corGrade } }
                 }
             }
         }));
-    });
+    }
 }
 
-document.getElementById('periodo').addEventListener('change', e => desenhar(e.target.value));
-desenhar('24h');
+// Baixa a tabela de registros como CSV (separado por ;, abre direto no Excel)
+function exportarCSV() {
+    let linhas = document.querySelectorAll('.tabela-wrap tr');
+    let texto = '';
 
-document.getElementById('exportar').addEventListener('click', () => {
-    const linhas = [...document.querySelectorAll('.tabela-wrap tr')].map(tr =>
-        [...tr.children].map(td =>
-            '"' + td.textContent.trim().replace(/(\d{4})(\d{2}:)/, '$1 $2').replace(/\s+/g, ' ').replace(/"/g, '""') + '"'
-        ).join(';'));
-    const blob = new Blob(['\ufeff' + linhas.join('\n')], { type: 'text/csv;charset=utf-8' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'historico-leituras.csv';
-    a.click();
-    URL.revokeObjectURL(a.href);
+    for (let i = 0; i < linhas.length; i++) {
+        let celulas = linhas[i].children;
+        let colunas = [];
+
+        for (let j = 0; j < celulas.length; j++) {
+            let valor = celulas[j].textContent.trim();
+
+            // a hora fica num <span> colado na data: separa com um espaço
+            let hora = celulas[j].querySelector('.hora');
+            if (hora) {
+                valor = valor.replace(hora.textContent, ' ' + hora.textContent);
+            }
+
+            colunas.push('"' + valor + '"');
+        }
+
+        texto += colunas.join(';') + '\n';
+    }
+
+    let link = document.createElement('a');
+    link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent('﻿' + texto);
+    link.download = 'historico-leituras.csv';
+    link.click();
+}
+
+document.getElementById('periodo').addEventListener('change', function () {
+    desenhar(this.value);
 });
+document.getElementById('exportar').addEventListener('click', exportarCSV);
+
+desenhar('24h');
