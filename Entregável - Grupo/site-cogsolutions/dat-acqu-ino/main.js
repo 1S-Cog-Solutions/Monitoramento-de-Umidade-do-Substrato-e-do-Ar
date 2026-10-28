@@ -18,32 +18,17 @@ const serial = async (
 
 ) => {
 
-    // conexão com o banco de dados MySQL
-  /*  let poolBancoDados = mysql.createPool(
-        {
-            host: 'localhost',
-            user: 'sensor',
-            password: 'vrdwevjf1234@#$%',
-            database: 'cog_solutions',
-            port: 3306
-        }
-    ).promise();
-*/
-       //conexão vm: 
+    //   conexão vm: 
        let poolBancoDados = mysql.createPool(
         {
-            host: '10.18.33.123',
+            host: '127.0.0.1',
             user: 'cogSolutions',
             password: 'Paris#2026',
             database: 'cog_solutions',
-             port: 3307
+            port: 3307
         }
     ).promise();
-
     
-   
-
-
     // lista as portas seriais disponíveis e procura pelo Arduino
     const portas = await serialport.SerialPort.list();
     const portaArduino = portas.find((porta) => porta.vendorId == 2341 && porta.productId == 43);
