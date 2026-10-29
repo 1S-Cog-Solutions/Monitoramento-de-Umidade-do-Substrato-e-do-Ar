@@ -15,7 +15,7 @@ show tables;
 DROP TABLE IF EXISTS leitura;
 DROP TABLE IF EXISTS sensor;
 DROP TABLE IF EXISTS lote;
-DROP TABLE IF EXISTS faixa_ideal;
+DROP TABLE IF EXISTS Parametro;
 DROP TABLE IF EXISTS Endereco;
 DROP TABLE IF EXISTS ambienteCultivo;
 DROP TABLE IF EXISTS login;
@@ -44,13 +44,33 @@ idEmpresa INT AUTO_INCREMENT PRIMARY KEY,
     Empresa_nome VARCHAR(100) NOT NULL, 
     cnpj char(14),
     chaveAcesso VARCHAR(100) NOT NULL UNIQUE,
-	dtCadastro DATETIME DEFAULT CURRENT_TIMESTAMP
+    FkMatriz INT NULL,
+	dtCadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fkEmpresaUnidade
+    FOREIGN KEY (FkMatriz) REFERENCES Empresa(idEmpresa)
 );
+
  
 -- A FK de Usuario para Empresa so pode ser criada depois da tabela Empresa existir
 ALTER TABLE Usuario
     ADD CONSTRAINT fkUsuarioEmpresa
     FOREIGN KEY (fkEmpresa) REFERENCES Empresa(idEmpresa);
+
+
+-- Tabela 9: login (relacao 1:1 com Usuario: fkUsuario e UNIQUE)
+-- Guarda o e-mail e a senha do usuario. No login entram: email (login), chaveAcesso (Empresa) e senha (login)
+CREATE TABLE login (
+    idLogin INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    CONSTRAINT chkEmailLogin CHECK (email LIKE '%@%'),
+    senha VARCHAR(50) NOT NULL,
+    fkUsuario INT NOT NULL UNIQUE,
+    CONSTRAINT fkLoginUsuario
+    FOREIGN KEY (fkUsuario) REFERENCES Usuario(idUsuario)
+);
+ 
+
 
 -- Tabela 3: estufa
 CREATE TABLE ambienteCultivo (
@@ -92,13 +112,11 @@ CREATE TABLE leitura (
     CONSTRAINT fkLeituraSensor FOREIGN KEY (fkSensor) REFERENCES sensor(idSensor)
 );
  
--- Tabela 6: Endereco (1 empresa pode ter varios enderecos: matriz e filiais)
--- O campo unidade aceita apenas as palavras 'Matriz' ou 'Filial'
+ 
+-- Tabela 6: Endereco (cada empresa, matriz ou filial, tem o seu endereco)
 CREATE TABLE Endereco (
     idEndereco INT AUTO_INCREMENT,
     fkEmpresa INT NOT NULL,
-    unidade VARCHAR(10) NOT NULL,
-    CONSTRAINT chkUnidade CHECK(unidade IN ('Matriz', 'Filial')),
     cep CHAR(10) NOT NULL,
     logradouro VARCHAR(45) NOT NULL,
     numero CHAR(10) NOT NULL,
@@ -110,6 +128,25 @@ CREATE TABLE Endereco (
     CONSTRAINT fkEnderecoEmpresa
     FOREIGN KEY (fkEmpresa) REFERENCES Empresa(idEmpresa)
 );
+
+-- Tabela 8: Parametro (faixa ideal: limites minimo e maximo por empresa, fase e parametro medido)
+-- A coluna faixa_ideal guarda o nome do parametro e usa o mesmo nome das colunas da tabela Leitura
+CREATE TABLE Parametro (
+    idfaixa_ideal INT AUTO_INCREMENT,
+    fkEmpresa INT NOT NULL,
+    fase VARCHAR(45) NOT NULL,
+    CONSTRAINT chkFaseParametro CHECK(fase IN ('Compostagem', 'Pasteurização', 'Incubação', 'Casing', 'Frutificação')),
+    faixa_ideal VARCHAR(45) NOT NULL,
+    CONSTRAINT chkFaixaIdeal CHECK(faixa_ideal IN ('umidadeAr', 'umidadeSolo', 'temperatura')),
+    valor_min DECIMAL(4,1) NOT NULL,
+    valor_max DECIMAL(4,1) NOT NULL,
+    CONSTRAINT chkValores CHECK(valor_min <= valor_max),
+    CONSTRAINT pkParametro PRIMARY KEY (idfaixa_ideal, fkEmpresa),
+    CONSTRAINT fkParametroEmpresa
+    FOREIGN KEY (fkEmpresa) REFERENCES Empresa(idEmpresa),
+    CONSTRAINT uqParametro UNIQUE (fkEmpresa, fase, faixa_ideal)
+);
+
  
 -- Tabela 7: lote (ciclo de cultivo de uma câmara)
 -- As 5 fases do cultivo: Compostagem, Pasteurização, Incubação, Casing e Frutificação
@@ -126,45 +163,16 @@ CREATE TABLE lote (
     FOREIGN KEY (fkAmbienteCultivo) REFERENCES ambienteCultivo(IdAmbienteCultivo)
 );
  
--- Tabela 8: faixa_ideal (limites minimo e maximo por empresa, fase e parametro)
--- O parametro usa o mesmo nome das colunas da tabela leitura
-CREATE TABLE faixa_ideal (
-    idfaixa_ideal INT AUTO_INCREMENT,
-    fkEmpresa INT NOT NULL,
-    fase VARCHAR(45) NOT NULL,
-    CONSTRAINT chkFaseFaixa CHECK(fase IN ('Compostagem', 'Pasteurização', 'Incubação', 'Casing', 'Frutificação')),
-    parametro VARCHAR(45) NOT NULL,
-    CONSTRAINT chkParametro CHECK(parametro IN ('umidadeAr', 'umidadeSolo', 'temperatura')),
-    valor_min DECIMAL(4,1) NOT NULL,
-    valor_max DECIMAL(4,1) NOT NULL,
-    CONSTRAINT chkFaixaValores CHECK(valor_min <= valor_max),
-    CONSTRAINT pkFaixa PRIMARY KEY (idfaixa_ideal, fkEmpresa),
-    CONSTRAINT fkFaixaEmpresa
-    FOREIGN KEY (fkEmpresa) REFERENCES Empresa(idEmpresa),
-    CONSTRAINT uqFaixa UNIQUE (fkEmpresa, fase, parametro)
-);
 
--- Tabela 9: login (relacao 1:1 com Usuario: fkUsuario e UNIQUE)
--- Guarda o e-mail e a senha do usuario. No login entram: email (login), chaveAcesso (Empresa) e senha (login)
-CREATE TABLE login (
-    idLogin INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    CONSTRAINT chkEmailLogin CHECK (email LIKE '%@%'),
-    senha VARCHAR(50) NOT NULL,
-    fkUsuario INT NOT NULL UNIQUE,
-    CONSTRAINT fkLoginUsuario
-    FOREIGN KEY (fkUsuario) REFERENCES Usuario(idUsuario)
-);
- 
- 
 
 
 -- Insert into Empresa (precisa vir antes de Usuario, que referencia a Empresa)
-INSERT INTO Empresa (Empresa_nome, cnpj, chaveAcesso) VALUES
-('Cogumelos Cogumaster SP', '12345678000195', 'COG-7K2M9X'),
-('Estufas e Cogumelos Brasil', '38710932000175', 'EST-4P8Q1Z'),
-('Fungicultura Paris Brasil', '98765432000110', 'FUN-2R6T5W');
+INSERT INTO Empresa (Empresa_nome, cnpj, chaveAcesso, fkMatriz) VALUES
+('Cogumelos Cogumaster SP', '12345678000195', 'COG-7K2M9X',null),   -- id 1, matriz
+('Estufas e Cogumelos Brasil', '38710932000175', 'EST-4P8Q1Z',null), -- id 2, matriz
+('Fungicultura Paris Brasil', '98765432000110', 'FUN-2R6T5W',null), -- id 3, matriz
+('Cogumaster - Filial Piracicaba', '12345678000276', 'COG-PIR-5H3N', 1);  -- id 4, filial da Cogumaster
+
 
 INSERT INTO Usuario (nome, fkEmpresa, fkResponsavel, admin) VALUES
 ('Ana Lima',       1, Null,1),  -- id 1 (gestora)
@@ -190,17 +198,12 @@ INSERT INTO login (nome, email, senha, fkUsuario) VALUES
 ('Gustavo Alves', 'gustavo@parisbrasil.com.br',   'Teste@123', 7),
 ('Carla Mendes',  'carla@cogumaster.com.br',      'Teste@123', 8);
 
--- Inserindo Estufas / Câmaras de Cultivo
-INSERT INTO ambienteCultivo  (nome, capacidade_sacos, fkEmpresa) VALUES
+INSERT INTO AmbienteCultivo  (nome, capacidade_sacos, fkEmpresa) VALUES
 ('Câmara 01', 1000, 1),          -- id 1, Cogumaster
 ('Câmara 02', 800, 1),           -- id 2, Cogumaster
-('Estufa A - Mogi', 950, 2);     -- id 3, Estufas e Cogumelos Brasil
-
-insert into ambienteCultivo (nome, capacidade_sacos, fkEmpresa) values
+('Estufa A - Mogi', 950, 2),    -- id 3, Estufas e Cogumelos Brasil
 ('camara 03', 1200, 1);   -- id 4, Cogumaster (ainda sem sensor)
-
-
-
+ 
 
 -- Inserindo Sensores (DHT11 = ar e temperatura; Capacitivo = umidade do solo)
 -- A posição de cada sensor ficou nos comentários, pois a tabela sensor não tem esse campo
@@ -250,30 +253,27 @@ INSERT INTO leitura (umidadeAr, umidadeSolo, Temperatura, fkSensor, dtHora) VALU
 (null, 66.5, null, 7, '2026-10-18 08:10:00');   -- substrato acima do máximo
 
 
+ 
+-- Inserindo Endereços (a filial, empresa 4, tem o endereço dela)
+INSERT INTO Endereco (cep, logradouro, numero, complemento, bairro, cidade, UF, fkEmpresa) VALUES
+('08730-000', 'Estrada dos Cogumelos', '1200', 'Sítio 3', 'Taboão', 'Mogi das Cruzes', 'SP', 1),   -- matriz Cogumaster
+('13400-000', 'Rua das Estufas', '85', NULL, 'Centro', 'Piracicaba', 'SP', 4),                      -- filial Cogumaster
+('08600-000', 'Avenida Fungicultura', '450', 'Galpão B', 'Jardim Paulista', 'Suzano', 'SP', 2);     -- Estufas e Cogumelos Brasil
+-- A empresa 3 (Fungicultura Paris Brasil) fica sem endereço de propósito, para testar o LEFT/RIGHT JOIN
+ 
 
 
--- Inserindo Endereços (unidade: apenas 'Matriz' ou 'Filial')
-INSERT INTO Endereco (unidade, cep, logradouro, numero, complemento, bairro, cidade, UF, fkEmpresa) VALUES
-('Matriz', '08730-000', 'Estrada dos Cogumelos', '1200', 'Sítio 3', 'Taboão', 'Mogi das Cruzes', 'SP', 1),   -- matriz Cogumaster
-('Filial', '13400-000', 'Rua das Estufas', '85', NULL, 'Centro', 'Piracicaba', 'SP', 1),                      -- filial Cogumaster
-('Matriz', '08600-000', 'Avenida Fungicultura', '450', 'Galpão B', 'Jardim Paulista', 'Suzano', 'SP', 2);     -- Estufas e Cogumelos Brasil (só matriz)
--- A empresa 3 (Fungicultura Paris Brasil) fica sem endereço de propósito, para testar o LEFT JOIN
-
+select * from lote;
 -- Inserindo Lotes (ciclos de cultivo)
 INSERT INTO lote (fase_atual, dt_inicio, dt_final, fkAmbienteCultivo) VALUES
 ('Frutificação', '2026-06-01 08:00:00', '2026-10-04 18:00:00', 1),  -- id 1, Câmara 01 (lote encerrado)
 ('Incubação',    '2026-10-05 08:00:00', NULL, 1),                   -- id 2, Câmara 01 (em andamento)
-('Frutificação', '2026-09-20 08:00:00', NULL, 2),                   -- id 3, Câmara 02 (em andamento)
-('Frutificação', '2026-10-01 08:00:00', NULL, 3),                   -- id 4, Estufa A - Mogi (em andamento)
+('Casing', '2026-09-20 08:00:00', NULL, 2),                   -- id 3, Câmara 02 (em andamento)
+('Pasteurização', '2026-10-01 08:00:00', NULL, 3),                   -- id 4, Estufa A - Mogi (em andamento)
 ('Compostagem',  '2026-10-12 08:00:00', NULL, 4);                   -- id 5, camara 03 (em andamento)
 
-select * from lote where fase_atual in ('Frutificação');
 
--- Inserindo Faixas Ideais da empresa 1 para as 5 fases (valores da documentação do projeto)
--- Compostagem: ar irrelevante (processo ao ar livre) | Pasteurização: ar ~100%
--- Casing: a documentação só diz "UR do ar mantida alta" (assumido 90 a 95) e não traz temperatura
--- Obs: o DHT11 só mede 0 a 50 °C e 20 a 90% de umidade; os valores acima disso são só de referência
-INSERT INTO faixa_ideal (fase, parametro, valor_min, valor_max, fkEmpresa) VALUES
+INSERT INTO Parametro (fase, faixa_ideal, valor_min, valor_max, fkEmpresa) VALUES
 ('Compostagem',   'umidadeSolo', 70.0, 75.0, 1),
 ('Compostagem',   'temperatura', 70.0, 80.0, 1),
 ('Pasteurização', 'umidadeAr',   95.0, 100.0, 1),
@@ -286,11 +286,7 @@ INSERT INTO faixa_ideal (fase, parametro, valor_min, valor_max, fkEmpresa) VALUE
 ('Casing',        'umidadeSolo', 70.0, 75.0, 1),
 ('Frutificação',  'umidadeAr',   80.0, 90.0, 1),
 ('Frutificação',  'umidadeSolo', 60.0, 65.0, 1),
-('Frutificação',  'temperatura', 16.0, 22.0, 1);
-
--- Faixas da empresa 2 (só Frutificação, que é a fase dos lotes dela)
--- A empresa 3 fica sem faixas de propósito, para testar o LEFT JOIN
-INSERT INTO faixa_ideal (fase, parametro, valor_min, valor_max, fkEmpresa) VALUES
+('Frutificação',  'temperatura', 16.0, 22.0, 1),
 ('Frutificação',  'umidadeAr',   80.0, 90.0, 2),
 ('Frutificação',  'umidadeSolo', 60.0, 65.0, 2),
 ('Frutificação',  'temperatura', 16.0, 22.0, 2);
@@ -306,9 +302,9 @@ SELECT * FROM leitura;
 SELECT * FROM sensor;
 SELECT * FROM Endereco;
 SELECT * FROM lote;
-SELECT * FROM faixa_ideal;
+SELECT * FROM Parametro;
 
-
+select * from lote where fase_atual in ('Frutificação');
 
 
 -- JOINS PARA A APRESENTAÇÃO _____________________________________
@@ -355,34 +351,57 @@ WHERE lg.idLogin IS NULL;
 
 
 -- ===== B) CAMINHO: EMPRESA -> ENDEREÇO -> USUÁRIOS -> LOGIN =====
-
--- B1 JOIN: empresas e seus endereços (matriz ou filial)
+ 
+-- B1 JOIN: empresas e seus endereços
 SELECT e.idEmpresa,
        e.Empresa_nome                           AS empresa,
-       en.unidade,
        CONCAT(en.logradouro, ', ', en.numero)   AS endereco,
        en.cidade,
        en.UF
 FROM Empresa e
 JOIN Endereco en ON en.fkEmpresa = e.idEmpresa
-ORDER BY e.Empresa_nome, en.unidade, en.cidade;
-
--- B2 Caminho completo: empresa (com a matriz) -> usuários -> login
---    LEFT JOIN em tudo para aparecerem empresas sem matriz, sem usuários ou sem login
-SELECT e.Empresa_nome                                           AS empresa,
-       COALESCE(CONCAT(en.cidade, '/', en.UF), 'Sem matriz')    AS matriz,
-       COALESCE(u.nome, 'Sem usuário')                          AS usuario,
-       COALESCE(lg.email, 'Sem login')                          AS emailLogin
+ORDER BY e.Empresa_nome, en.cidade;
+ 
+-- B2 Caminho completo: empresa -> endereço -> usuários -> login
+--    LEFT JOIN em tudo para aparecerem empresas sem endereço, sem usuários ou sem login
+SELECT e.Empresa_nome                       AS empresa,
+       CONCAT(en.cidade, '/', en.UF)        AS cidade,
+       u.nome                               AS usuario,
+       lg.email                             AS emailLogin
 FROM Empresa e
 LEFT JOIN Endereco en ON en.fkEmpresa = e.idEmpresa
-                     AND en.unidade = 'Matriz'
-LEFT JOIN Usuario u   ON u.fkEmpresa = e.idEmpresa
-LEFT JOIN login lg    ON lg.fkUsuario = u.idUsuario
+LEFT JOIN Usuario u   ON u.fkEmpresa  = e.idEmpresa
+LEFT JOIN Login lg    ON lg.fkUsuario = u.idUsuario
 ORDER BY e.Empresa_nome, u.nome;
-
-
+ 
+-- B3 auto JOIN: cada filial com a sua matriz (Unidade = idEmpresa da matriz)
+SELECT f.idEmpresa,
+       f.Empresa_nome AS filial,
+       m.Empresa_nome AS matriz
+FROM Empresa f
+JOIN Empresa m ON m.idEmpresa = f.Unidade
+ORDER BY m.Empresa_nome, f.Empresa_nome;
+ 
+-- B4 auto RIGHT JOIN: todas as matrizes e as suas filiais (matriz sem filial aparece com filial vazia)
+SELECT m.idEmpresa,
+       m.Empresa_nome AS matriz,
+       f.Empresa_nome AS filial
+FROM Empresa f
+RIGHT JOIN Empresa m ON f.Unidade = m.idEmpresa
+WHERE m.Unidade IS NULL
+ORDER BY m.Empresa_nome, f.Empresa_nome;
+ 
+-- B5 Filiais com a matriz e o endereço da filial
+SELECT f.Empresa_nome                       AS filial,
+       m.Empresa_nome                       AS matriz,
+       CONCAT(en.cidade, '/', en.UF)        AS cidadeDaFilial
+FROM Empresa f
+JOIN Empresa m   ON m.idEmpresa = f.Unidade
+JOIN Endereco en ON en.fkEmpresa = f.idEmpresa;
+ 
+ 
 -- ===== C) EMPRESA -> AMBIENTE -> LOTE =====
-
+ 
 -- C1 JOIN: empresa, câmara e lotes
 SELECT e.Empresa_nome AS empresa,
        a.nome         AS camara,
@@ -391,32 +410,32 @@ SELECT e.Empresa_nome AS empresa,
        lo.dt_inicio,
        lo.dt_final
 FROM Empresa e
-JOIN ambienteCultivo a ON a.fkEmpresa         = e.idEmpresa
-JOIN lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
+JOIN AmbienteCultivo a ON a.fkEmpresa          = e.idEmpresa
+JOIN Lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
 ORDER BY e.Empresa_nome, a.nome, lo.dt_inicio;
-
--- C2 LEFT JOIN: todas as empresas, mesmo sem câmara e sem lote
-SELECT e.Empresa_nome                         AS empresa,
-       COALESCE(a.nome, 'Sem câmara')         AS camara,
-       COALESCE(lo.fase_atual, 'Sem lote')    AS fase,
+ 
+-- C2 RIGHT JOIN: todas as empresas, mesmo sem câmara e sem lote
+SELECT e.Empresa_nome AS empresa,
+       a.nome         AS camara,
+       lo.fase_atual  AS fase,
        lo.dt_inicio,
        lo.dt_final
-FROM Empresa e
-LEFT JOIN ambienteCultivo a ON a.fkEmpresa         = e.idEmpresa
-LEFT JOIN lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
+FROM Lote lo
+RIGHT JOIN AmbienteCultivo a ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
+RIGHT JOIN Empresa e         ON a.fkEmpresa          = e.idEmpresa
 ORDER BY e.Empresa_nome, a.nome, lo.dt_inicio;
-
+ 
 -- C3 Lotes em andamento (sem data final)
 SELECT e.Empresa_nome AS empresa, a.nome AS camara, lo.id_lote, lo.fase_atual AS fase, lo.dt_inicio
-FROM lote lo
-JOIN ambienteCultivo a ON a.IdAmbienteCultivo = lo.fkAmbienteCultivo
+FROM Lote lo
+JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = lo.fkAmbienteCultivo
 JOIN Empresa e         ON e.idEmpresa         = a.fkEmpresa
 WHERE lo.dt_final IS NULL
 ORDER BY e.Empresa_nome, a.nome;
-
-
+ 
+ 
 -- ===== D) LEITURA -> SENSOR =====
-
+ 
 -- D1 JOIN: leituras com o sensor e a câmara (mais recentes primeiro)
 SELECT l.id_leitura,
        l.dtHora,
@@ -426,27 +445,27 @@ SELECT l.id_leitura,
        l.umidadeAr,
        l.umidadeSolo,
        l.Temperatura
-FROM leitura l
-JOIN sensor s          ON s.idSensor          = l.fkSensor
-JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
+FROM Leitura l
+JOIN Sensor s          ON s.idSensor          = l.fkSensor
+JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
 ORDER BY l.dtHora DESC, l.id_leitura;
-
+ 
 -- D2 Só o DHT11: umidade do ar e temperatura
 SELECT l.dtHora, a.nome AS camara, s.idSensor, l.umidadeAr, l.Temperatura
-FROM leitura l
-JOIN sensor s          ON s.idSensor          = l.fkSensor
-JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
+FROM Leitura l
+JOIN Sensor s          ON s.idSensor          = l.fkSensor
+JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
 WHERE s.tipo = 'DHT11'
 ORDER BY l.dtHora DESC;
-
+ 
 -- D3 Só o capacitivo: umidade do solo (substrato)
 SELECT l.dtHora, a.nome AS camara, s.idSensor, l.umidadeSolo
-FROM leitura l
-JOIN sensor s          ON s.idSensor          = l.fkSensor
-JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
+FROM Leitura l
+JOIN Sensor s          ON s.idSensor          = l.fkSensor
+JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
 WHERE s.tipo = 'Capacitivo - Substrato'
 ORDER BY l.dtHora DESC;
-
+ 
 -- D4 Leitura + lote: o lote é descoberto pela câmara do sensor e pela data da leitura
 SELECT l.id_leitura,
        l.dtHora,
@@ -457,118 +476,128 @@ SELECT l.id_leitura,
        l.umidadeAr,
        l.umidadeSolo,
        l.Temperatura
-FROM leitura l
-JOIN sensor s          ON s.idSensor          = l.fkSensor
-JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
-JOIN lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
+FROM Leitura l
+JOIN Sensor s          ON s.idSensor          = l.fkSensor
+JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
+JOIN Lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
                       AND l.dtHora >= lo.dt_inicio
                       AND (lo.dt_final IS NULL OR l.dtHora <= lo.dt_final)
 ORDER BY lo.id_lote, l.dtHora;
-
-
--- ===== E) FAIXA IDEAL (5 FASES) COM LEITURA =====
-
+ 
+ 
+-- ===== E) FAIXA IDEAL (TABELA PARAMETRO, 5 FASES) COM LEITURA =====
+ 
 -- E1 As faixas ideais de cada empresa, na ordem das fases do cultivo
 --    (Compostagem, Pasteurização, Incubação, Casing, Frutificação)
 SELECT e.Empresa_nome AS empresa,
-       f.fase,
-       f.parametro,
-       f.valor_min,
-       f.valor_max
-FROM faixa_ideal f
-JOIN Empresa e ON e.idEmpresa = f.fkEmpresa
-ORDER BY e.Empresa_nome, f.idfaixa_ideal;
-
--- E2 Faixa ideal + leitura (umidade do ar, DHT11): cada leitura com os limites da fase do lote
+       p.fase,
+       p.faixa_ideal  AS parametro,
+       p.valor_min,
+       p.valor_max
+FROM Parametro p
+JOIN Empresa e ON e.idEmpresa = p.fkEmpresa
+ORDER BY e.Empresa_nome, p.idfaixa_ideal;
+ 
+-- E2 RIGHT JOIN: todas as empresas e as faixas que elas têm (empresa sem faixa aparece com faixa vazia)
+SELECT e.Empresa_nome AS empresa,
+       p.fase,
+       p.faixa_ideal  AS parametro,
+       p.valor_min,
+       p.valor_max
+FROM Parametro p
+RIGHT JOIN Empresa e ON p.fkEmpresa = e.idEmpresa
+ORDER BY e.Empresa_nome, p.idfaixa_ideal;
+ 
+-- E3 Faixa ideal + leitura (umidade do ar, DHT11): cada leitura com os limites da fase do lote
 SELECT a.nome        AS camara,
        lo.fase_atual AS fase,
        l.dtHora,
        l.umidadeAr   AS valorLido,
-       f.valor_min,
-       f.valor_max
-FROM leitura l
-JOIN sensor s          ON s.idSensor          = l.fkSensor
+       p.valor_min,
+       p.valor_max
+FROM Leitura l
+JOIN Sensor s          ON s.idSensor          = l.fkSensor
                       AND s.tipo = 'DHT11'
-JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
-JOIN lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
+JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
+JOIN Lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
                       AND l.dtHora >= lo.dt_inicio
                       AND (lo.dt_final IS NULL OR l.dtHora <= lo.dt_final)
-JOIN faixa_ideal f     ON f.fkEmpresa = a.fkEmpresa
-                      AND f.fase      = lo.fase_atual
-                      AND f.parametro = 'umidadeAr'
+JOIN Parametro p       ON p.fkEmpresa  = a.fkEmpresa
+                      AND p.fase        = lo.fase_atual
+                      AND p.faixa_ideal = 'umidadeAr'
 ORDER BY a.nome, l.dtHora;
-
-
+ 
+ 
 -- ===== F) DASHBOARD COM ALERTA (FAIXA IDEAL + LEITURA) =====
 -- Alerta = leitura abaixo do mínimo ou acima do máximo da faixa da empresa para a fase do lote
 -- O DHT11 gera alerta de umidade do ar e de temperatura; o capacitivo, de umidade do solo
-
+ 
 -- F1 Alerta de umidade do AR (DHT11)
 SELECT e.Empresa_nome AS empresa,
        a.nome         AS camara,
        lo.fase_atual  AS fase,
        l.dtHora,
        l.umidadeAr    AS valorLido,
-       f.valor_min,
-       f.valor_max
-FROM leitura l
-JOIN sensor s          ON s.idSensor          = l.fkSensor
+       p.valor_min,
+       p.valor_max
+FROM Leitura l
+JOIN Sensor s          ON s.idSensor          = l.fkSensor
                       AND s.tipo = 'DHT11'
-JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
+JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
 JOIN Empresa e         ON e.idEmpresa         = a.fkEmpresa
-JOIN lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
+JOIN Lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
                       AND l.dtHora >= lo.dt_inicio
                       AND (lo.dt_final IS NULL OR l.dtHora <= lo.dt_final)
-JOIN faixa_ideal f     ON f.fkEmpresa = e.idEmpresa
-                      AND f.fase       = lo.fase_atual
-                      AND f.parametro  = 'umidadeAr'
-WHERE l.umidadeAr < f.valor_min OR l.umidadeAr > f.valor_max
+JOIN Parametro p       ON p.fkEmpresa  = e.idEmpresa
+                      AND p.fase        = lo.fase_atual
+                      AND p.faixa_ideal = 'umidadeAr'
+WHERE l.umidadeAr < p.valor_min OR l.umidadeAr > p.valor_max
 ORDER BY l.dtHora;
-
+ 
 -- F2 Alerta de TEMPERATURA (DHT11)
 SELECT e.Empresa_nome AS empresa,
        a.nome         AS camara,
        lo.fase_atual  AS fase,
        l.dtHora,
        l.Temperatura  AS valorLido,
-       f.valor_min,
-       f.valor_max
-FROM leitura l
-JOIN sensor s          ON s.idSensor          = l.fkSensor
+       p.valor_min,
+       p.valor_max
+FROM Leitura l
+JOIN Sensor s          ON s.idSensor          = l.fkSensor
                       AND s.tipo = 'DHT11'
-JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
+JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
 JOIN Empresa e         ON e.idEmpresa         = a.fkEmpresa
-JOIN lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
+JOIN Lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
                       AND l.dtHora >= lo.dt_inicio
                       AND (lo.dt_final IS NULL OR l.dtHora <= lo.dt_final)
-JOIN faixa_ideal f     ON f.fkEmpresa = e.idEmpresa
-                      AND f.fase       = lo.fase_atual
-                      AND f.parametro  = 'temperatura'
-WHERE l.Temperatura < f.valor_min OR l.Temperatura > f.valor_max
+JOIN Parametro p       ON p.fkEmpresa  = e.idEmpresa
+                      AND p.fase        = lo.fase_atual
+                      AND p.faixa_ideal = 'temperatura'
+WHERE l.Temperatura < p.valor_min OR l.Temperatura > p.valor_max
 ORDER BY l.dtHora;
-
+ 
 -- F3 Alerta de umidade do SOLO (sensor capacitivo)
 SELECT e.Empresa_nome AS empresa,
        a.nome         AS camara,
        lo.fase_atual  AS fase,
        l.dtHora,
        l.umidadeSolo  AS valorLido,
-       f.valor_min,
-       f.valor_max
-FROM leitura l
-JOIN sensor s          ON s.idSensor          = l.fkSensor
+       p.valor_min,
+       p.valor_max
+FROM Leitura l
+JOIN Sensor s          ON s.idSensor          = l.fkSensor
                       AND s.tipo = 'Capacitivo - Substrato'
-JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
+JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
 JOIN Empresa e         ON e.idEmpresa         = a.fkEmpresa
-JOIN lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
+JOIN Lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
                       AND l.dtHora >= lo.dt_inicio
                       AND (lo.dt_final IS NULL OR l.dtHora <= lo.dt_final)
-JOIN faixa_ideal f     ON f.fkEmpresa = e.idEmpresa
-                      AND f.fase       = lo.fase_atual
-                      AND f.parametro  = 'umidadeSolo'
-WHERE l.umidadeSolo < f.valor_min OR l.umidadeSolo > f.valor_max
+JOIN Parametro p       ON p.fkEmpresa  = e.idEmpresa
+                      AND p.fase        = lo.fase_atual
+                      AND p.faixa_ideal = 'umidadeSolo'
+WHERE l.umidadeSolo < p.valor_min OR l.umidadeSolo > p.valor_max
 ORDER BY l.dtHora;
-
+ 
 -- F4 DASHBOARD do DHT11: umidade do ar e temperatura na mesma linha, cada uma com a sua faixa ideal
 --    LEFT JOIN nas faixas porque algumas fases não têm faixa de ar ou de temperatura (ex.: Compostagem e Casing)
 SELECT e.Empresa_nome AS empresa,
@@ -576,102 +605,49 @@ SELECT e.Empresa_nome AS empresa,
        lo.fase_atual  AS fase,
        l.dtHora,
        l.umidadeAr,
-       fa.valor_min   AS arMin,
-       fa.valor_max   AS arMax,
+       pa.valor_min   AS arMin,
+       pa.valor_max   AS arMax,
        l.Temperatura,
-       ft.valor_min   AS tempMin,
-       ft.valor_max   AS tempMax
-FROM leitura l
-JOIN sensor s          ON s.idSensor          = l.fkSensor
+       pt.valor_min   AS tempMin,
+       pt.valor_max   AS tempMax
+FROM Leitura l
+JOIN Sensor s          ON s.idSensor          = l.fkSensor
                       AND s.tipo = 'DHT11'
-JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
+JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
 JOIN Empresa e         ON e.idEmpresa         = a.fkEmpresa
-JOIN lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
+JOIN Lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
                       AND l.dtHora >= lo.dt_inicio
                       AND (lo.dt_final IS NULL OR l.dtHora <= lo.dt_final)
-LEFT JOIN faixa_ideal fa ON fa.fkEmpresa = e.idEmpresa
-                        AND fa.fase       = lo.fase_atual
-                        AND fa.parametro  = 'umidadeAr'
-LEFT JOIN faixa_ideal ft ON ft.fkEmpresa = e.idEmpresa
-                        AND ft.fase       = lo.fase_atual
-                        AND ft.parametro  = 'temperatura'
-WHERE l.umidadeAr < fa.valor_min OR l.umidadeAr > fa.valor_max
-   OR l.Temperatura < ft.valor_min OR l.Temperatura > ft.valor_max
+LEFT JOIN Parametro pa ON pa.fkEmpresa  = e.idEmpresa
+                      AND pa.fase        = lo.fase_atual
+                      AND pa.faixa_ideal = 'umidadeAr'
+LEFT JOIN Parametro pt ON pt.fkEmpresa  = e.idEmpresa
+                      AND pt.fase        = lo.fase_atual
+                      AND pt.faixa_ideal = 'temperatura'
+WHERE l.umidadeAr < pa.valor_min OR l.umidadeAr > pa.valor_max
+   OR l.Temperatura < pt.valor_min OR l.Temperatura > pt.valor_max
 ORDER BY l.dtHora, a.nome;
-
--- F5 Indicador: quantos alertas do DHT11 (ar ou temperatura) cada câmara teve
-SELECT e.Empresa_nome AS empresa,
-       a.nome         AS camara,
-       COUNT(l.id_leitura) AS qtdAlertasDHT11
-FROM leitura l
-JOIN sensor s          ON s.idSensor          = l.fkSensor
-                      AND s.tipo = 'DHT11'
-JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
-JOIN Empresa e         ON e.idEmpresa         = a.fkEmpresa
-JOIN lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
-                      AND l.dtHora >= lo.dt_inicio
-                      AND (lo.dt_final IS NULL OR l.dtHora <= lo.dt_final)
-LEFT JOIN faixa_ideal fa ON fa.fkEmpresa = e.idEmpresa
-                        AND fa.fase       = lo.fase_atual
-                        AND fa.parametro  = 'umidadeAr'
-LEFT JOIN faixa_ideal ft ON ft.fkEmpresa = e.idEmpresa
-                        AND ft.fase       = lo.fase_atual
-                        AND ft.parametro  = 'temperatura'
-WHERE l.umidadeAr < fa.valor_min OR l.umidadeAr > fa.valor_max
-   OR l.Temperatura < ft.valor_min OR l.Temperatura > ft.valor_max
-GROUP BY e.Empresa_nome, a.nome
-ORDER BY qtdAlertasDHT11 DESC, a.nome;
-
--- F6 Indicador: quantos alertas de umidade do solo (capacitivo) cada câmara teve
-SELECT e.Empresa_nome AS empresa,
-       a.nome         AS camara,
-       COUNT(l.id_leitura) AS qtdAlertasSolo
-FROM leitura l
-JOIN sensor s          ON s.idSensor          = l.fkSensor
-                      AND s.tipo = 'Capacitivo - Substrato'
-JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
-JOIN Empresa e         ON e.idEmpresa         = a.fkEmpresa
-JOIN lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
-                      AND l.dtHora >= lo.dt_inicio
-                      AND (lo.dt_final IS NULL OR l.dtHora <= lo.dt_final)
-JOIN faixa_ideal f     ON f.fkEmpresa = e.idEmpresa
-                      AND f.fase       = lo.fase_atual
-                      AND f.parametro  = 'umidadeSolo'
-WHERE l.umidadeSolo < f.valor_min OR l.umidadeSolo > f.valor_max
-GROUP BY e.Empresa_nome, a.nome
-ORDER BY qtdAlertasSolo DESC, a.nome;
-
-
+ 
+ 
 -- ===== G) JOINS DE APOIO (falhas de monitoramento) =====
-
--- G1 LEFT JOIN: sensores sem nenhuma leitura (possível falha de comunicação)
+ 
+-- G1 RIGHT JOIN: sensores sem nenhuma leitura (possível falha de comunicação)
 SELECT s.idSensor, s.tipo, s.statuss AS status, a.nome AS camara
-FROM sensor s
-LEFT JOIN leitura l ON l.fkSensor = s.idSensor
-JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
+FROM Leitura l
+RIGHT JOIN Sensor s    ON l.fkSensor = s.idSensor
+JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
 WHERE l.id_leitura IS NULL;
-
--- G2 LEFT JOIN: câmaras sem nenhum sensor instalado
+ 
+-- G2 RIGHT JOIN: câmaras sem nenhum sensor instalado
 SELECT e.Empresa_nome AS empresa, a.IdAmbienteCultivo, a.nome AS camara
-FROM ambienteCultivo a
-JOIN Empresa e     ON e.idEmpresa = a.fkEmpresa
-LEFT JOIN sensor s ON s.fkAmbienteCultivo = a.IdAmbienteCultivo
+FROM Sensor s
+RIGHT JOIN AmbienteCultivo a ON s.fkAmbienteCultivo = a.IdAmbienteCultivo
+JOIN Empresa e               ON e.idEmpresa = a.fkEmpresa
 WHERE s.idSensor IS NULL;
-
--- G3 Quantas leituras cada sensor enviou
-SELECT s.idSensor,
-       s.tipo,
-       a.nome AS camara,
-       COUNT(l.id_leitura) AS qtdLeituras
-FROM sensor s
-LEFT JOIN leitura l ON l.fkSensor = s.idSensor
-JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
-GROUP BY s.idSensor, s.tipo, a.nome
-ORDER BY qtdLeituras DESC, s.idSensor;
-
-
+ 
+ 
 -- ===== H) HIERARQUIA DE USUÁRIOS =====
-
+ 
 -- H1 JOIN: usuários que têm empresa
 SELECT u.idUsuario, u.nome AS usuario, e.Empresa_nome AS empresa
 FROM Usuario u
@@ -681,21 +657,21 @@ ORDER BY e.Empresa_nome, u.nome;
 -- H2 auto JOIN: usuário e seu responsável
 --    LEFT JOIN para os gestores (sem responsável) não sumirem do resultado
 SELECT u.idUsuario,
-       u.nome                              AS usuario,
-       COALESCE(r.nome, 'Sem responsável') AS responsavel
+       u.nome AS usuario,
+       r.nome AS responsavel
 FROM Usuario u
 LEFT JOIN Usuario r ON r.idUsuario = u.fkResponsavel
 ORDER BY u.idUsuario;
  
 -- H3 Visão completa: usuário + empresa + responsável
 SELECT u.idUsuario,
-       u.nome                                      AS usuario,
-       COALESCE(e.Empresa_nome, 'Sem empresa')     AS empresa,
-       COALESCE(r.nome, 'Sem responsável')         AS responsavel
+       u.nome         AS usuario,
+       e.Empresa_nome AS empresa,
+       r.nome         AS responsavel
 FROM Usuario u
 LEFT JOIN Empresa e ON e.idEmpresa  = u.fkEmpresa
 LEFT JOIN Usuario r ON r.idUsuario  = u.fkResponsavel
-ORDER BY empresa, u.nome;
+ORDER BY e.Empresa_nome, u.nome;
  
 -- H4 Cadeia hierárquica (usuário -> responsável -> responsável do responsável)
 SELECT u.nome  AS usuario,
@@ -706,19 +682,16 @@ LEFT JOIN Usuario r  ON r.idUsuario  = u.fkResponsavel
 LEFT JOIN Usuario r2 ON r2.idUsuario = r.fkResponsavel
 WHERE u.fkResponsavel IS NOT NULL;
  
--- H5 Quantos subordinados diretos cada pessoa tem
-SELECT r.idUsuario,
-       r.nome AS responsavel,
-       e.Empresa_nome AS empresa,
-       COUNT(u.idUsuario) AS qtdSubordinados
+-- H5 Cada responsável com os seus subordinados diretos
+SELECT r.nome AS responsavel,
+       u.nome AS subordinado
 FROM Usuario r
-LEFT JOIN Usuario u ON u.fkResponsavel = r.idUsuario
-LEFT JOIN Empresa e ON e.idEmpresa     = r.fkEmpresa
-GROUP BY r.idUsuario, r.nome, e.Empresa_nome
-ORDER BY qtdSubordinados DESC, r.nome;
-
+JOIN Usuario u ON u.fkResponsavel = r.idUsuario
+ORDER BY r.nome, u.nome;
+ 
 -- H6 Usuários sem empresa
 SELECT u.idUsuario, u.nome
 FROM Usuario u
 LEFT JOIN Empresa e ON e.idEmpresa = u.fkEmpresa
 WHERE e.idEmpresa IS NULL;
+ 
