@@ -6,9 +6,10 @@ const mysql = require('mysql2');
 // constantes para configurações
 const SERIAL_BAUD_RATE = 9600;
 const SERVIDOR_PORTA = 3300;
+const MAX_LEITURAS = 100;
 
 // habilita ou desabilita a inserção de dados no banco de dados
-const HABILITAR_OPERACAO_INSERIR = true;
+const HABILITAR_OPERACAO_INSERIR = false;
 
 // função para comunicação serial
 const serial = async (
@@ -57,10 +58,22 @@ const serial = async (
         const sensorUmidadeSolo = parseInt(valores[1]);
         const sensorTemperatura = parseFloat(valores[2]);
 
+        // ignora linhas que não são leituras (ex.: "Erro ao ler os dados do sensor DHT!")
+        if (isNaN(sensorUmidadeAr) || isNaN(sensorUmidadeSolo) || isNaN(sensorTemperatura)) {
+            return;
+        }
+
         // armazena os valores dos sensores nos arrays correspondentes
         valoresSensorUmidadeAr.push(sensorUmidadeAr);
         valoresSensorUmidadeSolo.push(sensorUmidadeSolo);
         valoresSensorTemperatura.push(sensorTemperatura);
+
+        // mantém só as leituras mais recentes para os arrays não crescerem para sempre
+        if (valoresSensorTemperatura.length > MAX_LEITURAS) {
+            valoresSensorUmidadeAr.shift();
+            valoresSensorUmidadeSolo.shift();
+            valoresSensorTemperatura.shift();
+        }
 
         // insere os dados no banco de dados (se habilitado)
         if (HABILITAR_OPERACAO_INSERIR) {

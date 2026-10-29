@@ -1,143 +1,135 @@
-<!doctype html>
-<html>
-
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-    <title>Graphics</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard de Monitoramento | Cog Solutions</title>
+  <link rel="shortcut icon" type="image/png" href="..\public\assets\icon\favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+  <header>
+    <img src="..\public\assets\icon\favicon.png" alt="Logo da Cog Solutions" class="logo">
+    <h1>Dashboard de Monitoramento</h1>
+    <p>Temperatura e umidade no cultivo de <b>Champignon Paris</b></p>
+  </header>
 
-    <h1>Graphics</h1>
-    <div style="display: flex;">
-        <div style="width: 50%;">
-            <canvas id="sensorUmidadeAr"></canvas>
-        </div>
-        <div style="width: 50%;">
-            <canvas id="sensorUmidadeSolo"></canvas>
-        </div>
-         <div style="width: 50%;">
-            <canvas id="sensorTemperatura"></canvas>
-        </div>
-    </div>
+  <main>
+    <section class="card">
+      <h2>Temperatura e umidade por horário</h2>
+      <div class="chart-box"><canvas id="graficoLinhas"></canvas></div>
+    </section>
 
-    <script>
-        var sensorUmidadeAr = new Chart(document.getElementById('sensorUmidadeAr').getContext('2d'), {
-            type: 'line',
-            data: {
-                datasets: [{
-                    label: 'Umidade Ar',
-                    borderColor: '#63B1BC',
-                    backgroundColor: '#ED145B'
-                }]
-            },
-            options: {
-                scales: {
-                    x: {
-                        beginAtZero: true
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: '(%)'
-                        },
-                        beginAtZero: true,
-                    },
-                },
-            }
-        });
+    <section class="card">
+      <h2>Leitura atual</h2>
+      <div class="chart-box"><canvas id="graficoBarras"></canvas></div>
+    </section>
+  </main>
 
-        var sensorUmidadeSolo = new Chart(document.getElementById('sensorUmidadeSolo').getContext('2d'), {
-            type: 'line',
-            data: {
-                datasets: [{
-                    label: 'Umidade Solo',
-                    borderColor: '#63B1BC',
-                    backgroundColor: '#0762C8'
-                }]
-            },
-            options: {
-                scales: {
-                    x: {
-                        beginAtZero: true
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: '(0-1)'
-                        },
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+  <footer>
+    <img src="..\public\assets\icon\favicon.png" alt="" class="logo-mini">
+    <span>Dados em tempo real · Cog Solutions™</span>
+  </footer>
 
-        var sensorTemperatura = new Chart(document.getElementById('sensorTemperatura').getContext('2d'), {
-            type: 'line',
-            data: {
-                datasets: [{
-                    label: 'Temperatura',
-                    borderColor: '#63B1BC',
-                    backgroundColor: 'green'
-                }]
-            },
-            options: {
-                scales: {
-                    x: {
-                        beginAtZero: true
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: '(0-1)'
-                        },
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
+  <script>
+    Chart.defaults.color = "#c4c4c9";
+    Chart.defaults.borderColor = "#2c2d31";
+    Chart.defaults.font.family = "'Nunito', Arial, sans-serif";
 
+    // Cores da marca: laranja e branco sobre preto
+    const corTemp = "#ee6340";
+    const corUmid = "#ffffff";
+    const corSolo = "#8a8a8f";
 
-        var paginacao = {};
-        var tempo = {};
+    const MAX_PONTOS = 10;
 
-        function obterDados(grafico, endpoint) {
-            fetch('http://localhost:3300/sensores/' + endpoint)
-                .then(response => response.json())
-                .then(valores => {
-                    if (paginacao[endpoint] == null) {
-                        paginacao[endpoint] = 0;
-                    }
-                    if (tempo[endpoint] == null) {
-                        tempo[endpoint] = 0;
-                    }
-
-                    var ultimaPaginacao = paginacao[endpoint];
-                    paginacao[endpoint] = valores.length;
-                    valores = valores.slice(ultimaPaginacao);
-
-                    valores.forEach((valor) => {
-                        if (grafico.data.labels.length == 10 && grafico.data.datasets[0].data.length == 10) {
-                            grafico.data.labels.shift();
-                            grafico.data.datasets[0].data.shift();
-                        }
-
-                        grafico.data.labels.push(tempo[endpoint]++);
-                        grafico.data.datasets[0].data.push(parseFloat(valor));
-                        grafico.update();
-                    });
-                })
-                .catch(error => console.error('Erro ao obter dados:', error));
+    // Histórico das últimas leituras
+    const graficoLinhas = new Chart(document.getElementById("graficoLinhas"), {
+      type: "line",
+      data: {
+        labels: [],
+        datasets: [
+          { label: "Temperatura (°C)",    data: [], borderColor: corTemp, backgroundColor: corTemp, tension: 0.3 },
+          { label: "Umidade do ar (%)",   data: [], borderColor: corUmid, backgroundColor: corUmid, tension: 0.3 },
+          { label: "Umidade do solo (%)", data: [], borderColor: corSolo, backgroundColor: corSolo, tension: 0.3 }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: { title: { display: true, text: "Horário" } },
+          y: { beginAtZero: true, max: 100 }
         }
+      }
+    });
 
-        setInterval(() => {
-            obterDados(sensorUmidadeSolo, 'umidadeSolo');
-            obterDados(sensorUmidadeAr, 'umidadeAr');
-            obterDados(sensorTemperatura, 'temperatura');
-        }, 1000);
+    // Valor mais recente de cada sensor
+    const graficoBarras = new Chart(document.getElementById("graficoBarras"), {
+      type: "bar",
+      data: {
+        labels: ["Temperatura (°C)", "Umidade do ar (%)", "Umidade do solo (%)"],
+        datasets: [
+          {
+            label: "Leitura atual",
+            data: [0, 0, 0],
+            backgroundColor: [corTemp, corUmid, corSolo],
+            borderRadius: 4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { beginAtZero: true, max: 100 }
+        }
+      }
+    });
 
-    </script>
+    // Busca o último valor de um endpoint da API
+    function ultimoValor(endpoint) {
+      return fetch("http://localhost:3300/sensores/" + endpoint)
+        .then(response => response.json())
+        .then(valores => valores[valores.length - 1]);
+    }
+
+    function obterDados() {
+      Promise.all([
+        ultimoValor("Temperatura"),
+        ultimoValor("UmidadeAr"),
+        ultimoValor("UmidadeSolo")
+      ])
+        .then(([temperatura, umidadeAr, umidadeSolo]) => {
+          // API ainda sem leituras do Arduino, ou leitura inválida
+          if (temperatura == null || umidadeAr == null || umidadeSolo == null) return;
+
+          const horario = new Date().toLocaleTimeString("pt-BR");
+          graficoLinhas.data.labels.push(horario);
+          graficoLinhas.data.datasets[0].data.push(temperatura);
+          graficoLinhas.data.datasets[1].data.push(umidadeAr);
+          graficoLinhas.data.datasets[2].data.push(umidadeSolo);
+
+          // Mantém só os últimos pontos
+          if (graficoLinhas.data.labels.length > MAX_PONTOS) {
+            graficoLinhas.data.labels.shift();
+            graficoLinhas.data.datasets.forEach(d => d.data.shift());
+          }
+          graficoLinhas.update();
+
+          graficoBarras.data.datasets[0].data = [temperatura, umidadeAr, umidadeSolo];
+          graficoBarras.update();
+        })
+        .catch(error => console.error("Erro ao obter dados:", error));
+    }
+
+    obterDados();
+    // mesmo intervalo do delay(2000) do Arduino
+    setInterval(obterDados, 2000);
+  </script>
 </body>
-
 </html>
