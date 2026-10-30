@@ -61,9 +61,9 @@ SELECT l.id_leitura,
        l.umidadeAr,
        l.umidadeSolo,
        l.Temperatura
-FROM Leitura l
-JOIN Sensor s          ON s.idSensor          = l.fkSensor
-JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
+FROM leitura l
+JOIN sensor s          ON s.idSensor          = l.fkSensor
+JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
 ORDER BY l.dtHora DESC, l.id_leitura;
  
  
@@ -78,15 +78,15 @@ SELECT e.Empresa_nome                       AS empresa,
 FROM Empresa e
 LEFT JOIN Endereco en ON en.fkEmpresa = e.idEmpresa
 LEFT JOIN Usuario u   ON u.fkEmpresa  = e.idEmpresa
-LEFT JOIN Login lg    ON lg.fkUsuario = u.idUsuario
+LEFT JOIN login lg    ON lg.fkUsuario = u.idUsuario
 ORDER BY e.Empresa_nome, u.nome;
  
--- B3 auto JOIN: cada filial com a sua matriz (Unidade = idEmpresa da matriz)
+-- B3 auto JOIN: cada filial com a sua matriz (FkMatriz = idEmpresa da matriz)
 SELECT f.idEmpresa,
        f.Empresa_nome AS filial,
        m.Empresa_nome AS matriz
 FROM Empresa f
-JOIN Empresa m ON m.idEmpresa = f.Unidade
+JOIN Empresa m ON m.idEmpresa = f.FkMatriz
 ORDER BY m.Empresa_nome, f.Empresa_nome;
  
 -- B4 auto RIGHT JOIN: todas as matrizes e as suas filiais (matriz sem filial aparece com filial vazia)
@@ -94,8 +94,8 @@ SELECT m.idEmpresa,
        m.Empresa_nome AS matriz,
        f.Empresa_nome AS filial
 FROM Empresa f
-RIGHT JOIN Empresa m ON f.Unidade = m.idEmpresa
-WHERE m.Unidade IS NULL
+RIGHT JOIN Empresa m ON f.FkMatriz = m.idEmpresa
+WHERE m.FkMatriz IS NULL
 ORDER BY m.Empresa_nome, f.Empresa_nome;
  
 -- B5 Filiais com a matriz e o endereço da filial
@@ -103,7 +103,7 @@ SELECT f.Empresa_nome                       AS filial,
        m.Empresa_nome                       AS matriz,
        CONCAT(en.cidade, '/', en.UF)        AS cidadeDaFilial
 FROM Empresa f
-JOIN Empresa m   ON m.idEmpresa = f.Fkmatriz
+JOIN Empresa m   ON m.idEmpresa = f.FkMatriz
 JOIN Endereco en ON en.fkEmpresa = f.idEmpresa;
  
  
@@ -117,8 +117,8 @@ SELECT e.Empresa_nome AS empresa,
        lo.dt_inicio,
        lo.dt_final
 FROM Empresa e
-JOIN AmbienteCultivo a ON a.fkEmpresa          = e.idEmpresa
-JOIN Lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
+JOIN ambienteCultivo a ON a.fkEmpresa          = e.idEmpresa
+JOIN lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
 ORDER BY e.Empresa_nome, a.nome, lo.dt_inicio;
  
 -- C2 RIGHT JOIN: todas as empresas, mesmo sem câmara e sem lote
@@ -127,15 +127,15 @@ SELECT e.Empresa_nome AS empresa,
        lo.fase_atual  AS fase,
        lo.dt_inicio,
        lo.dt_final
-FROM Lote lo
-RIGHT JOIN AmbienteCultivo a ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
+FROM lote lo
+RIGHT JOIN ambienteCultivo a ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
 RIGHT JOIN Empresa e         ON a.fkEmpresa          = e.idEmpresa
 ORDER BY e.Empresa_nome, a.nome, lo.dt_inicio;
  
 -- C3 Lotes em andamento (sem data final)
 SELECT e.Empresa_nome AS empresa, a.nome AS camara, lo.id_lote, lo.fase_atual AS fase, lo.dt_inicio
-FROM Lote lo
-JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = lo.fkAmbienteCultivo
+FROM lote lo
+JOIN ambienteCultivo a ON a.IdAmbienteCultivo = lo.fkAmbienteCultivo
 JOIN Empresa e         ON e.idEmpresa         = a.fkEmpresa
 WHERE lo.dt_final IS NULL
 ORDER BY e.Empresa_nome, a.nome;
@@ -152,24 +152,24 @@ SELECT l.id_leitura,
        l.umidadeAr,
        l.umidadeSolo,
        l.Temperatura
-FROM Leitura l
-JOIN Sensor s          ON s.idSensor          = l.fkSensor
-JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
+FROM leitura l
+JOIN sensor s          ON s.idSensor          = l.fkSensor
+JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
 ORDER BY l.dtHora DESC, l.id_leitura;
  
 -- D2 Só o DHT11: umidade do ar e temperatura
 SELECT l.dtHora, a.nome AS camara, s.idSensor, l.umidadeAr, l.Temperatura
-FROM Leitura l
-JOIN Sensor s          ON s.idSensor          = l.fkSensor
-JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
+FROM leitura l
+JOIN sensor s          ON s.idSensor          = l.fkSensor
+JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
 WHERE s.tipo = 'DHT11'
 ORDER BY l.dtHora DESC;
  
 -- D3 Só o capacitivo: umidade do solo (substrato)
 SELECT l.dtHora, a.nome AS camara, s.idSensor, l.umidadeSolo
-FROM Leitura l
-JOIN Sensor s          ON s.idSensor          = l.fkSensor
-JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
+FROM leitura l
+JOIN sensor s          ON s.idSensor          = l.fkSensor
+JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
 WHERE s.tipo = 'Capacitivo - Substrato'
 ORDER BY l.dtHora DESC;
  
@@ -183,10 +183,10 @@ SELECT l.id_leitura,
        l.umidadeAr,
        l.umidadeSolo,
        l.Temperatura
-FROM Leitura l
-JOIN Sensor s          ON s.idSensor          = l.fkSensor
-JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
-JOIN Lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
+FROM leitura l
+JOIN sensor s          ON s.idSensor          = l.fkSensor
+JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
+JOIN lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
                       AND l.dtHora >= lo.dt_inicio
                       AND (lo.dt_final IS NULL OR l.dtHora <= lo.dt_final)
 ORDER BY lo.id_lote, l.dtHora;
@@ -210,11 +210,11 @@ SELECT a.nome        AS camara,
        l.umidadeAr   AS valorLido,
        p.valor_min,
        p.valor_max
-FROM Leitura l
-JOIN Sensor s          ON s.idSensor          = l.fkSensor
+FROM leitura l
+JOIN sensor s          ON s.idSensor          = l.fkSensor
                       AND s.tipo = 'DHT11'
-JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
-JOIN Lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
+JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
+JOIN lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
                       AND l.dtHora >= lo.dt_inicio
                       AND (lo.dt_final IS NULL OR l.dtHora <= lo.dt_final)
 JOIN Parametro p       ON p.fkEmpresa  = a.fkEmpresa
@@ -235,12 +235,12 @@ SELECT e.Empresa_nome AS empresa,
        l.umidadeAr    AS valorLido,
        p.valor_min,
        p.valor_max
-FROM Leitura l
-JOIN Sensor s          ON s.idSensor          = l.fkSensor
+FROM leitura l
+JOIN sensor s          ON s.idSensor          = l.fkSensor
                       AND s.tipo = 'DHT11'
-JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
+JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
 JOIN Empresa e         ON e.idEmpresa         = a.fkEmpresa
-JOIN Lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
+JOIN lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
                       AND l.dtHora >= lo.dt_inicio
                       AND (lo.dt_final IS NULL OR l.dtHora <= lo.dt_final)
 JOIN Parametro p       ON p.fkEmpresa  = e.idEmpresa
@@ -257,12 +257,12 @@ SELECT e.Empresa_nome AS empresa,
        l.Temperatura  AS valorLido,
        p.valor_min,
        p.valor_max
-FROM Leitura l
-JOIN Sensor s          ON s.idSensor          = l.fkSensor
+FROM leitura l
+JOIN sensor s          ON s.idSensor          = l.fkSensor
                       AND s.tipo = 'DHT11'
-JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
+JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
 JOIN Empresa e         ON e.idEmpresa         = a.fkEmpresa
-JOIN Lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
+JOIN lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
                       AND l.dtHora >= lo.dt_inicio
                       AND (lo.dt_final IS NULL OR l.dtHora <= lo.dt_final)
 JOIN Parametro p       ON p.fkEmpresa  = e.idEmpresa
@@ -279,12 +279,12 @@ SELECT e.Empresa_nome AS empresa,
        l.umidadeSolo  AS valorLido,
        p.valor_min,
        p.valor_max
-FROM Leitura l
-JOIN Sensor s          ON s.idSensor          = l.fkSensor
+FROM leitura l
+JOIN sensor s          ON s.idSensor          = l.fkSensor
                       AND s.tipo = 'Capacitivo - Substrato'
-JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
+JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
 JOIN Empresa e         ON e.idEmpresa         = a.fkEmpresa
-JOIN Lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
+JOIN lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
                       AND l.dtHora >= lo.dt_inicio
                       AND (lo.dt_final IS NULL OR l.dtHora <= lo.dt_final)
 JOIN Parametro p       ON p.fkEmpresa  = e.idEmpresa
@@ -305,12 +305,12 @@ SELECT e.Empresa_nome AS empresa,
        l.Temperatura,
        pt.valor_min   AS tempMin,
        pt.valor_max   AS tempMax
-FROM Leitura l
-JOIN Sensor s          ON s.idSensor          = l.fkSensor
+FROM leitura l
+JOIN sensor s          ON s.idSensor          = l.fkSensor
                       AND s.tipo = 'DHT11'
-JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
+JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
 JOIN Empresa e         ON e.idEmpresa         = a.fkEmpresa
-JOIN Lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
+JOIN lote lo           ON lo.fkAmbienteCultivo = a.IdAmbienteCultivo
                       AND l.dtHora >= lo.dt_inicio
                       AND (lo.dt_final IS NULL OR l.dtHora <= lo.dt_final)
 LEFT JOIN Parametro pa ON pa.fkEmpresa  = e.idEmpresa
@@ -328,15 +328,15 @@ ORDER BY l.dtHora, a.nome;
  
 -- G1 RIGHT JOIN: sensores sem nenhuma leitura (possível falha de comunicação)
 SELECT s.idSensor, s.tipo, s.statuss AS status, a.nome AS camara
-FROM Leitura l
-RIGHT JOIN Sensor s    ON l.fkSensor = s.idSensor
-JOIN AmbienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
+FROM leitura l
+RIGHT JOIN sensor s    ON l.fkSensor = s.idSensor
+JOIN ambienteCultivo a ON a.IdAmbienteCultivo = s.fkAmbienteCultivo
 WHERE l.id_leitura IS NULL;
  
 -- G2 RIGHT JOIN: câmaras sem nenhum sensor instalado
 SELECT e.Empresa_nome AS empresa, a.IdAmbienteCultivo, a.nome AS camara
-FROM Sensor s
-RIGHT JOIN AmbienteCultivo a ON s.fkAmbienteCultivo = a.IdAmbienteCultivo
+FROM sensor s
+RIGHT JOIN ambienteCultivo a ON s.fkAmbienteCultivo = a.IdAmbienteCultivo
 JOIN Empresa e               ON e.idEmpresa = a.fkEmpresa
 WHERE s.idSensor IS NULL;
  
