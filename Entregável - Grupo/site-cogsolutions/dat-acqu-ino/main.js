@@ -9,7 +9,7 @@ const SERVIDOR_PORTA = 3300;
 const MAX_LEITURAS = 100;
 
 // habilita ou desabilita a inserção de dados no banco de dados
-const HABILITAR_OPERACAO_INSERIR = false;
+const HABILITAR_OPERACAO_INSERIR = true;
 
 // função para comunicação serial
 const serial = async (
@@ -78,9 +78,9 @@ const serial = async (
         // insere os dados no banco de dados (se habilitado)
         if (HABILITAR_OPERACAO_INSERIR) {
 
-            // este insert irá inserir os dados na tabela "medida"
+            // este insert irá inserir os dados na tabela "leitura"
             await poolBancoDados.execute(
-                'INSERT INTO leitura (  umidadeAr, umidadeSolo, temperatura, fk_sensor ) VALUES (?, ?, ?, ?)',
+                'INSERT INTO leitura (  umidadeAr, umidadeSolo, temperatura, fkSensor ) VALUES (?, ?, ?, ?)',
                 [ sensorUmidadeAr, sensorUmidadeSolo, sensorTemperatura, 1 ]
             );
             console.log("valores inseridos no banco: ", sensorUmidadeAr + ", " + sensorUmidadeSolo + ", " + sensorTemperatura );
