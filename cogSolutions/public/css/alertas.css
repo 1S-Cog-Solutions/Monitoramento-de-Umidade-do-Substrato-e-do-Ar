@@ -168,7 +168,7 @@
 
 .alerta.critico {
     --cor: var(--vermelho);
-    background: rgba(239, 106, 106, 0.06);
+    background: rgba(216, 57, 57, 0.06);
 }
 
 .alerta.resolvido {
@@ -246,7 +246,7 @@
 
 .btn-resolver:hover {
     border-color: var(--verde);
-    background: rgba(94, 201, 123, 0.08);
+    background: rgba(46, 139, 92, 0.08);
 }
 
 .alerta.resolvido .btn-resolver {

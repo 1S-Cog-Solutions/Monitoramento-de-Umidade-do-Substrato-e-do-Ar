@@ -1,18 +1,18 @@
 :root {
-  --bg: #0b0b0e;
-  --card: #121216;
-  --linha-alt: #16161b;
-  --borda: #24242b;
-  --texto: #ececef;
-  --suave: #8b8b95;
-  --ok: #4ade80;
-  --ok-bg: rgba(74, 222, 128, 0.12);
-  --ok-borda: rgba(74, 222, 128, 0.25);
-  --erro: #f87171;
-  --erro-bg: rgba(248, 113, 113, 0.12);
-  --erro-borda: rgba(248, 113, 113, 0.28);
-  --destaque: #3a1f1c;
-  --destaque-borda: #7a3a33;
+  --bg: #f5f5f5;
+  --card: #ffffff;
+  --linha-alt: #fafafa;
+  --borda: #e4e4e4;
+  --texto: #1c1c1c;
+  --suave: #6b6b6b;
+  --ok: #2e8b5c;
+  --ok-bg: rgba(46, 139, 92, 0.12);
+  --ok-borda: rgba(46, 139, 92, 0.30);
+  --erro: #d83939;
+  --erro-bg: rgba(216, 57, 57, 0.10);
+  --erro-borda: rgba(216, 57, 57, 0.35);
+  --destaque: #fdebe3;
+  --destaque-borda: #e8622c;
   --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
   --sans: "Manrope", system-ui, Arial, sans-serif;
   --display: "Barlow Condensed", "Arial Narrow", sans-serif;
@@ -137,12 +137,12 @@ tbody tr:last-child td { border-bottom: 0; }
   font-size: 11px;
   cursor: pointer;
 }
-.paginacao button:hover:not(:disabled) { color: var(--texto); border-color: #3a3a44; }
+.paginacao button:hover:not(:disabled) { color: var(--texto); border-color: #c9c9c9; }
 .paginacao button:disabled { opacity: 0.4; cursor: default; }
 .paginacao button.atual {
   background: var(--destaque);
   border-color: var(--destaque-borda);
-  color: #f3c9c4;
+  color: #e8622c;
 }
 .paginacao .nav { border-color: transparent; }
 .paginacao .reticencias { padding: 0 4px; color: var(--suave); font-size: 11px; }
@@ -218,4 +218,17 @@ tbody tr:last-child td { border-bottom: 0; }
 @media (max-width: 1100px) {
     .tendencias { grid-template-columns: 1fr; }
     .filtros { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* a classe .badge também existe no dashboard.css (contador); na tabela vale a de status */
+td .badge {
+  min-width: 0;
+  padding: 2px 8px;
+  border-radius: 5px;
+  background: var(--ok-bg);
+  color: var(--ok);
+  font-size: 10.5px;
+}
+td .badge.fora {
+  background: var(--erro-bg);
+  color: var(--erro);
 }
