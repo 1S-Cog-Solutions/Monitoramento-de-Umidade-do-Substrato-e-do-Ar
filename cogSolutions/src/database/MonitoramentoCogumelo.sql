@@ -694,4 +694,3 @@ SELECT u.idUsuario, u.nome
 FROM Usuario u
 LEFT JOIN Empresa e ON e.idEmpresa = u.fkEmpresa
 WHERE e.idEmpresa IS NULL;
- 
