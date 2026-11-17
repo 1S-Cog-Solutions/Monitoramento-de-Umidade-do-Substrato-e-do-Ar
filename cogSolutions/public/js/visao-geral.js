@@ -16,3 +16,16 @@ let faixas = {
     'Indução':      { temp: [23, 25], ar: [90, 95], sub: [70, 75] },
     'Frutificação': { temp: [16, 22], ar: [80, 90], sub: [60, 65] }
 };
+
+
+
+/* =========================================
+   2. DADOS SIMULADOS (ultimas 24 horas, 1 leitura por hora)
+   Quando a API estiver ligada, estes vetores vem do banco.
+========================================= */
+
+let horarios = [];
+for (let i = 0; i < 24; i++) {
+    let hora = (12 + i) % 24;
+    horarios.push((hora < 10 ? '0' : '') + hora + ':00');
+}
