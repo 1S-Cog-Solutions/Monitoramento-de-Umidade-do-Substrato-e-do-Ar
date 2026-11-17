@@ -207,3 +207,38 @@ h1, h2, h3 {
     border: 1px solid var(--borda);
     border-radius: 10px;
 }
+
+.kpi-card.destaque {
+    background: var(--vermelho-fundo);
+    border-color: rgba(216, 57, 57, 0.35);
+}
+
+.kpi-card.destaque strong {
+    color: var(--vermelho);
+}
+
+.kpi-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+}
+
+.kpi-card strong {
+    font-family: var(--display);
+    font-size: 44px;
+    line-height: 1;
+}
+
+.kpi-card strong small {
+    font-family: var(--body);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--texto-suave);
+}
+
+.kpi-card p {
+    font-size: 13px;
+    color: var(--texto-suave);
+}
