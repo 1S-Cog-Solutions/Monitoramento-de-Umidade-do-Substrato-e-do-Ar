@@ -35,7 +35,6 @@ app.use("/aquarios", aquariosRouter);
 app.use("/empresas", empresasRouter);
 
 app.listen(PORTA_APP, function () {
-    console.log(`                                                                                                
-    Acesse: http://${HOST_APP}:${PORTA_APP} :. \n\n
-    Você está rodando sua aplicação em ambiente de .:${process.env.AMBIENTE_PROCESSO}:. \n\n`);
+    console.log("\nBem-vindo à CogSolutions! 🍄");
+    console.log(`Acesse agora mesmo: http://${HOST_APP}:${PORTA_APP}\n`);
 });
