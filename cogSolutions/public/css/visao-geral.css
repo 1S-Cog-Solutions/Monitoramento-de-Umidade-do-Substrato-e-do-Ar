@@ -115,3 +115,18 @@ h1, h2, h3 {
     stroke-linecap: round;
     stroke-linejoin: round;
 }
+
+.menu-item:hover {
+    background: #2a2a2a;
+    color: #fff;
+}
+
+.menu-item.active {
+    background: rgba(232, 98, 44, 0.18);
+    border-left-color: var(--laranja);
+    color: #fff;
+}
+
+.menu-item.active svg {
+    color: var(--laranja);
+}
