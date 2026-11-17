@@ -81,3 +81,16 @@ let camaras = [
         sub:  gerarSerie(72.5, 1, 2)
     }
 ];
+
+
+let variaveis = [
+    { chave: 'temp', nome: 'Temperatura',          unidade: '°C', delta: '°C',   canvas: 'chartTemp', resumo: 'resumoTemp', icone: 'temperature.png' },
+    { chave: 'ar',   nome: 'Umidade do ar',        unidade: '%',  delta: 'p.p.', canvas: 'chartAr',   resumo: 'resumoAr',   icone: 'umidade-ar.png' },
+    { chave: 'sub',  nome: 'Umidade do substrato', unidade: '%',  delta: 'p.p.', canvas: 'chartSub',  resumo: 'resumoSub',  icone: 'umidade-solo.png' }
+];
+
+let corVerde = '#2e8b5c';
+let corVermelha = '#d83939';
+
+let camaraSelecionada = 1;
+let graficos = {};
