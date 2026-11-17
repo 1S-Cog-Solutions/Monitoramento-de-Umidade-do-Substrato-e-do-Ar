@@ -304,3 +304,40 @@ function desenharTabela() {
 
     document.getElementById('tabelaCamaras').innerHTML = html;
 }
+
+
+
+/* =========================================
+   7. LEITURAS ATUAIS DA CAMARA SELECIONADA
+   Cada cartao mostra onde o valor esta em relacao a faixa ideal.
+========================================= */
+
+function desenharLeituras() {
+    let camara = camaras[camaraSelecionada];
+    let html = '';
+
+    document.getElementById('tituloCamara').innerHTML = camara.nome;
+    document.getElementById('faseCamara').innerHTML = 'Fase atual: ' + camara.fase.toLowerCase();
+
+    for (let i = 0; i < variaveis.length; i++) {
+        let v = variaveis[i];
+        let serie = camara[v.chave];
+        let faixa = faixaDe(camara, v.chave);
+        let atual = serie[serie.length - 1];
+        let antes = serie[serie.length - 4];
+        let variacao = atual - antes;
+        let fora = estaFora(atual, faixa);
+
+        // Escala da barra: faixa ideal com uma folga de uma "largura" de cada lado
+        let largura = faixa[1] - faixa[0];
+        let escalaMin = faixa[0] - largura;
+        let escalaMax = faixa[1] + largura;
+        let posicao = (atual - escalaMin) / (escalaMax - escalaMin) * 100;
+        if (posicao < 2) { posicao = 2; }
+        if (posicao > 98) { posicao = 98; }
+        let inicioFaixa = (faixa[0] - escalaMin) / (escalaMax - escalaMin) * 100;
+        let larguraFaixa = largura / (escalaMax - escalaMin) * 100;
+    }
+
+    document.getElementById('leituras').innerHTML = html;
+}
