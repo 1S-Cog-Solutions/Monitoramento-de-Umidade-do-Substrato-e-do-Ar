@@ -206,3 +206,44 @@ let alertasHoje = [
     { hora: '09:40', nivel: 'ok',      titulo: 'Câmara 03 · temperatura normalizada', detalhe: 'Voltou para a faixa ideal da indução.', aberto: false },
     { hora: '09:21', nivel: 'aviso',   titulo: 'Câmara 01 · sensor reconectado',   detalhe: 'Ficou sem enviar leituras por alguns minutos.', aberto: false }
 ];
+
+
+
+/* =========================================
+   5. INDICADORES DO TOPO
+   Nenhuma media: so o que o produtor precisa para decidir.
+========================================= */
+
+function desenharIndicadores() {
+    let emAlerta = 0;
+    let nomeAlerta = '';
+    let maiorTempo = 0;
+    let textoMaiorTempo = 'Nenhuma leitura fora da faixa';
+
+    for (let i = 0; i < camaras.length; i++) {
+        let camara = camaras[i];
+
+        if (statusDaCamara(camara) != 'ideal') {
+            emAlerta++;
+            nomeAlerta = camara.nome;
+        }
+
+        let p = piorVariavel(camara);
+        if (p.horas > maiorTempo) {
+            maiorTempo = p.horas;
+            textoMaiorTempo = camara.nome + ' · ' + p.variavel.nome.toLowerCase();
+        }
+    }
+
+    let abertos = 0;
+    for (let i = 0; i < alertasHoje.length; i++) {
+        if (alertasHoje[i].aberto) {
+            abertos++;
+        }
+    }
+    let resolvidos = alertasHoje.length - abertos;
+
+    let classeAlerta = emAlerta > 0 ? 'kpi-card destaque' : 'kpi-card';
+    let subAlerta = emAlerta > 0 ? nomeAlerta + ' precisa de atenção' : 'Todas as câmaras na faixa ideal';
+
+}
