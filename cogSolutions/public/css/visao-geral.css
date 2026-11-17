@@ -130,3 +130,26 @@ h1, h2, h3 {
 .menu-item.active svg {
     color: var(--laranja);
 }
+
+.sidebar-status {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px 14px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.sidebar-status .faixa.ok {
+    color: #5ec97b;
+    font-weight: 700;
+}
+
+.sidebar-status small {
+    color: #9a9a9a;
+}
