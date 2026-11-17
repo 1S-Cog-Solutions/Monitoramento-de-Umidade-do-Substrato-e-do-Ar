@@ -33,7 +33,7 @@
 
 body {
     display: flex;
-    min-height: 100vh;
+    min-height: var(--vh, 100vh);
     font-family: var(--body);
     background: var(--bg);
     color: var(--texto);
@@ -57,7 +57,7 @@ h1, h2, h3 {
     top: 0;
     flex-shrink: 0;
     width: 230px;
-    height: 100vh;
+    height: var(--vh, 100vh);
     padding: 24px 16px;
     background: var(--menu);
     color: #f0f0f0;
@@ -622,12 +622,12 @@ h1, h2, h3 {
 @media (min-width: 1101px) {
     html,
     body {
-        height: 100vh;
+        height: var(--vh, 100vh);
         overflow: hidden;
     }
 
     .dashboard {
-        height: 100vh;
+        height: var(--vh, 100vh);
         gap: 14px;
         padding: 20px 32px 20px;
         overflow: hidden;

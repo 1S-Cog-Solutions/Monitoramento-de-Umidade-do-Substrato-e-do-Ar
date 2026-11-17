@@ -29,7 +29,7 @@
 
 body {
     display: flex;
-    min-height: 100vh;
+    min-height: var(--vh, 100vh);
     font-family: var(--body);
     background-color: var(--bg);
     color: var(--texto);
@@ -58,7 +58,7 @@ h1, h2, h3 {
     top: 0;
     flex-shrink: 0;
     width: 230px;
-    height: 100vh;
+    height: var(--vh, 100vh);
     padding: 24px 16px;
     background: var(--sidebar);
     color: #f0f0f0;

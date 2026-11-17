@@ -1,0 +1,221 @@
+/* =========================================
+   TELAS DE PROJEÇÃO - Histórico e Alertas
+   Tudo cabe em uma tela só, sem rolagem, e o
+   js/projecao.js aumenta o tamanho em TV/telão.
+========================================= */
+
+@media (min-width: 1101px) {
+
+    html,
+    body {
+        height: var(--vh, 100vh);
+        overflow: hidden;
+    }
+
+    .dashboard {
+        height: var(--vh, 100vh);
+        gap: 10px;
+        padding: 16px 28px;
+        overflow: auto;
+    }
+
+    .breadcrumb {
+        display: none;
+    }
+
+    .topo {
+        margin-bottom: 0;
+        align-items: center;
+    }
+
+    .topo h1,
+    .alertas-topo h1 {
+        margin-bottom: 0;
+        font-size: 28px;
+    }
+
+    /* ---------- HISTÓRICO ---------- */
+
+    /* os 3 gráficos lado a lado */
+    .painel.historico {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 4px 18px;
+        padding: 12px 18px;
+    }
+
+    .painel.historico .painel-topo {
+        grid-column: 1 / -1;
+        margin-bottom: 0;
+    }
+
+    .painel.historico .grafico-bloco {
+        margin: 0;
+    }
+
+    .painel.historico .grafico-titulo {
+        font-size: 15px;
+        margin-bottom: 4px;
+    }
+
+    .painel.historico .chart-container {
+        height: 190px;
+    }
+
+    .filtros {
+        margin: 0;
+        padding: 8px 16px;
+        gap: 12px;
+    }
+
+    .filtro span {
+        white-space: nowrap;
+    }
+
+    .filtro {
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+    }
+
+    .filtros .select,
+    .campo-data {
+        height: 30px;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .filtros-resumo small {
+        display: none;
+    }
+
+    .dashboard > br {
+        display: none;
+    }
+
+    .card-header {
+        padding: 10px 20px 6px;
+    }
+
+    .card-header h1 {
+        font-size: 20px;
+        margin: 0;
+    }
+
+    .subtitulo,
+    .card-footer {
+        display: none;
+    }
+
+    tbody td {
+        height: 34px;
+        font-size: 14px;
+    }
+
+    .mono {
+        font-size: 13px;
+    }
+
+    thead th {
+        padding-top: 6px;
+        padding-bottom: 6px;
+        font-size: 12px;
+    }
+
+    .badge {
+        font-size: 12px;
+    }
+
+    /* ---------- ALERTAS ---------- */
+
+    .alertas-topo {
+        margin-bottom: 0;
+        align-items: center;
+    }
+
+    .alertas-topo p {
+        display: none;
+    }
+
+    .kpis-alertas {
+        margin-bottom: 0;
+        gap: 12px;
+    }
+
+    .kpis-alertas .kpi-card {
+        padding: 10px 16px;
+        gap: 2px;
+    }
+
+    .kpis-alertas .kpi-card strong {
+        font-size: 36px;
+    }
+
+    .barra-filtros {
+        margin-bottom: 0;
+    }
+
+    .alertas-layout {
+        flex: 1;
+        min-height: 0;
+        align-items: stretch;
+        gap: 14px;
+    }
+
+    .lista-alertas {
+        gap: 8px;
+        overflow: hidden;
+    }
+
+    .coluna-lateral {
+        gap: 10px;
+        overflow: hidden;
+    }
+
+    .alerta {
+        padding: 10px 16px;
+        gap: 12px;
+    }
+
+    .alerta h3 {
+        font-size: 17px;
+    }
+
+    .alerta-linha1 {
+        margin-bottom: 2px;
+    }
+
+    .alerta-detalhe {
+        margin-bottom: 4px;
+        font-size: 13px;
+    }
+
+    .alerta-medida {
+        font-size: 13px;
+    }
+
+    .alerta-medida strong {
+        font-size: 14px;
+    }
+
+    .alerta-lado {
+        gap: 4px;
+    }
+
+    .alerta-hora {
+        font-size: 13px;
+    }
+
+    .btn-resolver {
+        padding: 5px 10px;
+    }
+
+    .coluna-lateral .painel {
+        padding: 12px 16px;
+    }
+
+    .origem-lista {
+        gap: 8px;
+    }
+}
