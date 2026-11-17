@@ -170,3 +170,22 @@ h1, h2, h3 {
     justify-content: space-between;
     align-items: flex-end;
 }
+
+.breadcrumb {
+    font-size: 12px;
+    color: var(--texto-suave);
+    margin-bottom: 4px;
+}
+
+.topo h1 {
+    font-size: 36px;
+}
+
+.select {
+    padding: 8px 12px;
+    font-size: 13px;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    background: var(--card);
+    color: var(--texto);
+}
