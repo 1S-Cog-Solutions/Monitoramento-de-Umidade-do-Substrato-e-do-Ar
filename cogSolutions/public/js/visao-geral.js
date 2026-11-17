@@ -194,3 +194,15 @@ function textoHoras(horas) {
     if (horas == 0) { return '—'; }
     return horas + ' h';
 }
+
+
+
+/* =========================================
+   4. ALERTAS DE HOJE (simulados)
+========================================= */
+
+let alertasHoje = [
+    { hora: '11:30', nivel: 'critico', titulo: 'Câmara 02 · substrato em 59,9%',   detalhe: 'abaixo', aberto: true },
+    { hora: '09:40', nivel: 'ok',      titulo: 'Câmara 03 · temperatura normalizada', detalhe: 'Voltou para a faixa ideal da indução.', aberto: false },
+    { hora: '09:21', nivel: 'aviso',   titulo: 'Câmara 01 · sensor reconectado',   detalhe: 'Ficou sem enviar leituras por alguns minutos.', aberto: false }
+];
