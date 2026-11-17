@@ -29,3 +29,30 @@ for (let i = 0; i < 24; i++) {
     let hora = (12 + i) % 24;
     horarios.push((hora < 10 ? '0' : '') + hora + ':00');
 }
+
+
+// Gera uma serie suave em torno de um valor base
+function gerarSerie(base, variacao, deslocamento) {
+    let serie = [];
+    for (let i = 0; i < 24; i++) {
+        let valor = base + variacao * Math.sin((i + deslocamento) / 3.5);
+        serie.push(Math.round(valor * 10) / 10);
+    }
+    return serie;
+}
+
+
+// Camara 02: o substrato vai secando e sai da faixa nas ultimas 3 horas
+let substratoCamara2 = gerarSerie(63.5, 0.8, 4);
+substratoCamara2[18] = 62.4;
+substratoCamara2[19] = 61.5;
+substratoCamara2[20] = 60.4;
+substratoCamara2[21] = 59.8;
+substratoCamara2[22] = 59.7;
+substratoCamara2[23] = 59.9;
+
+let temperaturaCamara2 = gerarSerie(18.5, 1.2, 2);
+temperaturaCamara2[23] = 17.4;
+
+let arCamara2 = gerarSerie(86, 1.5, 6);
+arCamara2[23] = 87.3;
