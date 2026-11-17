@@ -213,5 +213,14 @@
 
     </script>
 
-  </body>
+  <script>
+      // dentro do dashboard (iframe) esconde a barra do topo e o fundo
+      if (location.search.indexOf('embutido') >= 0) {
+        document.getElementById('div_topo').style.display = 'none';
+        document.body.style.backgroundImage = 'none';
+        document.body.style.backgroundColor = '#0b0f12';
+        document.body.style.padding = '16px';
+      }
+    </script>
+</body>
 </html>
