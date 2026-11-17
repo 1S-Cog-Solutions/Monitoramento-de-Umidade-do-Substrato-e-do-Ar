@@ -173,6 +173,24 @@
                 </div>
               </div>
 
+              <p style="margin: 24px 0 10px 0; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #ee6340">Seu negócio hoje</p>
+
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px">
+                <div style="padding: 16px 18px; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 12px">
+                  <div style="font-size: 13px; color: #a9a9b0">Produção por ano</div>
+                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: white">${producaoAno.toLocaleString('pt-BR', formatoKg)} <span style="font-size: 14px; font-weight: 600; color: #a9a9b0">KG</span></div>
+                </div>
+                <div style="padding: 16px 18px; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 12px">
+                  <div style="font-size: 13px; color: #a9a9b0">Receita por ano</div>
+                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: white">${receitaAno.toLocaleString('pt-BR', formatoReal)}</div>
+                </div>
+                <div style="padding: 16px 18px; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 12px">
+                  <div style="font-size: 13px; color: #a9a9b0">Cada KG salvo vale</div>
+                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: white">${margemKg.toLocaleString('pt-BR', formatoReal)}</div>
+                  <div style="margin-top: 4px; font-size: 13px; color: #a9a9b0">preço menos colheita, embalagem e frete</div>
+                </div>
+              </div>
+
               <div style="margin-top: 24px; padding: 14px 16px; font-size: 13px; line-height: 1.5; color: #c4c4c9; background-color: rgba(238, 99, 64, 0.08); border: 1px solid rgba(238, 99, 64, 0.35); border-radius: 10px">
                 <b style="color: white">Importante:</b>
                 esta é uma simulação com as premissas do projeto (implantação de ${custoImplantacaoCamara.toLocaleString('pt-BR', formatoReal)} por câmara, colheita, embalagem e frete de ${custoPorKg.toLocaleString('pt-BR', formatoReal)} por KG) e não inclui o computador de coleta.
