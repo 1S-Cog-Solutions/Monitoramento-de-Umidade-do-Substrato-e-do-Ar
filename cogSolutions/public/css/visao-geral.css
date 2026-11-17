@@ -433,3 +433,48 @@ h1, h2, h3 {
     color: var(--texto-suave);
     font-size: 12px;
 }
+
+/* ---------- LEITURAS ATUAIS ---------- */
+
+.leituras-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.leitura-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px 18px;
+    background: #fafafa;
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+}
+
+.leitura-card.alerta {
+    background: var(--vermelho-fundo);
+    border-color: rgba(216, 57, 57, 0.4);
+}
+
+.leitura-topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.leitura-card strong {
+    font-family: var(--display);
+    font-size: 40px;
+    line-height: 1;
+}
+
+.leitura-card.alerta strong {
+    color: var(--vermelho);
+}
