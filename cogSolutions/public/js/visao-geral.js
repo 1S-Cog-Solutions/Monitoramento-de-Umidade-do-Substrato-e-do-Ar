@@ -363,3 +363,17 @@ function desenharLeituras() {
         html += '<div class="escala-rotulos"><span>ideal: ' + faixa[0] + '–' + faixa[1] + v.unidade + '</span><span>' + tendencia + '</span></div>';
         html += '<span class="faixa ' + (fora ? 'fora' : 'ok') + '">' + frase + '</span>';
         html += '</div>';
+
+        
+
+/* =========================================
+   8. GRAFICOS (faixa ideal sombreada, pontos fora da faixa em vermelho)
+========================================= */
+
+function coresDosPontos(dados, faixa) {
+    let cores = [];
+    for (let i = 0; i < dados.length; i++) {
+        cores.push(estaFora(dados[i], faixa) ? corVermelha : corVerde);
+    }
+    return cores;
+}
