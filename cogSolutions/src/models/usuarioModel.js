@@ -1,28 +1,53 @@
-var database = require("../database/config")
+var database = require("../database/config");
 
+// Procura o usuário pelo e-mail e senha (tabelas login, Usuario e Empresa)
 function autenticar(email, senha) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function entrar(): ", email, senha)
     var instrucaoSql = `
-        SELECT id, nome, email, fk_empresa as empresaId FROM usuario WHERE email = '${email}' AND senha = '${senha}';
+        SELECT u.idUsuario AS id, l.nome, l.email, u.admin, e.idEmpresa, e.Empresa_nome AS empresa
+        FROM login l
+        JOIN Usuario u ON u.idUsuario = l.fkUsuario
+        LEFT JOIN Empresa e ON e.idEmpresa = u.fkEmpresa
+        WHERE l.email = ? AND l.senha = ?;
     `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    return database.executar(instrucaoSql, [email, senha]);
 }
 
-// Coloque os mesmos parâmetros aqui. Vá para a var instrucaoSql
-function cadastrar(nome, email, cpf, senha, fkEmpresa) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nome, email, cpf, senha, fkEmpresa);
-    
-    // Insira exatamente a query do banco aqui, lembrando da nomenclatura exata nos valores
-    //  e na ordem de inserção dos dados.
+// Procura a empresa pela chave de acesso digitada no cadastro
+function buscarEmpresaPorChave(chave) {
     var instrucaoSql = `
-        INSERT INTO usuario (nome, email, senha, fk_empresa) VALUES ('${nome}', '${email}', '${senha}', '${fkEmpresa}');
+        SELECT idEmpresa, Empresa_nome FROM Empresa WHERE chaveAcesso = ?;
     `;
-    console.log("Executando a instrução SQL: \n" + instrucaoSql);
-    return database.executar(instrucaoSql);
+    return database.executar(instrucaoSql, [chave]);
+}
+
+// Confere se o e-mail já está cadastrado
+function emailJaExiste(email) {
+    var instrucaoSql = `
+        SELECT idLogin FROM login WHERE email = ?;
+    `;
+    return database.executar(instrucaoSql, [email]);
+}
+
+// Cria o usuário já vinculado à empresa (admin = 0, usuário comum)
+function cadastrarUsuario(nome, fkEmpresa) {
+    var instrucaoSql = `
+        INSERT INTO Usuario (nome, fkEmpresa, admin) VALUES (?, ?, 0);
+    `;
+    return database.executar(instrucaoSql, [nome, fkEmpresa]);
+}
+
+// Cria o login (e-mail e senha) do usuário recém criado
+function cadastrarLogin(nome, email, senha, fkUsuario) {
+    var instrucaoSql = `
+        INSERT INTO login (nome, email, senha, fkUsuario) VALUES (?, ?, ?, ?);
+    `;
+    return database.executar(instrucaoSql, [nome, email, senha, fkUsuario]);
 }
 
 module.exports = {
     autenticar,
-    cadastrar
+    buscarEmpresaPorChave,
+    emailJaExiste,
+    cadastrarUsuario,
+    cadastrarLogin
 };
