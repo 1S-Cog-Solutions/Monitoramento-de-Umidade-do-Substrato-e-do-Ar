@@ -56,3 +56,28 @@ temperaturaCamara2[23] = 17.4;
 
 let arCamara2 = gerarSerie(86, 1.5, 6);
 arCamara2[23] = 87.3;
+
+
+let camaras = [
+    {
+        nome: 'Câmara 01',
+        fase: 'Incubação',
+        temp: gerarSerie(21, 0.5, 0),
+        ar:   gerarSerie(92.5, 1.2, 3),
+        sub:  gerarSerie(67.5, 1, 5)
+    },
+    {
+        nome: 'Câmara 02',
+        fase: 'Frutificação',
+        temp: temperaturaCamara2,
+        ar:   arCamara2,
+        sub:  substratoCamara2
+    },
+    {
+        nome: 'Câmara 03',
+        fase: 'Indução',
+        temp: gerarSerie(24, 0.5, 1),
+        ar:   gerarSerie(92, 1, 7),
+        sub:  gerarSerie(72.5, 1, 2)
+    }
+];
