@@ -1,0 +1,24 @@
+/* =========================================
+   DASHBOARD - VISAO GERAL (tema claro)
+   Mesma paleta e fontes do site: laranja #e8622c,
+   menu escuro #1c1c1c e areas claras #f5f5f5.
+========================================= */
+
+:root {
+    --bg: #f5f5f5;
+    --card: #ffffff;
+    --borda: #e4e4e4;
+    --texto: #1c1c1c;
+    --texto-suave: #6b6b6b;
+    --laranja: #e8622c;
+    --laranja-fundo: rgba(232, 98, 44, 0.12);
+    --verde: #2e8b5c;
+    --verde-fundo: rgba(46, 139, 92, 0.12);
+    --amarelo: #b7791f;
+    --amarelo-fundo: rgba(217, 154, 31, 0.16);
+    --vermelho: #d83939;
+    --vermelho-fundo: rgba(216, 57, 57, 0.10);
+    --menu: #1c1c1c;
+    --display: "Barlow Condensed", "Arial Narrow", sans-serif;
+    --body: "Manrope", system-ui, Arial, sans-serif;
+}
