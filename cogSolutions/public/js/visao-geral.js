@@ -512,3 +512,21 @@ function desenharAlertas() {
 
     document.getElementById('listaAlertas').innerHTML = html;
 }
+
+
+
+/* =========================================
+   10. TROCAR DE CAMARA
+========================================= */
+
+function selecionarCamara(indice) {
+    camaraSelecionada = indice;
+
+    desenharTabela();
+    desenharLeituras();
+    desenharResumos();
+
+    for (let i = 0; i < variaveis.length; i++) {
+        atualizarGrafico(variaveis[i]);
+    }
+}
