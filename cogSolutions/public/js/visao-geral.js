@@ -353,3 +353,13 @@ function desenharLeituras() {
 
         let seta = variacao >= 0 ? '▲' : '▼';
         let tendencia = seta + ' ' + formatar(Math.abs(variacao)) + ' ' + v.delta + ' em 3 h';
+        
+        html += '<div class="leitura-card' + (fora ? ' alerta' : '') + '">';
+        html += '<div class="leitura-topo"><span class="kpi-label">' + v.nome + '</span>';
+        html += '<img src="../assets/icon/' + v.icone + '" alt="" class="card-icon"></div>';
+        html += '<strong>' + formatar(atual) + v.unidade + '</strong>';
+        html += '<div class="escala"><div class="zona-ideal" style="left:' + inicioFaixa + '%; width:' + larguraFaixa + '%"></div>';
+        html += '<div class="marcador' + (fora ? ' fora' : '') + '" style="left:' + posicao + '%"></div></div>';
+        html += '<div class="escala-rotulos"><span>ideal: ' + faixa[0] + '–' + faixa[1] + v.unidade + '</span><span>' + tendencia + '</span></div>';
+        html += '<span class="faixa ' + (fora ? 'fora' : 'ok') + '">' + frase + '</span>';
+        html += '</div>';
