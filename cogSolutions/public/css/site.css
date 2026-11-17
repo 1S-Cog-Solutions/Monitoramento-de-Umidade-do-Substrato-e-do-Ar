@@ -1,4 +1,4 @@
-  :root {
+:root {
     --display: "Barlow Condensed", "Arial Narrow", sans-serif;
     --body: "Manrope", system-ui, Arial, sans-serif;
     --laranja: #e8622c;
@@ -496,7 +496,8 @@
     overflow: hidden;
     max-width: 1100px;
     width: 90%;
-    height: 65vh;
+    height: 85vh;
+    max-height: 680px;
     position: relative;
   }
 

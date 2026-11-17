@@ -40,11 +40,16 @@
                 <input type="password" id="ipt_senha" placeholder="Senha">
             </div>
 
-            <p class="account-text">Já tem a chave da sua empresa? <a href="cadastro.html" target="_blank" class="sign-up-link cadastrar-funcionario">Crie sua conta</a></p>
+            <p class="account-text">Já tem a chave da sua empresa? <a href="cadastro.html" class="sign-up-link cadastrar-funcionario">Crie sua conta</a></p>
             <button type="button" id="btn-submit" onclick="entrar()">Entrar</button>
 
         </div>
 
+    </div>
+
+    <div id="boas_vindas">
+        <h2 id="texto_boas_vindas"></h2>
+        <p>Abrindo a sua dashboard...</p>
     </div>
 
     <div id="div_aguardar" class="loading-div"></div>
@@ -73,7 +78,14 @@
                         sessionStorage.EMPRESA_USUARIO = json.empresa || "";
                         sessionStorage.ADMIN_USUARIO = json.admin;
 
-                        window.location = "./dashboard/dashboard.html";
+                        // mostra a mensagem de boas-vindas e abre a dashboard em tela inteira
+                        let primeiroNome = json.nome.split(" ")[0];
+                        texto_boas_vindas.textContent = "Bem-vindo, " + primeiroNome + "! 🍄";
+                        boas_vindas.classList.add("mostrar");
+
+                        setTimeout(function () {
+                            window.top.location.href = "./dashboard/dashboard.html";
+                        }, 1800);
                     });
                 } else {
                     alert("E-mail e/ou senha inválido(s).");

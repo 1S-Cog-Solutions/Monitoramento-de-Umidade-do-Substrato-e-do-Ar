@@ -14,12 +14,17 @@
     color: #f2f2f2;
 }
 
+html {
+    overflow: hidden;
+}
+
 body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    padding: 24px;
+    height: 100vh;
+    padding: 0;
+    overflow: hidden;
     background: radial-gradient(circle at top left, #3a2a24 0%, #1b1b1b 55%, #121212 100%);
 }
 
@@ -41,8 +46,8 @@ body {
     gap: 16px;
     
     background-color: #222222;
-    width: 90%;
-    height: 600px;
+    width: 100%;
+    height: 100%;
 }
 
 .cadastrar-funcionario {
@@ -65,10 +70,10 @@ body {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
     width: 65%;
     height: 100%;
-    padding: 20px 56px;
+    padding: 16px 48px;
 
 }
 
@@ -277,4 +282,37 @@ input:disabled {
         flex-direction: column;
         gap: 16px;
     }
+}
+
+/* mensagem de boas-vindas depois do login */
+#boas_vindas {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    background: radial-gradient(circle at top left, #3a2a24 0%, #1b1b1b 55%, #121212 100%);
+}
+
+#boas_vindas.mostrar {
+    display: flex;
+}
+
+#boas_vindas h2 {
+    font-family: var(--display);
+    font-size: 3em;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #F06543;
+}
+
+#boas_vindas p {
+    color: #a8a8a8;
 }
