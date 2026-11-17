@@ -436,3 +436,21 @@ function criarGrafico(variavel) {
         }
     );
 }
+
+
+function atualizarGrafico(variavel) {
+    let camara = camaras[camaraSelecionada];
+    let faixa = faixaDe(camara, variavel.chave);
+    let dados = camara[variavel.chave];
+    let largura = faixa[1] - faixa[0];
+    let grafico = graficos[variavel.chave];
+
+    grafico.data.datasets[0].data = Array(24).fill(faixa[0]);
+    grafico.data.datasets[1].data = Array(24).fill(faixa[1]);
+    grafico.data.datasets[2].data = dados;
+    grafico.data.datasets[2].pointBackgroundColor = coresDosPontos(dados, faixa);
+    grafico.data.datasets[2].pointBorderColor = coresDosPontos(dados, faixa);
+    grafico.options.scales.y.suggestedMin = faixa[0] - largura * 0.6;
+    grafico.options.scales.y.suggestedMax = faixa[1] + largura * 0.6;
+    grafico.update();
+}
