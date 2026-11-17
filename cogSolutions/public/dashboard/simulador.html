@@ -13,8 +13,8 @@
     
     <style>
         html, body { height: 100%; }
-        .simulador-pagina { display: flex; flex-direction: column; gap: 14px; height: 100vh; padding: 20px 32px; }
-        .simulador-frame { flex: 1; min-height: 0; width: 100%; border: 1px solid var(--card-borda); border-radius: 12px; background: #0b0f12; }
+        .simulador-pagina { display: flex; flex-direction: column; height: var(--vh, 100vh); padding: 0; }
+        .simulador-frame { flex: 1; min-height: 0; width: 100%; border: 0; background: #0b0f12; }
     </style>
 </head>
 <body>
@@ -64,12 +64,7 @@
 </aside>
 
 <main class="dashboard simulador-pagina">
-    <header class="topo">
-        <div>
-            <nav class="breadcrumb" aria-label="Você está em">Dashboard / Calculadora</nav>
-            <h1>Calculadora financeira</h1>
-        </div>
-    </header>
+    
     <iframe class="simulador-frame" src="calculadora.html?embutido=1" title="Simulador financeiro"></iframe>
 </main>
 
@@ -77,5 +72,6 @@
     
     <script>validarSessao();</script>
 
+<script src="../js/projecao.js"></script>
 </body>
 </html>

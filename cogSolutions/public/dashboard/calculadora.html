@@ -214,12 +214,17 @@
     </script>
 
   <script>
-      // dentro do dashboard (iframe) esconde a barra do topo e o fundo
+      // dentro do dashboard (iframe): sem barra do topo, sem moldura, ocupando a área toda
       if (location.search.indexOf('embutido') >= 0) {
         document.getElementById('div_topo').style.display = 'none';
         document.body.style.backgroundImage = 'none';
         document.body.style.backgroundColor = '#0b0f12';
-        document.body.style.padding = '16px';
+        document.body.style.padding = '24px 40px';
+        let card = document.getElementById('div_card');
+        card.style.maxWidth = '1100px';
+        card.style.border = 'none';
+        card.style.backgroundColor = 'transparent';
+        card.style.padding = '0';
       }
     </script>
 </body>
