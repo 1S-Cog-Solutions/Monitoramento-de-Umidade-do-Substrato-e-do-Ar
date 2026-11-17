@@ -72,8 +72,28 @@ function cadastrar() {
     } else if (senha != confirmarSenha) {
         alert('As senhas precisam ser iguais.');
     } else {
-        alert('Conta criada com sucesso!');
-        window.location.href = 'login.html';
+        // envia os dados para a API gravar no banco
+        fetch('/usuarios/cadastrar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                nomeServer: nome,
+                emailServer: email,
+                senhaServer: senha,
+                chaveServer: chave
+            })
+        }).then(function (resposta) {
+            if (resposta.ok) {
+                alert('Conta criada com sucesso!');
+                window.location.href = 'login.html';
+            } else {
+                resposta.text().then(function (mensagem) {
+                    alert(mensagem);
+                });
+            }
+        }).catch(function () {
+            alert('Não foi possível conectar ao servidor.');
+        });
     }
 
     // impede o link do botão de trocar de página sem passar pela validação
