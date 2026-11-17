@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/cadastro.css">
+    <link rel="icon" type="image/png" href="./assets/icon/favicon.png">
+    <script src="./js/sessao.js"></script>
+
+
+
+</head>
+<body>
+    <div id="div_formulario">
+        <div class="lado-logo">
+            <a href="index.html" target="_top" class="link-logo" title="Voltar ao site inicial">
+                <img src="./assets/img/cog-solutions-logo.png" alt="Cog Solutions" id="logo-login">
+            </a>
+        </div>
+
+
+        <div class="lado-form">
+            <div class="form-header">
+                <h1>Seja bem vindo de volta!</h1>
+                <p>Preencha os dados abaixo para iniciar sua jornada.</p>
+            </div>
+
+
+            <div class="input">
+                <label for="ipt_email">E-MAIL</label>
+                <input type="email" id="ipt_email" placeholder="E-mail">
+            </div>
+
+            <div class="input">
+                <label for="ipt_senha">SENHA</label>
+                <input type="password" id="ipt_senha" placeholder="Senha">
+            </div>
+
+            <p class="account-text">Já tem a chave da sua empresa? <a href="cadastro.html" class="sign-up-link cadastrar-funcionario">Crie sua conta</a></p>
+            <button type="button" id="btn-submit" onclick="entrar()">Entrar</button>
+
+        </div>
+
+    </div>
+
+    <div id="boas_vindas">
+        <h2 id="texto_boas_vindas"></h2>
+        <p>Abrindo a sua dashboard...</p>
+    </div>
+
+    <div id="div_aguardar" class="loading-div"></div>
+  
+
+    <script>
+        function entrar() {
+            var email = ipt_email.value.trim();
+            var senha = ipt_senha.value;
+
+            if (email === "" || senha === "") {
+                alert("Preencha todos os campos!");
+                return;
+            }
+
+            fetch("/usuarios/autenticar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ emailServer: email, senhaServer: senha })
+            }).then(function (resposta) {
+                if (resposta.ok) {
+                    resposta.json().then(function (json) {
+                        sessionStorage.ID_USUARIO = json.id;
+                        sessionStorage.EMAIL_USUARIO = json.email;
+                        sessionStorage.NOME_USUARIO = json.nome;
+                        sessionStorage.EMPRESA_USUARIO = json.empresa || "";
+                        sessionStorage.ADMIN_USUARIO = json.admin;
+
+                        // mostra a mensagem de boas-vindas e abre a dashboard em tela inteira
+                        let primeiroNome = json.nome.split(" ")[0];
+                        texto_boas_vindas.textContent = "Bem-vindo, " + primeiroNome + "! 🍄";
+                        boas_vindas.classList.add("mostrar");
+
+                        setTimeout(function () {
+                            window.top.location.href = "./dashboard/dashboard.html";
+                        }, 1800);
+                    });
+                } else {
+                    alert("E-mail e/ou senha inválido(s).");
+                }
+            }).catch(function () {
+                alert("Não foi possível conectar ao servidor.");
+            });
+        }
+
+        // Enter no campo da senha também entra
+        ipt_senha.addEventListener("keydown", function (evento) {
+            if (evento.key === "Enter") {
+                entrar();
+            }
+        });
+    </script>
+</body>
+</html>
