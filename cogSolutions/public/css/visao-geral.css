@@ -615,3 +615,127 @@ h1, h2, h3 {
     background: var(--laranja);
     color: #fff;
 }
+
+/* ---------- SEM ROLAGEM (telas grandes) ---------- */
+/* A dashboard ocupa exatamente a altura da janela. */
+
+@media (min-width: 1101px) {
+    html,
+    body {
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .dashboard {
+        height: 100vh;
+        gap: 14px;
+        padding: 20px 32px 20px;
+        overflow: hidden;
+    }
+
+    .topo h1 {
+        font-size: 30px;
+    }
+
+    .kpi-card {
+        padding: 14px 18px;
+        gap: 4px;
+    }
+
+    .kpi-card strong {
+        font-size: 36px;
+    }
+
+    .grade {
+        flex: 1;
+        min-height: 0;
+        gap: 14px;
+        align-items: stretch;
+    }
+
+    .coluna-esq,
+    .coluna-dir {
+        min-height: 0;
+        gap: 14px;
+    }
+
+    .painel {
+        padding: 14px 18px;
+    }
+
+    .dica {
+        display: none;
+    }
+
+    /* o painel que sobra cresce e o resto é cortado, sem barra */
+    .coluna-esq .painel:last-child,
+    .coluna-dir .painel:last-child {
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .alertas-lista {
+        gap: 10px;
+        overflow: hidden;
+    }
+
+    .graficos {
+        flex: 1;
+        min-height: 0;
+    }
+
+    .grafico-bloco {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+
+    .chart-container {
+        flex: 1;
+        min-height: 0;
+        height: auto;
+    }
+}
+
+/* janelas bem baixas (notebook com barras do navegador): compacta mais */
+@media (min-width: 1101px) and (max-height: 720px) {
+    .breadcrumb,
+    .kpi-card p {
+        display: none;
+    }
+
+    .dashboard {
+        gap: 10px;
+        padding-top: 14px;
+        padding-bottom: 14px;
+    }
+
+    .topo h1 {
+        font-size: 26px;
+    }
+
+    .kpi-card strong {
+        font-size: 28px;
+    }
+
+    .kpi-card {
+        padding: 10px 16px;
+    }
+
+    .grade,
+    .coluna-esq,
+    .coluna-dir {
+        gap: 10px;
+    }
+
+    .painel {
+        padding: 10px 16px;
+    }
+
+    .alertas-lista li div span {
+        display: none;
+    }
+}
