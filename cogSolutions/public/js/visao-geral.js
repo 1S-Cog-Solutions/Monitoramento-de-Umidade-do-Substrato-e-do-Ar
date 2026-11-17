@@ -454,3 +454,31 @@ function atualizarGrafico(variavel) {
     grafico.options.scales.y.suggestedMax = faixa[1] + largura * 0.6;
     grafico.update();
 }
+
+
+// Resumo ao lado do titulo de cada grafico (ex.: "3 h fora da faixa nas ultimas 24 h")
+function desenharResumos() {
+    let camara = camaras[camaraSelecionada];
+
+    for (let i = 0; i < variaveis.length; i++) {
+        let v = variaveis[i];
+        let serie = camara[v.chave];
+        let faixa = faixaDe(camara, v.chave);
+        let foraTotal = 0;
+
+        for (let k = 0; k < serie.length; k++) {
+            if (estaFora(serie[k], faixa)) {
+                foraTotal++;
+            }
+        }
+
+        let elemento = document.getElementById(v.resumo);
+        if (foraTotal == 0) {
+            elemento.innerHTML = 'Sempre dentro da faixa';
+            elemento.className = 'resumo-grafico ok';
+        } else {
+            elemento.innerHTML = foraTotal + ' h fora da faixa nas últimas 24 h';
+            elemento.className = 'resumo-grafico fora';
+        }
+    }
+}
