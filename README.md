@@ -67,13 +67,12 @@ Este projeto propõe um **sistema de monitoramento** (não de automação) com s
 
 <br>
 
-## 🏆 Contribuidores do projeto (Grupo 5 — Sprint 2)
+## 🏆 Contribuidores do projeto (Grupo 5 — Sprint 3)
 
 - Christian Miranda Correia
 - Enzo Fuchs Bento
 - Mariana de Oliveira Soares
 - Paulo Henrique de Souza
-- Victor dos Passos Soares de Souza
 - Vitor Alexandre Osuna Arevalo
 
 <br>
