@@ -393,3 +393,43 @@ h1, h2, h3 {
 .pill.ideal   { background: var(--verde-fundo);    color: var(--verde); }
 .pill.atencao { background: var(--amarelo-fundo);  color: var(--amarelo); }
 .pill.critico { background: var(--vermelho-fundo); color: var(--vermelho); }
+
+/* ---------- ALERTAS RECENTES ---------- */
+
+.alertas-lista {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.alertas-lista li {
+    display: flex;
+    gap: 12px;
+    padding-left: 12px;
+    border-left: 3px solid var(--borda);
+}
+
+.alertas-lista li.critico { border-left-color: var(--vermelho); }
+.alertas-lista li.aviso   { border-left-color: #d99a1f; }
+.alertas-lista li.ok      { border-left-color: var(--verde); }
+
+.alertas-lista time {
+    flex-shrink: 0;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--texto-suave);
+    padding-top: 1px;
+}
+
+.alertas-lista div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 13px;
+}
+
+.alertas-lista span {
+    color: var(--texto-suave);
+    font-size: 12px;
+}
