@@ -112,3 +112,17 @@ function faixaDe(camara, chave) {
 function estaFora(valor, faixa) {
     return valor < faixa[0] || valor > faixa[1];
 }
+
+
+// Quantas horas seguidas (ate agora) a leitura esta fora da faixa
+function horasForaDaFaixa(serie, faixa) {
+    let horas = 0;
+    for (let i = serie.length - 1; i >= 0; i--) {
+        if (estaFora(serie[i], faixa)) {
+            horas++;
+        } else {
+            break;
+        }
+    }
+    return horas;
+}
