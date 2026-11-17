@@ -22,3 +22,30 @@
     --display: "Barlow Condensed", "Arial Narrow", sans-serif;
     --body: "Manrope", system-ui, Arial, sans-serif;
 }
+
+/* ---------- BASE ---------- */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    font-family: var(--body);
+    background: var(--bg);
+    color: var(--texto);
+}
+
+h1, h2, h3 {
+    font-family: var(--display);
+    font-weight: 700;
+    letter-spacing: .02em;
+}
+
+:focus-visible {
+    outline: 2px solid var(--laranja);
+    outline-offset: 2px;
+}
