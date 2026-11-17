@@ -53,10 +53,20 @@
 
     <script>
 
+      function lerNumero(texto) {
+        texto = texto.trim();
+
+        if (texto.includes(',')) {
+          texto = texto.replaceAll('.', '').replace(',', '.');
+        }
+
+        return Number(texto);
+      }
+
       function calcular() {
-        let producao = Number(input_producao.value); // Recebe a produção de um lote em KG.
-        let preco = Number(input_preco.value); // Recebe o preço de venda de cada KG.
-        let lotes = Number(input_lotes.value); // Recebe a quantidade de lotes produzidos por ano.
+        let producao = lerNumero(input_producao.value); // Recebe a produção de um lote em KG.
+        let preco = lerNumero(input_preco.value); // Recebe o preço de venda de cada KG.
+        let lotes = lerNumero(input_lotes.value); // Recebe a quantidade de lotes produzidos por ano.
 
         if ( // Inicia a validação dos dados informados.
           producao <= 0 || // Verifica se a produção é inválida.
