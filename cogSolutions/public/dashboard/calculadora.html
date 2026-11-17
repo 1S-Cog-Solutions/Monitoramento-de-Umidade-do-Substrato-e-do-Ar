@@ -17,27 +17,37 @@
         </h1>
 
         <p style="margin: 0; font-size: 14px; color: #c4c4c9">
-          Cultivo de
-          <b>Champignon Paris</b>
+          Quanto o monitoramento pode devolver para o seu
+          <b>cultivo de Champignon Paris</b>
         </p>
       </div>
 
       <div id="div_conteudo" style="color: white">
 
-        <label for="input_producao" style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: bold">
-          Produção por lote (KG)
+        <label for="input_camaras" style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: bold">
+          Quantas câmaras de cultivo você tem?
         </label>
-        <input placeholder="0" type="text" id="input_producao" style="width: 100%; height: 52px; padding: 0 16px; box-sizing: border-box; margin-bottom: 22px; font-family: inherit; font-size: 16px; color: white; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 8px" />
+        <input placeholder="Ex.: 3" type="text" inputmode="decimal" id="input_camaras" style="width: 100%; height: 52px; padding: 0 16px; box-sizing: border-box; margin-bottom: 22px; font-family: inherit; font-size: 16px; color: white; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 8px" />
+
+        <label for="input_producao" style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: bold">
+          Produção de cada câmara por ciclo (KG)
+        </label>
+        <input placeholder="Ex.: 2400" type="text" inputmode="decimal" id="input_producao" style="width: 100%; height: 52px; padding: 0 16px; box-sizing: border-box; margin-bottom: 22px; font-family: inherit; font-size: 16px; color: white; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 8px" />
+
+        <label for="input_ciclos" style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: bold">
+          Quantos ciclos de produção por ano?
+        </label>
+        <input placeholder="Ex.: 4,7" type="text" inputmode="decimal" id="input_ciclos" style="width: 100%; height: 52px; padding: 0 16px; box-sizing: border-box; margin-bottom: 22px; font-family: inherit; font-size: 16px; color: white; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 8px" />
 
         <label for="input_preco" style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: bold">
           Preço de venda por KG (R$)
         </label>
-        <input placeholder="0.00" type="text" id="input_preco" style="width: 100%; height: 52px; padding: 0 16px; box-sizing: border-box; margin-bottom: 22px; font-family: inherit; font-size: 16px; color: white; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 8px" />
+        <input placeholder="Ex.: 9,90" type="text" inputmode="decimal" id="input_preco" style="width: 100%; height: 52px; padding: 0 16px; box-sizing: border-box; margin-bottom: 22px; font-family: inherit; font-size: 16px; color: white; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 8px" />
 
-        <label for="input_lotes" style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: bold">
-          Quantos lotes você produz por ano?
+        <label for="input_checagem" style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: bold">
+          Quanto você gasta por ano com checagem manual? (R$) — opcional
         </label>
-        <input placeholder="0" type="text" id="input_lotes" style="width: 100%; height: 52px; padding: 0 16px; box-sizing: border-box; margin-bottom: 22px; font-family: inherit; font-size: 16px; color: white; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 8px" />
+        <input placeholder="Ex.: 5475" type="text" inputmode="decimal" id="input_checagem" style="width: 100%; height: 52px; padding: 0 16px; box-sizing: border-box; margin-bottom: 22px; font-family: inherit; font-size: 16px; color: white; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 8px" />
 
         <button onclick="calcular()" style="width: 100%; height: 52px; font-family: inherit; font-size: 16px; font-weight: bold; color: #1a0f0b; background-color: #ee6340; border: 0; border-radius: 8px; cursor: pointer">SIMULAR</button>
 
@@ -52,122 +62,112 @@
     </div>
 
     <script>
+      let custoImplantacaoCamara = 784.34; // Preço de implantação de uma câmara com 4 conjuntos de sensores (documento de custos do grupo).
 
-function lerNumero(texto) {
-        texto = texto.trim();
+      let mensalidade = 100; // AJUSTE: mensalidade que o grupo definir (R$ por mês).
 
-        if (texto.includes(',')) {
-          texto = texto.replaceAll('.', '').replace(',', '.');
-        }
+      let custoPorKg = 1.9; // Custo de colheita, embalagem e frete de cada KG vendido (R$).
 
-        return Number(texto);
-      }
+      let economiaChecagem = 0.5; // Parte da checagem manual que o sistema evita (50%).
 
-      function formatarNumero(valor) {
-        return valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      }
+      let cenarios = [2, 5, 10]; // Percentuais da produção que o sistema pode evitar perder.
 
-      function moeda(valor) {
-        return 'R$ ' + formatarNumero(valor);
-      }
+      let formatoReal = { style: 'currency', currency: 'BRL' }; // Mostra os valores em reais (R$ 1.234,50).
+
+      let formatoKg = { maximumFractionDigits: 0 }; // Mostra os KG sem casas decimais.
+
+      let formatoPercentual = { minimumFractionDigits: 1, maximumFractionDigits: 1 }; // Mostra os percentuais com uma casa.
 
       function calcular() {
-        let producao = lerNumero(input_producao.value); // Recebe a produção de um lote em KG.
-        let preco = lerNumero(input_preco.value); // Recebe o preço de venda de cada KG.
-        let lotes = lerNumero(input_lotes.value); // Recebe a quantidade de lotes produzidos por ano.
+        let camaras = Number(input_camaras.value.replace(',', '.')); // Recebe a quantidade de câmaras.
+        let producao = Number(input_producao.value.replace(',', '.')); // Recebe a produção de uma câmara por ciclo, em KG.
+        let ciclos = Number(input_ciclos.value.replace(',', '.')); // Recebe a quantidade de ciclos por ano.
+        let preco = Number(input_preco.value.replace(',', '.')); // Recebe o preço de venda de cada KG.
+        let checagem = Number(input_checagem.value.replace(',', '.')); // Recebe o gasto anual com checagem manual (vazio vale 0).
 
         if ( // Inicia a validação dos dados informados.
-          producao <= 0 || // Verifica se a produção é inválida.
-          preco <= 0 || // Verifica se o preço é inválido.
-          lotes <= 0 // Verifica se a quantidade de lotes é inválida.
+          !(camaras > 0) || // Verifica se a quantidade de câmaras é inválida.
+          !(producao > 0) || // Verifica se a produção é inválida.
+          !(ciclos > 0) || // Verifica se a quantidade de ciclos é inválida.
+          !(preco > custoPorKg) || // Verifica se o preço é inválido ou menor que o custo por KG.
+          !(checagem >= 0) // Verifica se o gasto com checagem é inválido.
         ) { // Entra aqui caso algum valor esteja incorreto.
 
-          div_exibir.innerHTML = ` 
-            <p style="color: red;">
-              <b>Preencha todos os campos corretamente.</b>
+          div_exibir.innerHTML = `
+            <p style="color: #ff8f6b;">
+              <b>Preencha os campos corretamente.</b>
+              O preço de venda precisa ser maior que ${custoPorKg.toLocaleString('pt-BR', formatoReal)} (custo de colheita, embalagem e frete por KG).
             </p>`
 
         } else { // Entra aqui quando todos os dados são válidos.
 
-          let perdaLeve = 15; // Percentual de perda do cenário leve (% do lote).
-          let perdaModerada = 22.5; // Percentual de perda do cenário moderado (% do lote).
-          let perdaSevera = 30; // Percentual de perda do cenário severo (% do lote).
-          let faturamentoLote = producao * preco; // Calcula o faturamento potencial de um lote.
-          let faturamentoAno = faturamentoLote * lotes; // Calcula o faturamento potencial de um ano.
-          let producaoAno = producao * lotes; // Calcula a produção total de um ano.
-          let prejuizoLeveLote = faturamentoLote * (perdaLeve / 100); // Calcula o prejuízo de um lote no cenário leve.
-          let prejuizoLeveAno = prejuizoLeveLote * lotes; // Calcula o prejuízo de um ano no cenário leve.
-          let prejuizoModeradoLote = faturamentoLote * (perdaModerada / 100); // Calcula o prejuízo de um lote no cenário moderado.
-          let prejuizoModeradoAno = prejuizoModeradoLote * lotes; // Calcula o prejuízo de um ano no cenário moderado.
-          let prejuizoSeveroLote = faturamentoLote * (perdaSevera / 100); // Calcula o prejuízo de um lote no cenário severo.
-          let prejuizoSeveroAno = prejuizoSeveroLote * lotes; // Calcula o prejuízo de um ano no cenário severo.
+          let producaoAno = camaras * producao * ciclos; // Calcula a produção total de um ano em KG.
+
+          let receitaAno = producaoAno * preco; // Calcula a receita anual.
+
+          let margemKg = preco - custoPorKg; // Calcula quanto cada KG salvo realmente vale para o produtor.
+
+          let implantacao = camaras * custoImplantacaoCamara; // Calcula o investimento de implantação.
+
+          let custoRecorrente = mensalidade * 12; // Calcula a mensalidade de um ano.
+
+          let custoPrimeiroAno = implantacao + custoRecorrente; // Calcula o custo total do primeiro ano.
+
+          let kgEquilibrio = custoPrimeiroAno / margemKg; // Calcula quantos KG precisam ser salvos para pagar o sistema.
+
+          let percentualEquilibrio = kgEquilibrio / producaoAno * 100; // Calcula esse valor como % da produção anual.
+
+          let ganhoChecagem = checagem * economiaChecagem; // Calcula quanto o sistema economiza na checagem manual.
 
           div_exibir.innerHTML = `
             <div style="padding: 28px; background-color: #121214; border: 1px solid #2a2a2d; border-radius: 16px">
 
               <h2 style="margin: 0; font-family: 'Barlow Condensed', Arial, sans-serif; font-size: 24px; font-weight: 600; color: white">
-                Resultado da Simulação Financeira
+                Quanto o sistema devolve para você
               </h2>
               <div style="width: 48px; height: 3px; margin: 12px 0 0 0; background-color: #ee6340; border-radius: 2px"></div>
 
-              <p style="margin: 24px 0 10px 0; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #ee6340">Seu faturamento</p>
+              <p style="margin: 24px 0 10px 0; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #ee6340">Ponto de equilíbrio</p>
 
               <div style="margin-bottom: 12px; padding: 22px 24px; background-color: rgba(110, 231, 160, 0.07); border: 1px solid rgba(110, 231, 160, 0.35); border-radius: 12px">
-                <div style="font-size: 13px; color: #c4c4c9">Faturamento por ano</div>
+                <div style="font-size: 13px; color: #c4c4c9">Para o sistema se pagar no primeiro ano, basta evitar a perda de</div>
                 <div style="margin-top: 6px; font-family: 'Barlow Condensed', Arial, sans-serif; font-size: 40px; font-weight: 600; color: #6ee7a0">
-                  ${moeda(faturamentoAno)}
+                  ${kgEquilibrio.toLocaleString('pt-BR', formatoKg)} KG por ano
+                </div>
+                <div style="margin-top: 6px; font-size: 13px; color: #a9a9b0">
+                  Isso é só ${percentualEquilibrio.toLocaleString('pt-BR', formatoPercentual)}% da sua produção anual de ${producaoAno.toLocaleString('pt-BR', formatoKg)} KG.
                 </div>
               </div>
+
+              <p style="margin: 24px 0 10px 0; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #ee6340">Seu investimento</p>
 
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px">
                 <div style="padding: 16px 18px; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 12px">
-                  <div style="font-size: 13px; color: #a9a9b0">Faturamento por lote</div>
-                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: white">${moeda(faturamentoLote)}</div>
+                  <div style="font-size: 13px; color: #a9a9b0">Implantação (${camaras} ${camaras == 1 ? 'câmara' : 'câmaras'})</div>
+                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: white">${implantacao.toLocaleString('pt-BR', formatoReal)}</div>
                 </div>
                 <div style="padding: 16px 18px; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 12px">
-                  <div style="font-size: 13px; color: #a9a9b0">Produção por ano</div>
-                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: white">${formatarNumero(producaoAno)} <span style="font-size: 14px; font-weight: 600; color: #a9a9b0">kg</span></div>
-                </div>
-              </div>
-
-              <p style="margin: 24px 0 10px 0; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #ee6340">Risco por falta de controle de umidade</p>
-
-              <div style="margin-bottom: 12px; padding: 22px 24px; background-color: rgba(255, 143, 107, 0.07); border: 1px solid rgba(255, 143, 107, 0.35); border-radius: 12px">
-                <div style="font-size: 13px; color: #c4c4c9">Você pode estar perdendo, por ano, entre</div>
-                <div style="margin-top: 6px; font-family: 'Barlow Condensed', Arial, sans-serif; font-size: 34px; font-weight: 600; color: #ff8f6b">
-                  ${moeda(prejuizoLeveAno)} e ${moeda(prejuizoSeveroAno)}
-                </div>
-              </div>
-
-              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px">
-                <div style="padding: 16px 18px; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 12px">
-                  <div style="font-size: 13px; color: #a9a9b0">Cenário leve (${perdaLeve}% do lote)</div>
-                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: #ff8f6b">${moeda(prejuizoLeveAno)} <span style="font-size: 14px; font-weight: 600; color: #a9a9b0">por ano</span></div>
-                  <div style="margin-top: 4px; font-size: 13px; color: #a9a9b0">${moeda(prejuizoLeveLote)} por lote</div>
+                  <div style="font-size: 13px; color: #a9a9b0">Mensalidade</div>
+                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: white">${mensalidade.toLocaleString('pt-BR', formatoReal)}</div>
                 </div>
                 <div style="padding: 16px 18px; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 12px">
-                  <div style="font-size: 13px; color: #a9a9b0">Cenário moderado (${String(perdaModerada).replace('.', ',')}% do lote)</div>
-                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: #ff8f6b">${moeda(prejuizoModeradoAno)} <span style="font-size: 14px; font-weight: 600; color: #a9a9b0">por ano</span></div>
-                  <div style="margin-top: 4px; font-size: 13px; color: #a9a9b0">${moeda(prejuizoModeradoLote)} por lote</div>
-                </div>
-                <div style="padding: 16px 18px; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 12px">
-                  <div style="font-size: 13px; color: #a9a9b0">Cenário severo (${perdaSevera}% do lote)</div>
-                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: #ff8f6b">${moeda(prejuizoSeveroAno)} <span style="font-size: 14px; font-weight: 600; color: #a9a9b0">por ano</span></div>
-                  <div style="margin-top: 4px; font-size: 13px; color: #a9a9b0">${moeda(prejuizoSeveroLote)} por lote</div>
+                  <div style="font-size: 13px; color: #a9a9b0">Custo total no 1º ano</div>
+                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: white">${custoPrimeiroAno.toLocaleString('pt-BR', formatoReal)}</div>
                 </div>
               </div>
 
               <div style="margin-top: 24px; padding: 14px 16px; font-size: 13px; line-height: 1.5; color: #c4c4c9; background-color: rgba(238, 99, 64, 0.08); border: 1px solid rgba(238, 99, 64, 0.35); border-radius: 10px">
                 <b style="color: white">Importante:</b>
-                os percentuais de perda (${perdaLeve}%, ${String(perdaModerada).replace('.', ',')}% e ${perdaSevera}%) são estimativas de referência para quando a umidade não é controlada a tempo.
-                Os valores mostram o que pode estar em risco, e não um resultado garantido.
+                esta é uma simulação com as premissas do projeto (implantação de ${custoImplantacaoCamara.toLocaleString('pt-BR', formatoReal)} por câmara, colheita, embalagem e frete de ${custoPorKg.toLocaleString('pt-BR', formatoReal)} por KG) e não inclui o computador de coleta.
+                O sistema monitora e envia alertas, mas não garante lucro: o retorno real se mede em um piloto, com os dados da sua operação.
               </div>
 
             </div>`
         }
 
       }
-     </script>
+
+    </script>
 
   </body>
 </html>
