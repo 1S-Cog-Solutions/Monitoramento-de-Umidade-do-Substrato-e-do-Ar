@@ -153,3 +153,20 @@ h1, h2, h3 {
 .sidebar-status small {
     color: #9a9a9a;
 }
+
+/* ---------- CONTEUDO ---------- */
+
+.dashboard {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 28px 36px 40px;
+}
+
+.topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
