@@ -37,6 +37,13 @@
         </a>
     </nav>
 
+    <div class="usuario-box">
+        <span class="usuario-label">Logado como</span>
+        <strong id="b_usuario"></strong>
+        <small id="b_empresa"></small>
+        <button type="button" class="btn-sair" onclick="limparSessao()">Sair</button>
+    </div>
+
     <div class="sidebar-status">
         <span class="faixa ok">Sistema online</span>
         <small>Atualizado há 2 min</small>
@@ -120,8 +127,10 @@
     </div>
 </main>
 
+<script src="../js/sessao.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="../js/visao-geral.js"></script>
+<script>validarSessao();</script>
 
 </body>
 </html>

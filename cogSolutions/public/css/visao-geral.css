@@ -563,3 +563,55 @@ h1, h2, h3 {
     .grade { grid-template-columns: 1fr; }
     .graficos { grid-template-columns: 1fr; }
 }
+
+/* ---------- USUARIO LOGADO ---------- */
+
+.usuario-box {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 104px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 14px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    font-size: 12px;
+}
+
+.usuario-label {
+    color: #9a9a9a;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+}
+
+.usuario-box strong {
+    color: #fff;
+    font-size: 14px;
+    word-break: break-word;
+}
+
+.usuario-box small {
+    color: #b5b5b5;
+}
+
+.btn-sair {
+    margin-top: 8px;
+    padding: 6px 10px;
+    border: 1px solid var(--laranja);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--laranja);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .2s, color .2s;
+}
+
+.btn-sair:hover {
+    background: var(--laranja);
+    color: #fff;
+}
