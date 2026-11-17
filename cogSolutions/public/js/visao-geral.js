@@ -247,3 +247,28 @@ function desenharIndicadores() {
     let subAlerta = emAlerta > 0 ? nomeAlerta + ' precisa de atenção' : 'Todas as câmaras na faixa ideal';
 
 }
+
+
+    let html = '';
+
+    html += '<div class="' + classeAlerta + '">';
+    html += '<span class="kpi-label">Câmaras em alerta</span>';
+    html += '<strong>' + emAlerta + '<small> de ' + camaras.length + '</small></strong>';
+    html += '<p>' + subAlerta + '</p></div>';
+
+    html += '<div class="kpi-card">';
+    html += '<span class="kpi-label">Maior tempo fora da faixa</span>';
+    html += '<strong>' + (maiorTempo > 0 ? maiorTempo + '<small> h</small>' : '—') + '</strong>';
+    html += '<p>' + textoMaiorTempo + '</p></div>';
+
+    html += '<div class="kpi-card">';
+    html += '<span class="kpi-label">Alertas hoje</span>';
+    html += '<strong>' + alertasHoje.length + '</strong>';
+    html += '<p>' + abertos + ' aberto · ' + resolvidos + ' resolvidos</p></div>';
+
+    html += '<div class="kpi-card">';
+    html += '<span class="kpi-label">Sensores ativos</span>';
+    html += '<strong>6<small> de 6</small></strong>';
+    html += '<p>última leitura recebida há 2 min</p></div>';
+
+    document.getElementById('kpis').innerHTML = html;
