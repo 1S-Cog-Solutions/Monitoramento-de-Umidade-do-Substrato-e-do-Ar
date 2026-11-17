@@ -377,3 +377,62 @@ function coresDosPontos(dados, faixa) {
     }
     return cores;
 }
+
+
+function criarGrafico(variavel) {
+    let camara = camaras[camaraSelecionada];
+    let faixa = faixaDe(camara, variavel.chave);
+    let dados = camara[variavel.chave];
+    let largura = faixa[1] - faixa[0];
+
+    graficos[variavel.chave] = new Chart(
+        document.getElementById(variavel.canvas),
+        {
+            type: 'line',
+            data: {
+                labels: horarios,
+                datasets: [
+                    {
+                        data: Array(24).fill(faixa[0]),
+                        borderWidth: 0,
+                        pointRadius: 0
+                    },
+                    {
+                        data: Array(24).fill(faixa[1]),
+                        borderWidth: 0,
+                        pointRadius: 0,
+                        fill: '-1',
+                        backgroundColor: 'rgba(46, 139, 92, 0.14)'
+                    },
+                    {
+                        data: dados,
+                        borderColor: '#9a9a9a',
+                        borderWidth: 1.5,
+                        tension: 0.3,
+                        pointRadius: 3,
+                        pointBackgroundColor: coresDosPontos(dados, faixa),
+                        pointBorderColor: coresDosPontos(dados, faixa)
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                animation: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { autoSkip: true, maxTicksLimit: 4, maxRotation: 0, color: '#6b6b6b', font: { size: 11 } }
+                    },
+                    y: {
+                        suggestedMin: faixa[0] - largura * 0.6,
+                        suggestedMax: faixa[1] + largura * 0.6,
+                        grid: { color: '#ececec' },
+                        ticks: { color: '#6b6b6b' }
+                    }
+                }
+            }
+        }
+    );
+}
