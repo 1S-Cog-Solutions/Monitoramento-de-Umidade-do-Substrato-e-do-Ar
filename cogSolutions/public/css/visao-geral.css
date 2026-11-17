@@ -478,3 +478,49 @@ h1, h2, h3 {
 .leitura-card.alerta strong {
     color: var(--vermelho);
 }
+
+.escala {
+    position: relative;
+    height: 8px;
+    border-radius: 4px;
+    background: #e2e2e2;
+}
+
+.zona-ideal {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border-radius: 4px;
+    background: rgba(46, 139, 92, 0.45);
+}
+
+.marcador {
+    position: absolute;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: var(--verde);
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+.marcador.fora {
+    background: var(--vermelho);
+}
+
+.escala-rotulos {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--texto-suave);
+}
+
+.faixa {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.faixa.ok   { color: var(--verde); }
+.faixa.fora { color: var(--vermelho); }
