@@ -63,19 +63,12 @@
 
     <script>
       let custoImplantacaoCamara = 784.34; // Preço de implantação de uma câmara com 4 conjuntos de sensores (documento de custos do grupo).
-
       let mensalidade = 100; // AJUSTE: mensalidade que o grupo definir (R$ por mês).
-
       let custoPorKg = 1.9; // Custo de colheita, embalagem e frete de cada KG vendido (R$).
-
       let economiaChecagem = 0.5; // Parte da checagem manual que o sistema evita (50%).
-
       let cenarios = [2, 5, 10]; // Percentuais da produção que o sistema pode evitar perder.
-
       let formatoReal = { style: 'currency', currency: 'BRL' }; // Mostra os valores em reais (R$ 1.234,50).
-
       let formatoKg = { maximumFractionDigits: 0 }; // Mostra os KG sem casas decimais.
-
       let formatoPercentual = { minimumFractionDigits: 1, maximumFractionDigits: 1 }; // Mostra os percentuais com uma casa.
 
       function calcular() {
@@ -102,22 +95,42 @@
         } else { // Entra aqui quando todos os dados são válidos.
 
           let producaoAno = camaras * producao * ciclos; // Calcula a produção total de um ano em KG.
-
           let receitaAno = producaoAno * preco; // Calcula a receita anual.
-
           let margemKg = preco - custoPorKg; // Calcula quanto cada KG salvo realmente vale para o produtor.
-
           let implantacao = camaras * custoImplantacaoCamara; // Calcula o investimento de implantação.
-
           let custoRecorrente = mensalidade * 12; // Calcula a mensalidade de um ano.
-
           let custoPrimeiroAno = implantacao + custoRecorrente; // Calcula o custo total do primeiro ano.
-
           let kgEquilibrio = custoPrimeiroAno / margemKg; // Calcula quantos KG precisam ser salvos para pagar o sistema.
-
           let percentualEquilibrio = kgEquilibrio / producaoAno * 100; // Calcula esse valor como % da produção anual.
-
           let ganhoChecagem = checagem * economiaChecagem; // Calcula quanto o sistema economiza na checagem manual.
+          let cartoesCenarios = ''; // Guarda o HTML dos cartões de cenário.
+
+          for (let i = 0; i < cenarios.length; i++) { // Repete uma vez para cada cenário.
+
+            let percentual = cenarios[i]; // Percentual da produção evitado neste cenário.
+            let kgSalvos = producaoAno * percentual / 100; // Calcula os KG salvos no ano.
+            let ganhoAno = kgSalvos * margemKg + ganhoChecagem; // Calcula o ganho anual (KG salvos + checagem).
+            let resultadoPrimeiroAno = ganhoAno - custoPrimeiroAno; // Calcula o resultado do primeiro ano (ganho menos custo).
+            let ganhoMes = (ganhoAno - custoRecorrente) / 12; // Calcula o ganho mensal já descontando a mensalidade.
+            let textoRetorno = 'não se paga'; // Texto padrão caso o ganho não cubra o custo.
+
+            if (ganhoMes > 0) { // Entra aqui quando o sistema gera ganho.
+              let meses = Math.ceil(implantacao / ganhoMes); // Calcula em quantos meses a implantação se paga.
+              textoRetorno = meses + (meses == 1 ? ' mês' : ' meses'); // Escolhe singular ou plural.
+            }
+
+            let corResultado = resultadoPrimeiroAno >= 0 ? '#6ee7a0' : '#ff8f6b'; // Verde se lucrou, laranja se não.
+
+            cartoesCenarios += `
+              <div style="padding: 16px 18px; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 12px">
+                <div style="font-size: 13px; color: #a9a9b0">Se evitar ${percentual}% da produção</div>
+                <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: #6ee7a0">${ganhoAno.toLocaleString('pt-BR', formatoReal)} <span style="font-size: 14px; font-weight: 600; color: #a9a9b0">por ano</span></div>
+                <div style="margin-top: 4px; font-size: 13px; color: #a9a9b0">${kgSalvos.toLocaleString('pt-BR', formatoKg)} KG salvos</div>
+                <div style="margin-top: 10px; font-size: 13px; color: #a9a9b0">Resultado no 1º ano</div>
+                <div style="font-size: 18px; font-weight: 800; color: ${corResultado}">${resultadoPrimeiroAno.toLocaleString('pt-BR', formatoReal)}</div>
+                <div style="margin-top: 4px; font-size: 13px; color: #a9a9b0">Retorno em: <b style="color: white">${textoRetorno}</b></div>
+              </div>`
+          }
 
           div_exibir.innerHTML = `
             <div style="padding: 28px; background-color: #121214; border: 1px solid #2a2a2d; border-radius: 16px">
@@ -138,6 +151,10 @@
                   Isso é só ${percentualEquilibrio.toLocaleString('pt-BR', formatoPercentual)}% da sua produção anual de ${producaoAno.toLocaleString('pt-BR', formatoKg)} KG.
                 </div>
               </div>
+
+              <p style="margin: 24px 0 10px 0; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #ee6340">Quanto você pode ganhar</p>
+
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px">${cartoesCenarios}</div>
 
               <p style="margin: 24px 0 10px 0; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #ee6340">Seu investimento</p>
 
