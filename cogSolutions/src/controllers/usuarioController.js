@@ -1,92 +1,75 @@
 var usuarioModel = require("../models/usuarioModel");
-var aquarioModel = require("../models/aquarioModel");
 
 function autenticar(req, res) {
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
 
-    if (email == undefined) {
-        res.status(400).send("Seu email está undefined!");
-    } else if (senha == undefined) {
-        res.status(400).send("Sua senha está indefinida!");
+    if (email == undefined || email == "") {
+        res.status(400).send("Seu e-mail está vazio!");
+    } else if (senha == undefined || senha == "") {
+        res.status(400).send("Sua senha está vazia!");
     } else {
 
-        usuarioModel.autenticar(email, senha)
-            .then(
-                function (resultadoAutenticar) {
-                    console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
-                    console.log(`Resultados: ${JSON.stringify(resultadoAutenticar)}`); // transforma JSON em String
-
-                    if (resultadoAutenticar.length == 1) {
-                        console.log(resultadoAutenticar);
-
-                        aquarioModel.buscarAquariosPorEmpresa(resultadoAutenticar[0].empresaId)
-                            .then((resultadoAquarios) => {
-                                if (resultadoAquarios.length > 0) {
-                                    res.json({
-                                        id: resultadoAutenticar[0].id,
-                                        email: resultadoAutenticar[0].email,
-                                        nome: resultadoAutenticar[0].nome,
-                                        senha: resultadoAutenticar[0].senha,
-                                        aquarios: resultadoAquarios
-                                    });
-                                } else {
-                                    res.status(204).json({ aquarios: [] });
-                                }
-                            })
-                    } else if (resultadoAutenticar.length == 0) {
-                        res.status(403).send("Email e/ou senha inválido(s)");
-                    } else {
-                        res.status(403).send("Mais de um usuário com o mesmo login e senha!");
-                    }
+        usuarioModel.autenticar(email.trim().toLowerCase(), senha)
+            .then(function (resultado) {
+                if (resultado.length == 1) {
+                    // Devolve só o que o site precisa guardar (a senha nunca volta)
+                    res.json(resultado[0]);
+                } else {
+                    res.status(403).send("E-mail e/ou senha inválido(s)");
                 }
-            ).catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
+            })
+            .catch(function (erro) {
+                console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage || erro);
+                res.status(500).json(erro.sqlMessage || "Erro ao realizar o login");
+            });
     }
-
 }
 
-function cadastrar(req, res) {
-    // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
+async function cadastrar(req, res) {
     var nome = req.body.nomeServer;
     var email = req.body.emailServer;
-    var cpf = req.body.cpfServer;
     var senha = req.body.senhaServer;
-    var fkEmpresa = req.body.idEmpresaVincularServer;
+    var chave = req.body.chaveServer;
 
-    // Faça as validações dos valores
-    if (nome == undefined) {
-        res.status(400).send("Seu nome está undefined!");
-    } else if (email == undefined) {
-        res.status(400).send("Seu email está undefined!");
-    } else if (senha == undefined) {
-        res.status(400).send("Sua senha está undefined!");
-    } else if (fkEmpresa == undefined) {
-        res.status(400).send("Sua empresa a vincular está undefined!");
-    } else if (cpf == undefined) {
-        res.status(400).send("Seu cpf a vincular está undefined!");} else {
+    if (nome == undefined || nome == "") {
+        res.status(400).send("Seu nome está vazio!");
+    } else if (email == undefined || email == "") {
+        res.status(400).send("Seu e-mail está vazio!");
+    } else if (senha == undefined || senha == "") {
+        res.status(400).send("Sua senha está vazia!");
+    } else if (senha.length > 50) {
+        res.status(400).send("A senha pode ter no máximo 50 caracteres!");
+    } else if (chave == undefined || chave == "") {
+        res.status(400).send("A chave da empresa está vazia!");
+    } else {
 
-        // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrar(nome, email, cpf, senha, fkEmpresa)
-            .then(
-                function (resultado) {
-                    res.json(resultado);
-                }
-            ).catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log(
-                        "\nHouve um erro ao realizar o cadastro! Erro: ",
-                        erro.sqlMessage
-                    );
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
+        email = email.trim().toLowerCase();
+
+        try {
+            // 1) A chave precisa existir
+            var empresas = await usuarioModel.buscarEmpresaPorChave(chave.trim());
+            if (empresas.length == 0) {
+                res.status(404).send("Chave da empresa inválida");
+                return;
+            }
+
+            // 2) O e-mail não pode estar cadastrado
+            var emails = await usuarioModel.emailJaExiste(email);
+            if (emails.length > 0) {
+                res.status(409).send("Este e-mail já está cadastrado");
+                return;
+            }
+
+            // 3) Cria o usuário e depois o login ligado a ele
+            var novoUsuario = await usuarioModel.cadastrarUsuario(nome.trim(), empresas[0].idEmpresa);
+            await usuarioModel.cadastrarLogin(nome.trim(), email, senha, novoUsuario.insertId);
+
+            res.status(201).json({ mensagem: "Conta criada com sucesso!" });
+        } catch (erro) {
+            console.log("\nHouve um erro ao realizar o cadastro! Erro: ", erro.sqlMessage || erro);
+            res.status(500).json(erro.sqlMessage || "Erro ao realizar o cadastro");
+        }
     }
 }
 
