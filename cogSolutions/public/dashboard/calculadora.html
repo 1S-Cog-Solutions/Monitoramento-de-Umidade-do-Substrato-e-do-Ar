@@ -53,7 +53,7 @@
 
     <script>
 
-      function lerNumero(texto) {
+function lerNumero(texto) {
         texto = texto.trim();
 
         if (texto.includes(',')) {
@@ -61,6 +61,14 @@
         }
 
         return Number(texto);
+      }
+
+      function formatarNumero(valor) {
+        return valor.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+
+      function moeda(valor) {
+        return 'R$ ' + formatarNumero(valor);
       }
 
       function calcular() {
@@ -82,27 +90,16 @@
         } else { // Entra aqui quando todos os dados são válidos.
 
           let perdaLeve = 15; // Percentual de perda do cenário leve (% do lote).
-
           let perdaModerada = 22.5; // Percentual de perda do cenário moderado (% do lote).
-
           let perdaSevera = 30; // Percentual de perda do cenário severo (% do lote).
-
           let faturamentoLote = producao * preco; // Calcula o faturamento potencial de um lote.
-
           let faturamentoAno = faturamentoLote * lotes; // Calcula o faturamento potencial de um ano.
-
           let producaoAno = producao * lotes; // Calcula a produção total de um ano.
-
           let prejuizoLeveLote = faturamentoLote * (perdaLeve / 100); // Calcula o prejuízo de um lote no cenário leve.
-
           let prejuizoLeveAno = prejuizoLeveLote * lotes; // Calcula o prejuízo de um ano no cenário leve.
-
           let prejuizoModeradoLote = faturamentoLote * (perdaModerada / 100); // Calcula o prejuízo de um lote no cenário moderado.
-
           let prejuizoModeradoAno = prejuizoModeradoLote * lotes; // Calcula o prejuízo de um ano no cenário moderado.
-
           let prejuizoSeveroLote = faturamentoLote * (perdaSevera / 100); // Calcula o prejuízo de um lote no cenário severo.
-
           let prejuizoSeveroAno = prejuizoSeveroLote * lotes; // Calcula o prejuízo de um ano no cenário severo.
 
           div_exibir.innerHTML = `
@@ -118,18 +115,18 @@
               <div style="margin-bottom: 12px; padding: 22px 24px; background-color: rgba(110, 231, 160, 0.07); border: 1px solid rgba(110, 231, 160, 0.35); border-radius: 12px">
                 <div style="font-size: 13px; color: #c4c4c9">Faturamento por ano</div>
                 <div style="margin-top: 6px; font-family: 'Barlow Condensed', Arial, sans-serif; font-size: 40px; font-weight: 600; color: #6ee7a0">
-                  R$ ${faturamentoAno.toFixed(2)}
+                  ${moeda(faturamentoAno)}
                 </div>
               </div>
 
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px">
                 <div style="padding: 16px 18px; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 12px">
                   <div style="font-size: 13px; color: #a9a9b0">Faturamento por lote</div>
-                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: white">R$ ${faturamentoLote.toFixed(2)}</div>
+                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: white">${moeda(faturamentoLote)}</div>
                 </div>
                 <div style="padding: 16px 18px; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 12px">
                   <div style="font-size: 13px; color: #a9a9b0">Produção por ano</div>
-                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: white">${producaoAno.toFixed(2)} <span style="font-size: 14px; font-weight: 600; color: #a9a9b0">kg</span></div>
+                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: white">${formatarNumero(producaoAno)} <span style="font-size: 14px; font-weight: 600; color: #a9a9b0">kg</span></div>
                 </div>
               </div>
 
@@ -138,40 +135,39 @@
               <div style="margin-bottom: 12px; padding: 22px 24px; background-color: rgba(255, 143, 107, 0.07); border: 1px solid rgba(255, 143, 107, 0.35); border-radius: 12px">
                 <div style="font-size: 13px; color: #c4c4c9">Você pode estar perdendo, por ano, entre</div>
                 <div style="margin-top: 6px; font-family: 'Barlow Condensed', Arial, sans-serif; font-size: 34px; font-weight: 600; color: #ff8f6b">
-                  R$ ${prejuizoLeveAno.toFixed(2)} e R$ ${prejuizoSeveroAno.toFixed(2)}
+                  ${moeda(prejuizoLeveAno)} e ${moeda(prejuizoSeveroAno)}
                 </div>
               </div>
 
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px">
                 <div style="padding: 16px 18px; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 12px">
                   <div style="font-size: 13px; color: #a9a9b0">Cenário leve (${perdaLeve}% do lote)</div>
-                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: #ff8f6b">R$ ${prejuizoLeveAno.toFixed(2)} <span style="font-size: 14px; font-weight: 600; color: #a9a9b0">por ano</span></div>
-                  <div style="margin-top: 4px; font-size: 13px; color: #a9a9b0">R$ ${prejuizoLeveLote.toFixed(2)} por lote</div>
+                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: #ff8f6b">${moeda(prejuizoLeveAno)} <span style="font-size: 14px; font-weight: 600; color: #a9a9b0">por ano</span></div>
+                  <div style="margin-top: 4px; font-size: 13px; color: #a9a9b0">${moeda(prejuizoLeveLote)} por lote</div>
                 </div>
                 <div style="padding: 16px 18px; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 12px">
-                  <div style="font-size: 13px; color: #a9a9b0">Cenário moderado (${perdaModerada}% do lote)</div>
-                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: #ff8f6b">R$ ${prejuizoModeradoAno.toFixed(2)} <span style="font-size: 14px; font-weight: 600; color: #a9a9b0">por ano</span></div>
-                  <div style="margin-top: 4px; font-size: 13px; color: #a9a9b0">R$ ${prejuizoModeradoLote.toFixed(2)} por lote</div>
+                  <div style="font-size: 13px; color: #a9a9b0">Cenário moderado (${String(perdaModerada).replace('.', ',')}% do lote)</div>
+                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: #ff8f6b">${moeda(prejuizoModeradoAno)} <span style="font-size: 14px; font-weight: 600; color: #a9a9b0">por ano</span></div>
+                  <div style="margin-top: 4px; font-size: 13px; color: #a9a9b0">${moeda(prejuizoModeradoLote)} por lote</div>
                 </div>
                 <div style="padding: 16px 18px; background-color: #1b1c1f; border: 1px solid #2c2d31; border-radius: 12px">
                   <div style="font-size: 13px; color: #a9a9b0">Cenário severo (${perdaSevera}% do lote)</div>
-                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: #ff8f6b">R$ ${prejuizoSeveroAno.toFixed(2)} <span style="font-size: 14px; font-weight: 600; color: #a9a9b0">por ano</span></div>
-                  <div style="margin-top: 4px; font-size: 13px; color: #a9a9b0">R$ ${prejuizoSeveroLote.toFixed(2)} por lote</div>
+                  <div style="margin-top: 6px; font-size: 22px; font-weight: 800; color: #ff8f6b">${moeda(prejuizoSeveroAno)} <span style="font-size: 14px; font-weight: 600; color: #a9a9b0">por ano</span></div>
+                  <div style="margin-top: 4px; font-size: 13px; color: #a9a9b0">${moeda(prejuizoSeveroLote)} por lote</div>
                 </div>
               </div>
 
               <div style="margin-top: 24px; padding: 14px 16px; font-size: 13px; line-height: 1.5; color: #c4c4c9; background-color: rgba(238, 99, 64, 0.08); border: 1px solid rgba(238, 99, 64, 0.35); border-radius: 10px">
                 <b style="color: white">Importante:</b>
-                os percentuais de perda (${perdaLeve}%, ${perdaModerada}% e ${perdaSevera}%) são estimativas de referência para quando a umidade não é controlada a tempo.
+                os percentuais de perda (${perdaLeve}%, ${String(perdaModerada).replace('.', ',')}% e ${perdaSevera}%) são estimativas de referência para quando a umidade não é controlada a tempo.
                 Os valores mostram o que pode estar em risco, e não um resultado garantido.
               </div>
 
             </div>`
         }
 
-      } 
-
-    </script>
+      }
+     </script>
 
   </body>
 </html>
