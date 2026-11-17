@@ -341,3 +341,15 @@ function desenharLeituras() {
 
     document.getElementById('leituras').innerHTML = html;
 }
+
+
+        // Frase de resultado: o que o produtor precisa saber
+        let frase = 'Dentro da faixa';
+        if (atual < faixa[0]) {
+            frase = formatar(faixa[0] - atual) + ' ' + v.delta + ' abaixo do mínimo';
+        } else if (atual > faixa[1]) {
+            frase = formatar(atual - faixa[1]) + ' ' + v.delta + ' acima do máximo';
+        }
+
+        let seta = variacao >= 0 ? '▲' : '▼';
+        let tendencia = seta + ' ' + formatar(Math.abs(variacao)) + ' ' + v.delta + ' em 3 h';
