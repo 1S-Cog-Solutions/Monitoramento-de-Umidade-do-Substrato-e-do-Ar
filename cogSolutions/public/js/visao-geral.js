@@ -482,3 +482,33 @@ function desenharResumos() {
         }
     }
 }
+
+
+
+/* =========================================
+   9. ALERTAS RECENTES
+========================================= */
+
+function desenharAlertas() {
+    let camara = camaras[1];
+    let serie = camara.sub;
+    let faixa = faixaDe(camara, 'sub');
+    let horas = horasForaDaFaixa(serie, faixa);
+
+    let html = '';
+
+    for (let i = 0; i < alertasHoje.length; i++) {
+        let a = alertasHoje[i];
+        let detalhe = a.detalhe;
+
+        // O alerta critico usa o valor real das leituras
+        if (a.detalhe == 'abaixo') {
+            detalhe = 'Abaixo do mínimo (' + faixa[0] + '%) há ' + horas + ' h. Verificar a irrigação.';
+        }
+
+        html += '<li class="' + a.nivel + '"><time>' + a.hora + '</time><div>';
+        html += '<b>' + a.titulo + '</b><span>' + detalhe + '</span></div></li>';
+    }
+
+    document.getElementById('listaAlertas').innerHTML = html;
+}
