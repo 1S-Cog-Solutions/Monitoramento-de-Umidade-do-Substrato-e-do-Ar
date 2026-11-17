@@ -524,3 +524,42 @@ h1, h2, h3 {
 
 .faixa.ok   { color: var(--verde); }
 .faixa.fora { color: var(--vermelho); }
+
+/* ---------- GRAFICOS ---------- */
+
+.graficos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.grafico-titulo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.resumo-grafico {
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.resumo-grafico.ok   { color: var(--verde); }
+.resumo-grafico.fora { color: var(--vermelho); }
+
+.chart-container {
+    position: relative;
+    height: 190px;
+}
+
+
+/* ---------- TELAS MENORES ---------- */
+
+@media (max-width: 1100px) {
+    .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grade { grid-template-columns: 1fr; }
+    .graficos { grid-template-columns: 1fr; }
+}
