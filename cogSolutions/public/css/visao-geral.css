@@ -86,3 +86,32 @@ h1, h2, h3 {
     font-weight: 800;
     letter-spacing: 0.5px;
 }
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border-left: 3px solid transparent;
+    color: #b5b5b5;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+.menu-item svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
