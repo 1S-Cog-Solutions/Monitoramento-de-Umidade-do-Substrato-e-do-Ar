@@ -361,3 +361,35 @@ h1, h2, h3 {
     white-space: nowrap;
     font-weight: 700;
 }
+
+.tabela-camaras tbody tr {
+    cursor: pointer;
+    transition: background .15s;
+}
+
+.tabela-camaras tbody tr:hover {
+    background: #fafafa;
+}
+
+.tabela-camaras tbody tr.selecionada {
+    background: var(--laranja-fundo);
+    box-shadow: inset 3px 0 0 var(--laranja);
+}
+
+.detalhe {
+    display: block;
+    color: var(--texto-suave);
+    font-size: 11px;
+}
+
+.pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.pill.ideal   { background: var(--verde-fundo);    color: var(--verde); }
+.pill.atencao { background: var(--amarelo-fundo);  color: var(--amarelo); }
+.pill.critico { background: var(--vermelho-fundo); color: var(--vermelho); }
