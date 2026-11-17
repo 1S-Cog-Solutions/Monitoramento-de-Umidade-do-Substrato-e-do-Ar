@@ -275,3 +275,33 @@ h1, h2, h3 {
     font-size: 12px;
     color: var(--texto-suave);
 }
+
+.painel-topo,
+.secao-titulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.titulo-camara {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+}
+
+.titulo-camara h2 {
+    font-size: 28px;
+}
+
+.titulo-camara span {
+    font-size: 13px;
+    color: var(--texto-suave);
+}
+
+.rotulo-secao {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    color: var(--texto-suave);
+}
