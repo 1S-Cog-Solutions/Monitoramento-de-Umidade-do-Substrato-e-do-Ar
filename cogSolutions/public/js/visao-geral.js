@@ -94,3 +94,21 @@ let corVermelha = '#d83939';
 
 let camaraSelecionada = 1;
 let graficos = {};
+
+
+
+/* =========================================
+   3. FUNCOES DE CALCULO
+========================================= */
+
+function formatar(numero) {
+    return numero.toFixed(1).replace('.', ',');
+}
+
+function faixaDe(camara, chave) {
+    return faixas[camara.fase][chave];
+}
+
+function estaFora(valor, faixa) {
+    return valor < faixa[0] || valor > faixa[1];
+}
