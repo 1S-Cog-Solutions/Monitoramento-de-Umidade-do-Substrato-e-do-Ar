@@ -272,3 +272,35 @@ function desenharIndicadores() {
     html += '<p>última leitura recebida há 2 min</p></div>';
 
     document.getElementById('kpis').innerHTML = html;
+
+
+
+/* =========================================
+   6. TABELA DE CAMARAS
+========================================= */
+
+function desenharTabela() {
+    let html = '';
+
+    for (let i = 0; i < camaras.length; i++) {
+        let camara = camaras[i];
+        let status = statusDaCamara(camara);
+        let pior = piorVariavel(camara);
+
+        let detalhe = '—';
+        if (pior.variavel != null) {
+            detalhe = pior.horas + ' h <span class="detalhe">' + pior.variavel.nome.toLowerCase() + '</span>';
+        }
+
+        let classe = i == camaraSelecionada ? 'selecionada' : '';
+
+        html += '<tr class="' + classe + '" onclick="selecionarCamara(' + i + ')">';
+        html += '<td>' + camara.nome + '</td>';
+        html += '<td>' + camara.fase + '</td>';
+        html += '<td><span class="pill ' + status + '">' + textoStatus(status) + '</span></td>';
+        html += '<td>' + detalhe + '</td>';
+        html += '</tr>';
+    }
+
+    document.getElementById('tabelaCamaras').innerHTML = html;
+}
