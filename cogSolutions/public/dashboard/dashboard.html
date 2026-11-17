@@ -100,8 +100,31 @@
                 </div>
                 <div class="leituras-grid" id="leituras"></div>
             </section>
+
+
+            <section class="painel">
+                <div class="painel-topo">
+                    <h3>Últimas 24 horas</h3>
+                    <span class="legenda-faixa"><i></i> faixa ideal da fase</span>
+                </div>
+                <div class="graficos">
+                    <div class="grafico-bloco">
+                        <div class="grafico-titulo"><span>Temperatura (°C)</span><span class="resumo-grafico" id="resumoTemp"></span></div>
+                        <div class="chart-container"><canvas id="chartTemp"></canvas></div>
+                    </div>
+                    <div class="grafico-bloco">
+                        <div class="grafico-titulo"><span>Umidade do ar (%)</span><span class="resumo-grafico" id="resumoAr"></span></div>
+                        <div class="chart-container"><canvas id="chartAr"></canvas></div>
+                    </div>
+                    <div class="grafico-bloco">
+                        <div class="grafico-titulo"><span>Umidade do substrato (%)</span><span class="resumo-grafico" id="resumoSub"></span></div>
+                        <div class="chart-container"><canvas id="chartSub"></canvas></div>
+                    </div>
+                </div>
+            </section>
+            
         </div>
-        
+
     </div>
 
 </main>
