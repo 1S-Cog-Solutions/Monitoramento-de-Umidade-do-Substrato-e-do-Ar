@@ -138,3 +138,23 @@ function desvio(valor, faixa) {
     }
     return 0;
 }
+
+
+// Pior variavel da camara: a que esta ha mais tempo fora da faixa
+function piorVariavel(camara) {
+    let pior = null;
+    let maiorTempo = 0;
+
+    for (let i = 0; i < variaveis.length; i++) {
+        let v = variaveis[i];
+        let serie = camara[v.chave];
+        let horas = horasForaDaFaixa(serie, faixaDe(camara, v.chave));
+
+        if (horas > maiorTempo) {
+            maiorTempo = horas;
+            pior = v;
+        }
+    }
+
+    return { variavel: pior, horas: maiorTempo };
+}
