@@ -158,3 +158,27 @@ function piorVariavel(camara) {
 
     return { variavel: pior, horas: maiorTempo };
 }
+
+
+// Status da camara: Ideal, Atencao (saiu da faixa) ou Critico (muito longe da faixa)
+function statusDaCamara(camara) {
+    let status = 'ideal';
+
+    for (let i = 0; i < variaveis.length; i++) {
+        let chave = variaveis[i].chave;
+        let serie = camara[chave];
+        let faixa = faixaDe(camara, chave);
+        let atual = serie[serie.length - 1];
+
+        if (estaFora(atual, faixa)) {
+            let largura = faixa[1] - faixa[0];
+
+            if (desvio(atual, faixa) > largura / 2) {
+                return 'critico';
+            }
+            status = 'atencao';
+        }
+    }
+
+    return status;
+}
