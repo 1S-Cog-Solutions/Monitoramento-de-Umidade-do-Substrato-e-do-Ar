@@ -182,3 +182,15 @@ function statusDaCamara(camara) {
 
     return status;
 }
+
+
+function textoStatus(status) {
+    if (status == 'ideal') { return 'Ideal'; }
+    if (status == 'atencao') { return 'Atenção'; }
+    return 'Crítico';
+}
+
+function textoHoras(horas) {
+    if (horas == 0) { return '—'; }
+    return horas + ' h';
+}
