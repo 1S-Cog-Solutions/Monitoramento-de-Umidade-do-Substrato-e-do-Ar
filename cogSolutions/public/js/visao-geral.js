@@ -1,15 +1,7 @@
-/* =========================================
-   DASHBOARD - VISAO GERAL DA UNIDADE
-   A tela responde 3 perguntas do produtor:
-   1) Esta tudo bem agora?            -> indicadores do topo
-   2) Qual camara precisa de mim?     -> tabela de camaras
-   3) O que esta acontecendo nela?    -> leituras + graficos
-========================================= */
+/*DASHBOARD - VISAO GERAL*/
 
 
-/* =========================================
-   1. FAIXAS IDEAIS POR FASE (documentacao do PI)
-========================================= */
+/*FAIXAS IDEAIS POR FASE*/
 
 let faixas = {
     'Incubação':    { temp: [20, 22], ar: [90, 95], sub: [65, 70] },
@@ -18,11 +10,7 @@ let faixas = {
 };
 
 
-
-/* =========================================
-   2. DADOS SIMULADOS (ultimas 24 horas, 1 leitura por hora)
-   Quando a API estiver ligada, estes vetores vem do banco.
-========================================= */
+/*DADOS SIMULADOS*/
 
 let horarios = [];
 for (let i = 0; i < 24; i++) {
@@ -30,8 +18,6 @@ for (let i = 0; i < 24; i++) {
     horarios.push((hora < 10 ? '0' : '') + hora + ':00');
 }
 
-
-// Gera uma serie suave em torno de um valor base
 function gerarSerie(base, variacao, deslocamento) {
     let serie = [];
     for (let i = 0; i < 24; i++) {
@@ -41,8 +27,6 @@ function gerarSerie(base, variacao, deslocamento) {
     return serie;
 }
 
-
-// Camara 02: o substrato vai secando e sai da faixa nas ultimas 3 horas
 let substratoCamara2 = gerarSerie(63.5, 0.8, 4);
 substratoCamara2[18] = 62.4;
 substratoCamara2[19] = 61.5;
@@ -56,7 +40,6 @@ temperaturaCamara2[23] = 17.4;
 
 let arCamara2 = gerarSerie(86, 1.5, 6);
 arCamara2[23] = 87.3;
-
 
 let camaras = [
     {
@@ -82,7 +65,6 @@ let camaras = [
     }
 ];
 
-
 let variaveis = [
     { chave: 'temp', nome: 'Temperatura',          unidade: '°C', delta: '°C',   canvas: 'chartTemp', resumo: 'resumoTemp', icone: 'temperature.png' },
     { chave: 'ar',   nome: 'Umidade do ar',        unidade: '%',  delta: 'p.p.', canvas: 'chartAr',   resumo: 'resumoAr',   icone: 'umidade-ar.png' },
@@ -96,10 +78,7 @@ let camaraSelecionada = 1;
 let graficos = {};
 
 
-
-/* =========================================
-   3. FUNCOES DE CALCULO
-========================================= */
+/*FUNCOES DE CALCULO*/
 
 function formatar(numero) {
     return numero.toFixed(1).replace('.', ',');
@@ -113,8 +92,6 @@ function estaFora(valor, faixa) {
     return valor < faixa[0] || valor > faixa[1];
 }
 
-
-// Quantas horas seguidas (ate agora) a leitura esta fora da faixa
 function horasForaDaFaixa(serie, faixa) {
     let horas = 0;
     for (let i = serie.length - 1; i >= 0; i--) {
@@ -127,8 +104,6 @@ function horasForaDaFaixa(serie, faixa) {
     return horas;
 }
 
-
-// Quanto falta para voltar para a faixa (0 se estiver dentro)
 function desvio(valor, faixa) {
     if (valor < faixa[0]) {
         return faixa[0] - valor;
@@ -139,8 +114,6 @@ function desvio(valor, faixa) {
     return 0;
 }
 
-
-// Pior variavel da camara: a que esta ha mais tempo fora da faixa
 function piorVariavel(camara) {
     let pior = null;
     let maiorTempo = 0;
@@ -159,8 +132,6 @@ function piorVariavel(camara) {
     return { variavel: pior, horas: maiorTempo };
 }
 
-
-// Status da camara: Ideal, Atencao (saiu da faixa) ou Critico (muito longe da faixa)
 function statusDaCamara(camara) {
     let status = 'ideal';
 
@@ -183,7 +154,6 @@ function statusDaCamara(camara) {
     return status;
 }
 
-
 function textoStatus(status) {
     if (status == 'ideal') { return 'Ideal'; }
     if (status == 'atencao') { return 'Atenção'; }
@@ -196,10 +166,7 @@ function textoHoras(horas) {
 }
 
 
-
-/* =========================================
-   4. ALERTAS DE HOJE (simulados)
-========================================= */
+/*ALERTAS DE HOJE*/
 
 let alertasHoje = [
     { hora: '11:30', nivel: 'critico', titulo: 'Câmara 02 · substrato em 59,9%',   detalhe: 'abaixo', aberto: true },
@@ -208,11 +175,7 @@ let alertasHoje = [
 ];
 
 
-
-/* =========================================
-   5. INDICADORES DO TOPO
-   Nenhuma media: so o que o produtor precisa para decidir.
-========================================= */
+/*INDICADORES DO TOPO*/
 
 function desenharIndicadores() {
     let emAlerta = 0;
@@ -246,9 +209,6 @@ function desenharIndicadores() {
     let classeAlerta = emAlerta > 0 ? 'kpi-card destaque' : 'kpi-card';
     let subAlerta = emAlerta > 0 ? nomeAlerta + ' precisa de atenção' : 'Todas as câmaras na faixa ideal';
 
-}
-
-
     let html = '';
 
     html += '<div class="' + classeAlerta + '">';
@@ -272,12 +232,10 @@ function desenharIndicadores() {
     html += '<p>última leitura recebida há 2 min</p></div>';
 
     document.getElementById('kpis').innerHTML = html;
+}
 
 
-
-/* =========================================
-   6. TABELA DE CAMARAS
-========================================= */
+/*TABELA DE CAMARAS*/
 
 function desenharTabela() {
     let html = '';
@@ -306,11 +264,7 @@ function desenharTabela() {
 }
 
 
-
-/* =========================================
-   7. LEITURAS ATUAIS DA CAMARA SELECIONADA
-   Cada cartao mostra onde o valor esta em relacao a faixa ideal.
-========================================= */
+/*LEITURAS ATUAIS*/
 
 function desenharLeituras() {
     let camara = camaras[camaraSelecionada];
@@ -328,7 +282,6 @@ function desenharLeituras() {
         let variacao = atual - antes;
         let fora = estaFora(atual, faixa);
 
-        // Escala da barra: faixa ideal com uma folga de uma "largura" de cada lado
         let largura = faixa[1] - faixa[0];
         let escalaMin = faixa[0] - largura;
         let escalaMax = faixa[1] + largura;
@@ -337,13 +290,7 @@ function desenharLeituras() {
         if (posicao > 98) { posicao = 98; }
         let inicioFaixa = (faixa[0] - escalaMin) / (escalaMax - escalaMin) * 100;
         let larguraFaixa = largura / (escalaMax - escalaMin) * 100;
-    }
 
-    document.getElementById('leituras').innerHTML = html;
-}
-
-
-        // Frase de resultado: o que o produtor precisa saber
         let frase = 'Dentro da faixa';
         if (atual < faixa[0]) {
             frase = formatar(faixa[0] - atual) + ' ' + v.delta + ' abaixo do mínimo';
@@ -353,7 +300,7 @@ function desenharLeituras() {
 
         let seta = variacao >= 0 ? '▲' : '▼';
         let tendencia = seta + ' ' + formatar(Math.abs(variacao)) + ' ' + v.delta + ' em 3 h';
-        
+
         html += '<div class="leitura-card' + (fora ? ' alerta' : '') + '">';
         html += '<div class="leitura-topo"><span class="kpi-label">' + v.nome + '</span>';
         html += '<img src="../assets/icon/' + v.icone + '" alt="" class="card-icon"></div>';
@@ -363,12 +310,13 @@ function desenharLeituras() {
         html += '<div class="escala-rotulos"><span>ideal: ' + faixa[0] + '–' + faixa[1] + v.unidade + '</span><span>' + tendencia + '</span></div>';
         html += '<span class="faixa ' + (fora ? 'fora' : 'ok') + '">' + frase + '</span>';
         html += '</div>';
+    }
 
-        
+    document.getElementById('leituras').innerHTML = html;
+}
 
-/* =========================================
-   8. GRAFICOS (faixa ideal sombreada, pontos fora da faixa em vermelho)
-========================================= */
+
+/*GRAFICOS*/
 
 function coresDosPontos(dados, faixa) {
     let cores = [];
@@ -377,7 +325,6 @@ function coresDosPontos(dados, faixa) {
     }
     return cores;
 }
-
 
 function criarGrafico(variavel) {
     let camara = camaras[camaraSelecionada];
@@ -437,7 +384,6 @@ function criarGrafico(variavel) {
     );
 }
 
-
 function atualizarGrafico(variavel) {
     let camara = camaras[camaraSelecionada];
     let faixa = faixaDe(camara, variavel.chave);
@@ -455,8 +401,6 @@ function atualizarGrafico(variavel) {
     grafico.update();
 }
 
-
-// Resumo ao lado do titulo de cada grafico (ex.: "3 h fora da faixa nas ultimas 24 h")
 function desenharResumos() {
     let camara = camaras[camaraSelecionada];
 
@@ -484,10 +428,7 @@ function desenharResumos() {
 }
 
 
-
-/* =========================================
-   9. ALERTAS RECENTES
-========================================= */
+/*ALERTAS RECENTES*/
 
 function desenharAlertas() {
     let camara = camaras[1];
@@ -501,7 +442,6 @@ function desenharAlertas() {
         let a = alertasHoje[i];
         let detalhe = a.detalhe;
 
-        // O alerta critico usa o valor real das leituras
         if (a.detalhe == 'abaixo') {
             detalhe = 'Abaixo do mínimo (' + faixa[0] + '%) há ' + horas + ' h. Verificar a irrigação.';
         }
@@ -514,10 +454,7 @@ function desenharAlertas() {
 }
 
 
-
-/* =========================================
-   10. TROCAR DE CAMARA
-========================================= */
+/*TROCAR DE CAMARA*/
 
 function selecionarCamara(indice) {
     camaraSelecionada = indice;
@@ -532,10 +469,7 @@ function selecionarCamara(indice) {
 }
 
 
-
-/* =========================================
-   11. INICIAR (comeca na camara que precisa de atencao)
-========================================= */
+/*INICIAR A TELA*/
 
 desenharIndicadores();
 desenharTabela();
