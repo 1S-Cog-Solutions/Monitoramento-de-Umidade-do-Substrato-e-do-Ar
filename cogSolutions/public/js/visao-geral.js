@@ -530,3 +530,19 @@ function selecionarCamara(indice) {
         atualizarGrafico(variaveis[i]);
     }
 }
+
+
+
+/* =========================================
+   11. INICIAR (comeca na camara que precisa de atencao)
+========================================= */
+
+desenharIndicadores();
+desenharTabela();
+desenharLeituras();
+desenharResumos();
+desenharAlertas();
+
+for (let i = 0; i < variaveis.length; i++) {
+    criarGrafico(variaveis[i]);
+}
