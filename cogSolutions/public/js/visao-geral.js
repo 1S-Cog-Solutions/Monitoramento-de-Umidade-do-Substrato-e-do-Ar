@@ -126,3 +126,15 @@ function horasForaDaFaixa(serie, faixa) {
     }
     return horas;
 }
+
+
+// Quanto falta para voltar para a faixa (0 se estiver dentro)
+function desvio(valor, faixa) {
+    if (valor < faixa[0]) {
+        return faixa[0] - valor;
+    }
+    if (valor > faixa[1]) {
+        return valor - faixa[1];
+    }
+    return 0;
+}
