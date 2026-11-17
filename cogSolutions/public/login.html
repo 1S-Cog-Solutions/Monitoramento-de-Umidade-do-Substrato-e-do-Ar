@@ -50,30 +50,45 @@
     <div id="div_aguardar" class="loading-div"></div>
   
 
+    <script>
+        function entrar() {
+            var email = ipt_email.value.trim();
+            var senha = ipt_senha.value;
+
+            if (email === "" || senha === "") {
+                alert("Preencha todos os campos!");
+                return;
+            }
+
+            fetch("/usuarios/autenticar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ emailServer: email, senhaServer: senha })
+            }).then(function (resposta) {
+                if (resposta.ok) {
+                    resposta.json().then(function (json) {
+                        sessionStorage.ID_USUARIO = json.id;
+                        sessionStorage.EMAIL_USUARIO = json.email;
+                        sessionStorage.NOME_USUARIO = json.nome;
+                        sessionStorage.EMPRESA_USUARIO = json.empresa || "";
+                        sessionStorage.ADMIN_USUARIO = json.admin;
+
+                        window.location = "./dashboard/dashboard.html";
+                    });
+                } else {
+                    alert("E-mail e/ou senha inválido(s).");
+                }
+            }).catch(function () {
+                alert("Não foi possível conectar ao servidor.");
+            });
+        }
+
+        // Enter no campo da senha também entra
+        ipt_senha.addEventListener("keydown", function (evento) {
+            if (evento.key === "Enter") {
+                entrar();
+            }
+        });
+    </script>
 </body>
 </html>
-
-
-<script>
-    function entrar() {
-        var email = document.getElementById("ipt_email").value.trim();
-        var senha = document.getElementById("ipt_senha").value;
-
-        if (email === "" || senha === "") {
-            alert("Preencha todos os campos!");
-            return;
-        }
-
-        if (!email.endsWith("@sptech.school")) {
-            alert("E-mail inválido!");
-            return;
-        }
-
-        if (senha.length < 4) {
-            alert("A senha deve ter pelo menos 4 caracteres!");
-            return;
-        }
-
-        window.open("./dashboard/dashboard.html", "_blank");
-    }
-</script>
