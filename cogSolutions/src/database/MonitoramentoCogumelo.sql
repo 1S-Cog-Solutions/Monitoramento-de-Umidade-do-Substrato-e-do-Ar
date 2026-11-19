@@ -694,3 +694,15 @@ SELECT u.idUsuario, u.nome
 FROM Usuario u
 LEFT JOIN Empresa e ON e.idEmpresa = u.fkEmpresa
 WHERE e.idEmpresa IS NULL;
+
+CREATE VIEW vw_leitura_faixa_temperatura AS
+SELECT Temperatura
+FROM leitura
+WHERE fkSensor = 1
+ORDER BY dtHora DESC
+LIMIT 1;
+
+SELECT * FROM vw_leitura_faixa_temperatura;
+
+insert into leitura (Temperatura, fkSensor) values
+	(30.4, 1);
