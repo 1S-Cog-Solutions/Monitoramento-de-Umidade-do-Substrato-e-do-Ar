@@ -22,7 +22,7 @@ const serial = async (
     //   conexão vm: 
        let poolBancoDados = mysql.createPool(
         {
-            host: '127.0.0.1',
+            host: '10.18.32.80',
             user: 'cogSolutions',
             password: 'Paris#2026',
             database: 'cog_solutions',
