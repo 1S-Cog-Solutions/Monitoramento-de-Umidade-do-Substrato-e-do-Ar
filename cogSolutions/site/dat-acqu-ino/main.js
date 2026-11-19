@@ -22,7 +22,7 @@ const serial = async (
     //   conexão vm: 
        let poolBancoDados = mysql.createPool(
         {
-            host: '10.18.32.80',
+            host: '10.40.148.73',
             user: 'cogSolutions',
             password: 'Paris#2026',
             database: 'cog_solutions',
@@ -79,11 +79,16 @@ const serial = async (
         if (HABILITAR_OPERACAO_INSERIR) {
 
             // este insert irá inserir os dados na tabela "leitura"
-            await poolBancoDados.execute(
-                'INSERT INTO leitura (  umidadeAr, umidadeSolo, temperatura, fkSensor ) VALUES (?, ?, ?, ?)',
-                [ sensorUmidadeAr, sensorUmidadeSolo, sensorTemperatura, 1 ]
-            );
-            console.log("valores inseridos no banco: ", sensorUmidadeAr + ", " + sensorUmidadeSolo + ", " + sensorTemperatura );
+            // se o banco estiver fora do ar, só avisa e continua lendo o arduino
+            try {
+                await poolBancoDados.execute(
+                    'INSERT INTO leitura (  umidadeAr, umidadeSolo, temperatura, fkSensor ) VALUES (?, ?, ?, ?)',
+                    [ sensorUmidadeAr, sensorUmidadeSolo, sensorTemperatura, 1 ]
+                );
+                console.log("valores inseridos no banco: ", sensorUmidadeAr + ", " + sensorUmidadeSolo + ", " + sensorTemperatura );
+            } catch (erro) {
+                console.error(`Erro ao inserir no banco (${erro.code || erro.message})`);
+            }
 
         }
 
