@@ -27,7 +27,61 @@ function buscarMedidasEmTempoReal(idAquario) {
     return database.executar(instrucaoSql);
 }
 
+function buscarTemperaturaAtual() {
+
+    var instrucaoSql = `SELECT Temperatura AS temperatura FROM vw_leitura_faixa_temperatura`;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarUmidadeArAtual() {
+
+    var instrucaoSql = `SELECT umidadeAr AS umidade FROM vw_leitura_umidade_ar`;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarUmidadeSoloAtual() {
+
+    var instrucaoSql = `SELECT umidadeSolo AS umidade FROM vw_leitura_umidade_solo`;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarGraficoTemperatura() {
+
+    var instrucaoSql = `SELECT hora, temperatura AS valor FROM vw_grafico_temperatura`;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarGraficoUmidadeAr() {
+
+    var instrucaoSql = `SELECT hora, umidadeAr AS valor FROM vw_grafico_umidade_ar`;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function buscarGraficoUmidadeSolo() {
+
+    var instrucaoSql = `SELECT hora, umidadeSolo AS valor FROM vw_grafico_umidade_solo`;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     buscarUltimasMedidas,
-    buscarMedidasEmTempoReal
+    buscarMedidasEmTempoReal,
+    buscarTemperaturaAtual,
+    buscarUmidadeArAtual,
+    buscarUmidadeSoloAtual,
+    buscarGraficoTemperatura,
+    buscarGraficoUmidadeAr,
+    buscarGraficoUmidadeSolo
 }

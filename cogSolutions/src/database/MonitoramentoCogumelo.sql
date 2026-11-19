@@ -695,14 +695,84 @@ FROM Usuario u
 LEFT JOIN Empresa e ON e.idEmpresa = u.fkEmpresa
 WHERE e.idEmpresa IS NULL;
 
-CREATE VIEW vw_leitura_faixa_temperatura AS
+-- Cada view pega a última leitura do sensor 1 que tem aquele campo preenchido
+CREATE OR REPLACE VIEW vw_leitura_faixa_temperatura AS
 SELECT Temperatura
 FROM leitura
-WHERE fkSensor = 1
-ORDER BY dtHora DESC
+WHERE fkSensor = 1 AND Temperatura IS NOT NULL
+ORDER BY dtHora DESC, id_leitura DESC
+LIMIT 1;
+
+CREATE OR REPLACE VIEW vw_leitura_umidade_ar AS
+SELECT umidadeAr
+FROM leitura
+WHERE fkSensor = 1 AND umidadeAr IS NOT NULL
+ORDER BY dtHora DESC, id_leitura DESC
+LIMIT 1;
+
+CREATE OR REPLACE VIEW vw_leitura_umidade_solo AS
+SELECT umidadeSolo
+FROM leitura
+WHERE fkSensor = 1 AND umidadeSolo IS NOT NULL
+ORDER BY dtHora DESC, id_leitura DESC
 LIMIT 1;
 
 SELECT * FROM vw_leitura_faixa_temperatura;
+SELECT * FROM vw_leitura_umidade_ar;
+SELECT * FROM vw_leitura_umidade_solo;
 
-insert into leitura (Temperatura, fkSensor) values
-	(30.4, 1);
+-- Gráficos: as últimas 24 leituras, da mais antiga para a mais nova (cada leitura é um ponto)
+CREATE OR REPLACE VIEW vw_grafico_temperatura AS
+SELECT hora, temperatura
+FROM (
+    SELECT
+        DATE_FORMAT(dtHora, '%H:%i:%s') AS hora,
+        Temperatura AS temperatura,
+        dtHora,
+        id_leitura
+    FROM leitura
+    WHERE fkSensor = 1
+      AND Temperatura IS NOT NULL
+    ORDER BY dtHora DESC, id_leitura DESC
+    LIMIT 24
+) AS ultimas
+ORDER BY dtHora, id_leitura;
+
+CREATE OR REPLACE VIEW vw_grafico_umidade_ar AS
+SELECT hora, umidadeAr
+FROM (
+    SELECT
+        DATE_FORMAT(dtHora, '%H:%i:%s') AS hora,
+        umidadeAr AS umidadeAr,
+        dtHora,
+        id_leitura
+    FROM leitura
+    WHERE fkSensor = 1
+      AND umidadeAr IS NOT NULL
+    ORDER BY dtHora DESC, id_leitura DESC
+    LIMIT 24
+) AS ultimas
+ORDER BY dtHora, id_leitura;
+
+CREATE OR REPLACE VIEW vw_grafico_umidade_solo AS
+SELECT hora, umidadeSolo
+FROM (
+    SELECT
+        DATE_FORMAT(dtHora, '%H:%i:%s') AS hora,
+        umidadeSolo AS umidadeSolo,
+        dtHora,
+        id_leitura
+    FROM leitura
+    WHERE fkSensor = 1
+      AND umidadeSolo IS NOT NULL
+    ORDER BY dtHora DESC, id_leitura DESC
+    LIMIT 24
+) AS ultimas
+ORDER BY dtHora, id_leitura;
+
+SELECT * FROM vw_grafico_temperatura;
+SELECT * FROM vw_grafico_umidade_ar;
+SELECT * FROM vw_grafico_umidade_solo;
+
+insert into leitura (Temperatura, umidadeAr, umidadeSolo, fkSensor) values
+	(25.4, 84.2, 78, 1);

@@ -84,6 +84,13 @@ function formatar(numero) {
     return numero.toFixed(1).replace('.', ',');
 }
 
+function rotulosDe(camara, chave) {
+    if (camara.rotulos && camara.rotulos[chave]) {
+        return camara.rotulos[chave];
+    }
+    return horarios;
+}
+
 function faixaDe(camara, chave) {
     return faixas[camara.fase][chave];
 }
@@ -278,7 +285,7 @@ function desenharLeituras() {
         let serie = camara[v.chave];
         let faixa = faixaDe(camara, v.chave);
         let atual = serie[serie.length - 1];
-        let antes = serie[serie.length - 4];
+        let antes = serie[Math.max(0, serie.length - 4)];
         let variacao = atual - antes;
         let fora = estaFora(atual, faixa);
 
@@ -337,15 +344,15 @@ function criarGrafico(variavel) {
         {
             type: 'line',
             data: {
-                labels: horarios,
+                labels: rotulosDe(camara, variavel.chave),
                 datasets: [
                     {
-                        data: Array(24).fill(faixa[0]),
+                        data: Array(dados.length).fill(faixa[0]),
                         borderWidth: 0,
                         pointRadius: 0
                     },
                     {
-                        data: Array(24).fill(faixa[1]),
+                        data: Array(dados.length).fill(faixa[1]),
                         borderWidth: 0,
                         pointRadius: 0,
                         fill: '-1',
@@ -391,8 +398,9 @@ function atualizarGrafico(variavel) {
     let largura = faixa[1] - faixa[0];
     let grafico = graficos[variavel.chave];
 
-    grafico.data.datasets[0].data = Array(24).fill(faixa[0]);
-    grafico.data.datasets[1].data = Array(24).fill(faixa[1]);
+    grafico.data.labels = rotulosDe(camara, variavel.chave);
+    grafico.data.datasets[0].data = Array(dados.length).fill(faixa[0]);
+    grafico.data.datasets[1].data = Array(dados.length).fill(faixa[1]);
     grafico.data.datasets[2].data = dados;
     grafico.data.datasets[2].pointBackgroundColor = coresDosPontos(dados, faixa);
     grafico.data.datasets[2].pointBorderColor = coresDosPontos(dados, faixa);
@@ -454,6 +462,90 @@ function desenharAlertas() {
 }
 
 
+/*LEITURAS DO BANCO (views do sensor 1 - Câmara 01)*/
+
+function redesenharVariavel(indiceVariavel) {
+    desenharIndicadores();
+    desenharTabela();
+    desenharLeituras();
+    desenharResumos();
+    atualizarGrafico(variaveis[indiceVariavel]);
+}
+
+function buscarLeituraAtual(rota, campo, indiceVariavel) {
+    fetch('/medidas/' + rota)
+        .then(function (resposta) {
+            if (resposta.status != 200) {
+                return null;
+            }
+            return resposta.json();
+        })
+        .then(function (dado) {
+            if (dado == null || dado[campo] == null) {
+                return;
+            }
+
+            let camara = camaras[0];
+            let serie = camara[variaveis[indiceVariavel].chave];
+            serie[serie.length - 1] = Number(dado[campo]);
+
+            redesenharVariavel(indiceVariavel);
+        })
+        .catch(function (erro) {
+            console.log('Erro ao buscar /medidas/' + rota + ':', erro);
+        });
+}
+
+function buscarGrafico(rota, indiceVariavel) {
+    return fetch('/medidas/' + rota)
+        .then(function (resposta) {
+            if (resposta.status != 200) {
+                return null;
+            }
+            return resposta.json();
+        })
+        .then(function (linhas) {
+            if (linhas == null) {
+                return;
+            }
+
+            let camara = camaras[0];
+            let chave = variaveis[indiceVariavel].chave;
+            let valores = [];
+            let horas = [];
+
+            for (let i = 0; i < linhas.length; i++) {
+                valores.push(Number(linhas[i].valor));
+                horas.push(linhas[i].hora);
+            }
+
+            if (!camara.rotulos) {
+                camara.rotulos = {};
+            }
+            camara[chave] = valores;
+            camara.rotulos[chave] = horas;
+
+            redesenharVariavel(indiceVariavel);
+        })
+        .catch(function (erro) {
+            console.log('Erro ao buscar /medidas/' + rota + ':', erro);
+        });
+}
+
+// Primeiro carrega as 24 h do gráfico; depois a leitura atual substitui o último ponto
+function buscarLeiturasAtuais() {
+    buscarGrafico('grafico-temperatura', 0).then(function () {
+        buscarLeituraAtual('temperatura-atual', 'temperatura', 0);
+    });
+    buscarGrafico('grafico-umidade-ar', 1).then(function () {
+        buscarLeituraAtual('umidade-ar-atual', 'umidade', 1);
+    });
+    buscarGrafico('grafico-umidade-solo', 2).then(function () {
+        buscarLeituraAtual('umidade-solo-atual', 'umidade', 2);
+    });
+}
+
+
 /*TROCAR DE CAMARA*/
 
 function selecionarCamara(indice) {
@@ -480,3 +572,6 @@ desenharAlertas();
 for (let i = 0; i < variaveis.length; i++) {
     criarGrafico(variaveis[i]);
 }
+
+buscarLeiturasAtuais();
+setInterval(buscarLeiturasAtuais, 5000);
