@@ -28,7 +28,7 @@ Este projeto propõe um **sistema de monitoramento** (não de automação) com s
 
 ## 🔄 Como funciona
 
-![Diagrama de Solução Técnica](Entregável%20-%20Grupo/public/assets/docs/diagrama_solucao_tecnica.png)
+![Diagrama de Solução Técnica](/cogSolutions/public/assets/img/diagrama-solucao-tecnica-2-maquinas.png)
 
 <br>
 
